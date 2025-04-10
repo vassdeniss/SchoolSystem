@@ -1,0 +1,30 @@
+﻿services:
+  web:
+    image: schoolsystem
+    container_name: schoolsystem-web
+    build:
+      context: .
+      dockerfile: SchoolSystem.Web/Dockerfile
+    ports:
+      - "8080:8080"
+      - "443:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__DefaultConnection=Server=db;Database=SchoolSystemDB;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True"
+    depends_on:
+      - db
+  
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: schoolsystem-db
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:
