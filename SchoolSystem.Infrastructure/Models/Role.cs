@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Role
+public class Role
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string RoleName { get; set; } = null!;
-
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    [Required]
+    [MaxLength(50)]
+    public string RoleName { get; init; } = null!;
 }

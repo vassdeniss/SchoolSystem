@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Subject
+public class Subject
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string Name { get; set; } = null!;
+    [Required]
+    [MaxLength(100)]
+    public string Name { get; init; } = null!;
 
-    public int DepartmentId { get; set; }
-
-    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
-
-    public virtual Department Department { get; set; } = null!;
-
-    public virtual ICollection<Grade> Grades { get; set; } = new List<Grade>();
-
-    public virtual ICollection<Curriculum> Curricula { get; set; } = new List<Curriculum>();
-
-    public virtual ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
+    public Guid DepartmentId { get; init; }
+    public Department Department { get; init; } = null!;
 }
+

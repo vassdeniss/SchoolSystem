@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Class
+public class Class
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string Name { get; set; } = null!;
+    [Required]
+    [MaxLength(10)]
+    public string Name { get; init; } = null!;
 
-    public int Year { get; set; }
+    [Required]
+    public int Year { get; init; }
 
-    public string Term { get; set; } = null!;
-
-    public virtual ICollection<Curriculum> Curricula { get; set; } = new List<Curriculum>();
-
-    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+    [Required] [MaxLength(20)] public string Term { get; init; } = null!;
 }

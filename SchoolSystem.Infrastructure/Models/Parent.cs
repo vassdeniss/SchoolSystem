@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Parent
+public class Parent
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string PhoneNumber { get; set; } = null!;
+    [Required] [MaxLength(15)] public string PhoneNumber { get; init; } = null!;
 
-    public int UserId { get; set; }
-
-    public virtual User User { get; set; } = null!;
-
-    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
+    public Guid UserId { get; init; }
+    public User User { get; init; } = null!;
 }

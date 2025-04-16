@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Curriculum
+public class Curriculum
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string DayOfWeek { get; set; } = null!;
+    [Required]
+    [MaxLength(20)]
+    public string DayOfWeek { get; init; } = null!;
 
-    public TimeOnly StartTime { get; set; }
+    [Required]
+    public TimeSpan StartTime { get; init; }
 
-    public TimeOnly EndTime { get; set; }
+    [Required]
+    public TimeSpan EndTime { get; init; }
 
-    public int TeacherId { get; set; }
+    public Guid TeacherId { get; init; }
+    public Teacher Teacher { get; init; } = null!;
 
-    public int ClassId { get; set; }
-
-    public virtual Class Class { get; set; } = null!;
-
-    public virtual Teacher Teacher { get; set; } = null!;
-
-    public virtual ICollection<Subject> Subjects { get; set; } = new List<Subject>();
+    public Guid ClassId { get; init; }
+    public Class Class { get; init; } = null!;
 }
+

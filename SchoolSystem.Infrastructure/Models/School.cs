@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class School
+public class School
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string Name { get; set; } = null!;
+    [Required] [MaxLength(100)] public string Name { get; init; } = null!;
 
-    public int AddressId { get; set; }
+    [Required]
+    public Guid AddressId { get; init; }
 
-    public virtual Address Address { get; set; } = null!;
-
-    public virtual Principal? Principal { get; set; }
-
-    public virtual ICollection<Student> Students { get; set; } = new List<Student>();
-
-    public virtual Teacher? Teacher { get; set; }
+    public Address Address { get; init; } = null!;
 }

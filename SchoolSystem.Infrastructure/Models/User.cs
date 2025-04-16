@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class User
+public class User : IdentityUser<Guid>
 {
-    public int Id { get; set; }
+    [Required]
+    [MaxLength(256)]
+    public string Password { get; init; } = null!;
 
-    public string Email { get; set; } = null!;
+    [Required]
+    [MaxLength(50)]
+    public string FirstName { get; init; } = null!;
 
-    public string Password { get; set; } = null!;
-
-    public string FirstName { get; set; } = null!;
-
+    [MaxLength(50)]
     public string? MiddleName { get; set; }
 
-    public string LastName { get; set; } = null!;
+    [Required] [MaxLength(50)] public string LastName { get; init; } = null!;
 
-    public DateOnly DateOfBirth { get; set; }
-
-    public virtual Parent? Parent { get; set; }
-
-    public virtual Principal? Principal { get; set; }
-
-    public virtual Student? Student { get; set; }
-
-    public virtual Teacher? Teacher { get; set; }
-
-    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+    [Required]
+    public DateTime DateOfBirth { get; init; }
 }

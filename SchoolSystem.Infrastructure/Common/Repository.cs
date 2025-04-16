@@ -13,7 +13,7 @@ public class Repository : IRepository
     /// Initializes a new instance of the <see cref="EasyRankRepository"/> class.
     /// </summary>
     /// <param name="context">Main class of the database.</param>
-    public Repository(AppDbContext context)
+    public Repository(SchoolLogContext context)
     {
         this.Context = context;
     }
@@ -109,7 +109,7 @@ public class Repository : IRepository
     {
         T entity = await this.GetByIdAsync<T>(id);
 
-        this.Delete<T>(entity);
+        this.Delete(entity);
     }
 
     /// <summary>
@@ -227,7 +227,7 @@ public class Repository : IRepository
     public void DeleteRange<T>(Expression<Func<T, bool>> deleteWhereClause)
         where T : class
     {
-        IQueryable<T> entities = this.All<T>(deleteWhereClause);
+        IQueryable<T> entities = this.All(deleteWhereClause);
         this.DeleteRange(entities);
     }
 

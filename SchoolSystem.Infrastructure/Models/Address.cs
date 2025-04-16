@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Address
+public class Address
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string City { get; set; } = null!;
+    [Required] [MaxLength(100)] public string City { get; init; } = null!;
 
-    public string Street { get; set; } = null!;
+    [Required] [MaxLength(100)] public string Street { get; init; } = null!;
 
-    public string StreetNumber { get; set; } = null!;
+    [Required] [MaxLength(10)] public string StreetNumber { get; init; } = null!;
 
-    public string? PostalCode { get; set; }
-
-    public virtual ICollection<School> Schools { get; set; } = new List<School>();
+    [MaxLength(10)]
+    public string? PostalCode { get; init; }
 }
+

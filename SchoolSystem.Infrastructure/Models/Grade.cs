@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Grade
+public class Grade
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public int StudentId { get; set; }
+    public Guid StudentId { get; init; }
+    public Student Student { get; init; } = null!;
 
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; init; }
+    public Subject Subject { get; init; } = null!;
 
-    public int GradeValue { get; set; }
+    [Range(2, 6)]
+    public int GradeValue { get; init; }
 
-    public DateOnly GradeDate { get; set; }
-
-    public virtual Student Student { get; set; } = null!;
-
-    public virtual Subject Subject { get; set; } = null!;
+    public DateTime GradeDate { get; init; }
 }

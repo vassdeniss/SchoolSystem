@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Department
+public class Department
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string Name { get; set; } = null!;
-
-    public virtual ICollection<Subject> Subjects { get; set; } = new List<Subject>();
+    [Required] [MaxLength(50)] public string Name { get; init; } = null!;
 }

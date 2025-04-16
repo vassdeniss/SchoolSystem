@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Principal
+public class Principal
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public string Specialization { get; set; } = null!;
+    [Required] [MaxLength(50)] public string Specialization { get; init; } = null!;
 
-    public string PhoneNumber { get; set; } = null!;
+    [Required]
+    [MaxLength(15)]
+    public string PhoneNumber { get; init; } = null!;
 
-    public int SchoolId { get; set; }
+    public Guid SchoolId { get; init; }
+    public School School { get; init; } = null!;
 
-    public int UserId { get; set; }
-
-    public virtual School School { get; set; } = null!;
-
-    public virtual User User { get; set; } = null!;
+    public Guid UserId { get; init; }
+    public User User { get; init; } = null!;
 }
+

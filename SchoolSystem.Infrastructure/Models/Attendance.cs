@@ -1,21 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SchoolSystem.Infrastructure.Models;
 
-public partial class Attendance
+public class Attendance
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { get; init; } = Guid.NewGuid();
 
-    public int StudentId { get; set; }
+    public Guid StudentId { get; init; }
+    public Student Student { get; init; } = null!;
 
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; init; }
+    public Subject Subject { get; init; } = null!;
 
-    public string AbsenceType { get; set; } = null!;
+    [Required]
+    [MaxLength(50)]
+    public string AbsenceType { get; init; } = null!;
 
-    public string Status { get; set; } = null!;
-
-    public virtual Student Student { get; set; } = null!;
-
-    public virtual Subject Subject { get; set; } = null!;
+    [Required]
+    [MaxLength(50)]
+    public string Status { get; init; } = null!;
 }
+
