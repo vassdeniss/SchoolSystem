@@ -8,9 +8,7 @@ namespace SchoolSystem.Infrastructure;
 public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
-    public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<School> Schools { get; set; }
     public DbSet<Principal> Principals { get; set; }
@@ -29,9 +27,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<UserRole>()
-            .HasKey(ur => new { ur.UserId, ur.RoleId });
-
         modelBuilder.Entity<TeacherSubject>()
             .HasKey(ts => new { ts.TeacherId, ts.SubjectId });
 
