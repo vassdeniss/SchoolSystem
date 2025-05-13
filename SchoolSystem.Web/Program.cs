@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolSystem.Infrastructure;
 using SchoolSystem.Infrastructure.Models;
+using SchoolSystem.Web;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
                           throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<SchoolLogContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>()
@@ -19,6 +21,21 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 WebApplication app = builder.Build();
+
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider services = scope.ServiceProvider;
+    try
+    {
+        RoleManager<IdentityRole<Guid>> roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        await RoleSeeder.SeedRoles(roleManager);
+    }
+    catch (Exception ex)
+    {
+        ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

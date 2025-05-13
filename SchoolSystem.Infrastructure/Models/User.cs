@@ -6,10 +6,6 @@ namespace SchoolSystem.Infrastructure.Models;
 public class User : IdentityUser<Guid>
 {
     [Required]
-    [MaxLength(256)]
-    public string Password { get; init; } = null!;
-
-    [Required]
     [MaxLength(50)]
     public string FirstName { get; init; } = null!;
 

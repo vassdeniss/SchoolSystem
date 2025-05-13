@@ -10,7 +10,6 @@ public class School
     [Required] [MaxLength(100)] public string Name { get; init; } = null!;
 
     [Required]
-    public Guid AddressId { get; init; }
-
-    public Address Address { get; init; } = null!;
+    [MaxLength(100)]
+    public string Address { get; init; } = null!;
 }

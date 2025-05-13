@@ -8,8 +8,6 @@ namespace SchoolSystem.Infrastructure;
 public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
-    public DbSet<User> Users { get; set; }
-    public DbSet<Address> Addresses { get; set; }
     public DbSet<School> Schools { get; set; }
     public DbSet<Principal> Principals { get; set; }
     public DbSet<Department> Departments { get; set; }
