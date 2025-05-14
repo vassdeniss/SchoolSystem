@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolSystem.Infrastructure;
+using SchoolSystem.Infrastructure.Common;
 using SchoolSystem.Infrastructure.Models;
+using SchoolSystem.Services;
+using SchoolSystem.Services.Contracts;
 using SchoolSystem.Web;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -20,6 +23,12 @@ builder.Services.AddIdentity<User, IdentityRole<Guid>>()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddAutoMapper(typeof(SchoolSystem.Services.MapperProfiles).Assembly);
+builder.Services.AddAutoMapper(typeof(SchoolSystem.Web.MapperProfiles).Assembly);
+
+builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IPrincipalService, PrincipalService>();
+
 WebApplication app = builder.Build();
 
 using (IServiceScope scope = app.Services.CreateScope())
@@ -29,6 +38,7 @@ using (IServiceScope scope = app.Services.CreateScope())
     {
         RoleManager<IdentityRole<Guid>> roleManager = services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
         await RoleSeeder.SeedRoles(roleManager);
+        await UserSeeder.SeedAsync(services);
     }
     catch (Exception ex)
     {

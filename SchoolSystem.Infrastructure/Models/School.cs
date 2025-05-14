@@ -12,4 +12,7 @@ public class School
     [Required]
     [MaxLength(100)]
     public string Address { get; init; } = null!;
+    
+    public Guid? PrincipalId { get; init; }
+    public Principal Principal { get; init; } = null!;
 }

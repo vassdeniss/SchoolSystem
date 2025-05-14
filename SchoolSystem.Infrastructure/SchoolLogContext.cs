@@ -25,6 +25,13 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new PrincipalConfiguration());
+        
+        modelBuilder.Entity<Principal>()
+            .HasOne(p => p.School)
+            .WithOne(s => s.Principal)
+            .HasForeignKey<School>(s => s.PrincipalId);
+        
         modelBuilder.Entity<TeacherSubject>()
             .HasKey(ts => new { ts.TeacherId, ts.SubjectId });
 

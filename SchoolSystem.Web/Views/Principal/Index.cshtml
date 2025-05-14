@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Common
+@model IEnumerable<SchoolSystem.Common.PrincipalDto>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create New Principal</a>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Principal Name</th>
+        <th>School</th>
+        <th>Specialization</th>
+        <th>Phone Number</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (PrincipalDto principal in Model)
+    {
+        <tr>
+            <td>@principal.UserFullName</td>
+            <td>@principal.SchoolName</td>
+            <td>@principal.Specialization</td>
+            <td>@principal.PhoneNumber</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@principal.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@principal.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

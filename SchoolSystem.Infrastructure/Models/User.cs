@@ -10,7 +10,7 @@ public class User : IdentityUser<Guid>
     public string FirstName { get; init; } = null!;
 
     [MaxLength(50)]
-    public string? MiddleName { get; set; }
+    public string? MiddleName { get; init; }
 
     [Required] [MaxLength(50)] public string LastName { get; init; } = null!;
 

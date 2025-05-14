@@ -67,7 +67,7 @@ namespace SchoolSystem.Web.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
-            public string Email { get; set; }
+            public string Email { get; init; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -77,7 +77,7 @@ namespace SchoolSystem.Web.Areas.Identity.Pages.Account
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
-            public string Password { get; set; }
+            public string Password { get; init; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -86,30 +86,30 @@ namespace SchoolSystem.Web.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
+            public string ConfirmPassword { get; init; }
             
             [Required]
             [MaxLength(50)]
             [Display(Name = "First Name")]
-            public string FirstName { get; set; }
+            public string FirstName { get; init; }
 
             [MaxLength(50)]
             [Display(Name = "Middle Name")]
-            public string MiddleName { get; set; }
+            public string MiddleName { get; init; }
 
             [Required]
             [MaxLength(50)]
             [Display(Name = "Last Name")]
-            public string LastName { get; set; }
+            public string LastName { get; init; }
 
             [Required]
             [DataType(DataType.Date)]
             [Display(Name = "Date of Birth")]
-            public DateTime DateOfBirth { get; set; }
+            public DateTime DateOfBirth { get; init; }
             
             [Required(ErrorMessage = "Please select a role")]
             [Display(Name = "User Role")]
-            public string SelectedRole { get; set; }
+            public string SelectedRole { get; init; }
         }
 
         public void OnGetAsync(string returnUrl = null)
@@ -122,11 +122,11 @@ namespace SchoolSystem.Web.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                User user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
@@ -145,7 +145,7 @@ namespace SchoolSystem.Web.Areas.Identity.Pages.Account
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
-                foreach (var error in result.Errors)
+                foreach (IdentityError error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

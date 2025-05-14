@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="14.0.0" />
+      <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+      <PackageReference Include="MockQueryable.EntityFrameworkCore" Version="7.0.4-beta" />
+      <PackageReference Include="MockQueryable.Moq" Version="7.0.4-beta" />
+      <PackageReference Include="Moq" Version="4.20.72" />
+      <PackageReference Include="NUnit" Version="4.3.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SchoolSystem.Infrastructure\SchoolSystem.Infrastructure.csproj" />
+      <ProjectReference Include="..\SchoolSystem.Services\SchoolSystem.Services.csproj" />
+      <ProjectReference Include="..\SchoolSystem.Tests.Common\SchoolSystem.Tests.Common.csproj" />
+    </ItemGroup>
+
+</Project>

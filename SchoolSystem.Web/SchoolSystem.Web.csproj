@@ -30,6 +30,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\SchoolSystem.Infrastructure\SchoolSystem.Infrastructure.csproj" />
+        <ProjectReference Include="..\SchoolSystem.Services\SchoolSystem.Services.csproj" />
     </ItemGroup>
 
 </Project>
