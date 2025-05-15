@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SchoolSystem.Infrastructure.Configurations;
 using SchoolSystem.Infrastructure.Models;
 
 namespace SchoolSystem.Infrastructure;
@@ -8,23 +9,24 @@ namespace SchoolSystem.Infrastructure;
 public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     : IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
-    public DbSet<School> Schools { get; set; }
-    public DbSet<Principal> Principals { get; set; }
-    public DbSet<Department> Departments { get; set; }
-    public DbSet<Subject> Subjects { get; set; }
-    public DbSet<Teacher> Teachers { get; set; }
-    public DbSet<TeacherSubject> TeacherSubjects { get; set; }
-    public DbSet<Parent> Parents { get; set; }
-    public DbSet<Class> Classes { get; set; }
-    public DbSet<Student> Students { get; set; }
-    public DbSet<ParentStudent> ParentStudents { get; set; }
-    public DbSet<Grade> Grades { get; set; }
-    public DbSet<Attendance> Attendances { get; set; }
-    public DbSet<Curriculum> Curriculums { get; set; }
-    public DbSet<SubjectCurriculum> SubjectCurriculums { get; set; }
+    public DbSet<School> Schools { get; init; }
+    public DbSet<Principal> Principals { get; init; }
+    public DbSet<Department> Departments { get; init; }
+    public DbSet<Subject> Subjects { get; init; }
+    public DbSet<Teacher> Teachers { get; init; }
+    public DbSet<TeacherSubject> TeacherSubjects { get; init; }
+    public DbSet<Parent> Parents { get; init; }
+    public DbSet<Class> Classes { get; init; }
+    public DbSet<Student> Students { get; init; }
+    public DbSet<ParentStudent> ParentStudents { get; init; }
+    public DbSet<Grade> Grades { get; init; }
+    public DbSet<Attendance> Attendances { get; init; }
+    public DbSet<Curriculum> Curriculums { get; init; }
+    public DbSet<SubjectCurriculum> SubjectCurriculums { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new SchoolConfiguration());
         modelBuilder.ApplyConfiguration(new PrincipalConfiguration());
         
         modelBuilder.Entity<Principal>()

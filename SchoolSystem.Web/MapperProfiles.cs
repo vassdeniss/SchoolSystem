@@ -8,8 +8,17 @@ public class MapperProfiles : Profile
 {
     public MapperProfiles()
     {
-        this.CreateMap<PrincipalCreateViewModel, PrincipalCrudDto>();
-        this.CreateMap<PrincipalDto, PrincipalEditViewModel>();
-        this.CreateMap<PrincipalEditViewModel, PrincipalCrudDto>();
+        this.CreateMap<PrincipalDto, PrincipalViewModel>()
+            .ForMember(dest => dest.FullName, 
+                opt => opt.MapFrom(src 
+                    => $"{src.User!.FirstName} {src.User.MiddleName} {src.User.LastName}"))
+            .ForMember(dest => dest.SchoolName, 
+                opt => opt.MapFrom(src => src.School!.Name));
+        this.CreateMap<PrincipalCreateViewModel, PrincipalDto>();
+        this.CreateMap<PrincipalDto, PrincipalEditViewModel>()
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src
+                    => $"{src.User!.FirstName} {src.User.MiddleName} {src.User.LastName}"));
+        this.CreateMap<PrincipalEditViewModel, PrincipalDto>();
     }    
 }

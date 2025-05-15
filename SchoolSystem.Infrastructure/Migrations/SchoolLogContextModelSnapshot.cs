@@ -181,7 +181,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Attendances");
+                    b.ToTable("Attendances", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Class", b =>
@@ -205,7 +205,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Classes", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Curriculum", b =>
@@ -237,7 +237,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Curriculums");
+                    b.ToTable("Curriculums", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Department", b =>
@@ -253,7 +253,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Grade", b =>
@@ -280,7 +280,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Parent", b =>
@@ -301,7 +301,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Parents");
+                    b.ToTable("Parents", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.ParentStudent", b =>
@@ -318,7 +318,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("ParentStudents");
+                    b.ToTable("ParentStudents", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Principal", b =>
@@ -347,7 +347,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Principals");
+                    b.ToTable("Principals", (string)null);
 
                     b.HasData(
                         new
@@ -385,7 +385,7 @@ namespace SchoolSystem.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[PrincipalId] IS NOT NULL");
 
-                    b.ToTable("Schools");
+                    b.ToTable("Schools", (string)null);
 
                     b.HasData(
                         new
@@ -431,7 +431,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Subject", b =>
@@ -452,7 +452,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.SubjectCurriculum", b =>
@@ -469,7 +469,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("CurriculumId");
 
-                    b.ToTable("SubjectCurriculums");
+                    b.ToTable("SubjectCurriculums", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Teacher", b =>
@@ -495,7 +495,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.TeacherSubject", b =>
@@ -512,7 +512,7 @@ namespace SchoolSystem.Infrastructure.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("TeacherSubjects");
+                    b.ToTable("TeacherSubjects", (string)null);
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.User", b =>

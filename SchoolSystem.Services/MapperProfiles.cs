@@ -12,13 +12,8 @@ public class MapperProfiles : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src =>
                 $"{src.FirstName} {src.MiddleName} {src.LastName}"));
         
-        CreateMap<Principal, PrincipalDto>()
-            .ForMember(dest => dest.UserFullName, 
-                opt => opt.MapFrom(src 
-                    => $"{src.User.FirstName} {src.User.MiddleName} {src.User.LastName}"))
-            .ForMember(dest => dest.SchoolName, 
-                opt => opt.MapFrom(src => src.School.Name));
 
-        CreateMap<PrincipalCrudDto, Principal>();
+        this.CreateMap<Principal, PrincipalDto>();
+        this.CreateMap<PrincipalDto, Principal>();
     }    
 }

@@ -7,7 +7,7 @@ public class PrincipalEditViewModel
 {
     public Guid Id { get; init; }
     
-    public string? UserFullName { get; init; }
+    public string? FullName { get; init; }
     
     [Required(ErrorMessage = "Specialization is required")]
     [Display(Name = "Specialization")]
@@ -18,8 +18,4 @@ public class PrincipalEditViewModel
     [Phone(ErrorMessage = "Invalid phone number")]
     [Display(Name = "Phone Number")]
     public string PhoneNumber { get; init; } = null!;
-
-    [Required(ErrorMessage = "Please select a principal")]
-    [Display(Name = "Principal")]
-    public Guid UserId { get; init; }
 }

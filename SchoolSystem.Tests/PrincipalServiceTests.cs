@@ -62,7 +62,7 @@ public class PrincipalServiceTests : UnitTestBase
     public void CreatePrincipalAsync_ShouldThrowException_WhenUserAlreadyPrincipal()
     {
         // Arrange
-        PrincipalCrudDto dto = new() { UserId = this.testDb.User1.Id, Specialization = "Math", PhoneNumber = "12345" };
+        PrincipalDto dto = new() { UserId = this.testDb.User1.Id, Specialization = "Math", PhoneNumber = "12345" };
         
         // Act & Assert
         Assert.That(
@@ -74,7 +74,7 @@ public class PrincipalServiceTests : UnitTestBase
     public async Task CreatePrincipalAsync_ShouldCreatePrincipal_WhenValidDto()
     {
         // Arrange
-        PrincipalCrudDto dto = new() { UserId = this.testDb.User3.Id, Specialization = "Math", PhoneNumber = "12345" };
+        PrincipalDto dto = new() { UserId = this.testDb.User3.Id, Specialization = "Math", PhoneNumber = "12345" };
         int rankPageCountBefore = await this.repo.AllReadonly<Principal>()
             .CountAsync();
         
@@ -98,7 +98,7 @@ public class PrincipalServiceTests : UnitTestBase
     public async Task UpdatePrincipalAsync_ShouldUpdatePrincipal_WhenPrincipalExists()
     {
         // Arrange
-        PrincipalCrudDto dto = new() { Id = this.testDb.Principal1.Id, Specialization = "Physics", PhoneNumber = "67890" };
+        PrincipalDto dto = new() { Id = this.testDb.Principal1.Id, Specialization = "Physics", PhoneNumber = "67890" };
     
         // Act
         await this._principalService.UpdatePrincipalAsync(dto);
@@ -112,7 +112,7 @@ public class PrincipalServiceTests : UnitTestBase
     public void UpdatePrincipalAsync_ShouldNotUpdatePrincipal_WhenPrincipalNotFound()
     {
         // Arrange
-        PrincipalCrudDto dto = new() { Id = Guid.NewGuid(), Specialization = "Physics", PhoneNumber = "67890" };
+        PrincipalDto dto = new() { Id = Guid.NewGuid(), Specialization = "Physics", PhoneNumber = "67890" };
     
         // Act & Assert
         Assert.That(

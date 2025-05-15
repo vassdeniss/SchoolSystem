@@ -1,6 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using SchoolSystem.Common
-@model IEnumerable<SchoolSystem.Common.PrincipalDto>
+@model IEnumerable<PrincipalViewModel>
 
 <div class="mb-3">
     <a asp-action="Create" class="btn btn-primary">Create New Principal</a>
@@ -16,10 +15,10 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (PrincipalDto principal in Model)
+    @foreach (PrincipalViewModel principal in Model)
     {
         <tr>
-            <td>@principal.UserFullName</td>
+            <td>@principal.FullName</td>
             <td>@principal.SchoolName</td>
             <td>@principal.Specialization</td>
             <td>@principal.PhoneNumber</td>

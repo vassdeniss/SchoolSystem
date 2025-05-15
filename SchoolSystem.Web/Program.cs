@@ -27,6 +27,7 @@ builder.Services.AddAutoMapper(typeof(SchoolSystem.Services.MapperProfiles).Asse
 builder.Services.AddAutoMapper(typeof(SchoolSystem.Web.MapperProfiles).Assembly);
 
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPrincipalService, PrincipalService>();
 
 WebApplication app = builder.Build();

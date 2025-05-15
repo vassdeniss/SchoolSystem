@@ -1,12 +1,20 @@
-﻿namespace SchoolSystem.Common;
+﻿using SchoolSystem.Infrastructure.Models;
+
+namespace SchoolSystem.Common;
 
 public class PrincipalDto
 {
-    public Guid Id { get; set; }
-    public string UserFullName { get; set; } = null!;
-    public Guid UserId { get; set; }
-    public Guid SchoolId { get; set; }
-    public string SchoolName { get; set; } = null!;
-    public string Specialization { get; set; } = null!;
-    public string PhoneNumber { get; set; } = null!;
+    public Guid Id { get; init; }
+    
+    public Guid? UserId { get; init; }
+    
+    public User? User { get; init; }
+    
+    public Guid? SchoolId { get; init; }
+    
+    public School? School { get; init; }
+
+    public string Specialization { get; init; } = null!;
+    
+    public string PhoneNumber { get; init; } = null!;
 }

@@ -25,7 +25,7 @@ public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalServ
             .FirstOrDefaultAsync();
     }
 
-    public async Task CreatePrincipalAsync(PrincipalCrudDto dto)
+    public async Task CreatePrincipalAsync(PrincipalDto dto)
     {
         IQueryable<Principal> principals = repo.AllReadonly<Principal>();
         if (await principals.AnyAsync(p => p.UserId == dto.UserId))
@@ -38,7 +38,7 @@ public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalServ
         await repo.SaveChangesAsync();
     }
 
-    public async Task UpdatePrincipalAsync(PrincipalCrudDto dto)
+    public async Task UpdatePrincipalAsync(PrincipalDto dto)
     {
         Principal? principal = await repo.GetByIdAsync<Principal>(dto.Id);
         if (principal == null)
@@ -48,7 +48,7 @@ public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalServ
 
         principal.Specialization = dto.Specialization;
         principal.PhoneNumber = dto.PhoneNumber;
-
+            
         await repo.SaveChangesAsync();
     }
 

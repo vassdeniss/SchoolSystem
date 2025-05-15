@@ -15,17 +15,19 @@ public class PrincipalController(IUserService userService, IPrincipalService pri
     public async Task<IActionResult> Index()
     {
         IEnumerable<PrincipalDto> principals = await principalService.GetAllPrincipalsAsync();
-        return this.View(principals);
+        IEnumerable<PrincipalViewModel> principalVm = mapper.Map<IEnumerable<PrincipalViewModel>>(principals);
+        return this.View(principalVm);
     }
     
     [HttpGet]
     public async Task<IActionResult> Create()
     {
         IEnumerable<UserDto> principals = await userService.GetUsersWithRoleAsync("Director");
+        IEnumerable<UserViewModel> principalsVm = mapper.Map<IEnumerable<UserViewModel>>(principals);
         
         PrincipalCreateViewModel viewModel = new()
         {
-            AvailablePrincipals = new SelectList(principals, "Id", "FullName")
+            AvailablePrincipals = new SelectList(principalsVm, "Id", "FullName")
         };
     
         return this.View(viewModel);
@@ -37,18 +39,18 @@ public class PrincipalController(IUserService userService, IPrincipalService pri
     {
         if (!this.ModelState.IsValid)
         {
-            model.AvailablePrincipals = new SelectList(await userService.GetUsersWithRoleAsync("Director"), "Id", "FullName");
+            model.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<UserViewModel>>(await userService.GetUsersWithRoleAsync("Director")), "Id", "FullName");
             return this.View(model);
         }
 
         try
         {
-            await principalService.CreatePrincipalAsync(mapper.Map<PrincipalCrudDto>(model));
+            await principalService.CreatePrincipalAsync(mapper.Map<PrincipalDto>(model));
             return RedirectToAction(nameof(Index));
         }
         catch (InvalidOperationException ex)
         {
-            model.AvailablePrincipals = new SelectList(await userService.GetUsersWithRoleAsync("Director"), "Id", "FullName");
+            model.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<UserViewModel>>(await userService.GetUsersWithRoleAsync("Director")), "Id", "FullName");
             this.ModelState.AddModelError(string.Empty, ex.Message);
             return this.View(model);
         }
@@ -78,7 +80,7 @@ public class PrincipalController(IUserService userService, IPrincipalService pri
 
         try
         {
-            PrincipalCrudDto? dto = mapper.Map<PrincipalCrudDto>(model);
+            PrincipalDto? dto = mapper.Map<PrincipalDto>(model);
             await principalService.UpdatePrincipalAsync(dto);
             return this.RedirectToAction(nameof(Index));
         }
@@ -98,7 +100,7 @@ public class PrincipalController(IUserService userService, IPrincipalService pri
             return this.NotFound();
         }
 
-        return this.View(principal);
+        return this.View(mapper.Map<PrincipalViewModel>(principal));
     }
 
     [HttpPost, ActionName("Delete")]
