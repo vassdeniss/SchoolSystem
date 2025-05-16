@@ -33,7 +33,7 @@ public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalServ
             throw new InvalidOperationException("User is already a principal.");
         }
 
-        Principal? principal = mapper.Map<Principal>(dto);
+        Principal principal = mapper.Map<Principal>(dto);
         await repo.AddAsync(principal);
         await repo.SaveChangesAsync();
     }

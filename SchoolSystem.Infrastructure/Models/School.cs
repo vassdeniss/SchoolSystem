@@ -7,12 +7,12 @@ public class School
     [Key]
     public Guid Id { get; init; } = Guid.NewGuid();
 
-    [Required] [MaxLength(100)] public string Name { get; init; } = null!;
+    [Required] [MaxLength(100)] public string Name { get; set; } = null!;
 
     [Required]
     [MaxLength(100)]
-    public string Address { get; init; } = null!;
+    public string Address { get; set; } = null!;
     
-    public Guid? PrincipalId { get; init; }
+    public Guid PrincipalId { get; set; }
     public Principal Principal { get; init; } = null!;
 }

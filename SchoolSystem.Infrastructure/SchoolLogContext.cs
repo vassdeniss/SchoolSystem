@@ -26,8 +26,8 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new SchoolConfiguration());
         modelBuilder.ApplyConfiguration(new PrincipalConfiguration());
+        modelBuilder.ApplyConfiguration(new SchoolConfiguration());
         
         modelBuilder.Entity<Principal>()
             .HasOne(p => p.School)

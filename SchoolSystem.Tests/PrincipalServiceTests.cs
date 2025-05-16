@@ -27,7 +27,7 @@ public class PrincipalServiceTests : UnitTestBase
         
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Count(), Is.EqualTo(2));
+        Assert.That(result.Count(), Is.EqualTo(3));
         Assert.That(result.First().Specialization, Is.EqualTo("Specialization1"));
     }
     
@@ -74,7 +74,7 @@ public class PrincipalServiceTests : UnitTestBase
     public async Task CreatePrincipalAsync_ShouldCreatePrincipal_WhenValidDto()
     {
         // Arrange
-        PrincipalDto dto = new() { UserId = this.testDb.User3.Id, Specialization = "Math", PhoneNumber = "12345" };
+        PrincipalDto dto = new() { UserId = this.testDb.User4.Id, Specialization = "Math", PhoneNumber = "12345" };
         int rankPageCountBefore = await this.repo.AllReadonly<Principal>()
             .CountAsync();
         
@@ -87,7 +87,7 @@ public class PrincipalServiceTests : UnitTestBase
         Assert.That(principalCountAfter, Is.EqualTo(rankPageCountBefore + 1));
 
         Principal? newPrincipalInDb = await this.repo.AllReadonly<Principal>()
-            .Where(p => p.UserId == this.testDb.User3.Id)
+            .Where(p => p.UserId == this.testDb.User4.Id)
             .FirstOrDefaultAsync();
         Assert.That(newPrincipalInDb, Is.Not.Null);
         Assert.That(newPrincipalInDb!.Specialization, Is.EqualTo("Math"));
@@ -124,7 +124,7 @@ public class PrincipalServiceTests : UnitTestBase
     public async Task DeletePrincipalAsync_ShouldDeletePrincipal_WhenPrincipalExists()
     {
         // Arrange
-        Guid id = this.testDb.Principal1.Id;
+        Guid id = this.testDb.Principal3.Id;
     
         // Act
         await this._principalService.DeletePrincipalAsync(id);

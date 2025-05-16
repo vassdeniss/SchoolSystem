@@ -1,9 +1,11 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<PrincipalViewModel>
 
-<div class="mb-3">
-    <a asp-action="Create" class="btn btn-primary">Create New Principal</a>
-</div>
+@{
+    ViewData["Title"] = "Principal Management";
+}
+
+<h2>Principal Management</h2>
 <table class="table">
     <thead>
     <tr>
@@ -30,3 +32,4 @@
     }
     </tbody>
 </table>
+<a asp-action="Create" class="btn btn-primary">Create New Principal</a>

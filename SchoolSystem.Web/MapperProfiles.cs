@@ -27,7 +27,7 @@ public class MapperProfiles : Profile
         this.CreateMap<PrincipalDto, PrincipalEditViewModel>()
             .ForMember(dest => dest.FullName,
                 opt => opt.MapFrom(src
-                    => $"{src.User!.FirstName} {src.User.MiddleName} {src.User.LastName}"));
+                    => $"{src.User.FirstName} {src.User.MiddleName} {src.User.LastName}"));
         this.CreateMap<PrincipalEditViewModel, PrincipalDto>();
     }    
 }

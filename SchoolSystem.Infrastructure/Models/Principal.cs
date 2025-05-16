@@ -13,8 +13,7 @@ public class Principal
     [MaxLength(15)]
     public string PhoneNumber { get; set; } = null!;
 
-    public Guid SchoolId { get; init; }
-    public School School { get; init; } = null!;
+    public School? School { get; init; }
 
     public Guid UserId { get; init; }
     public User User { get; init; } = null!;

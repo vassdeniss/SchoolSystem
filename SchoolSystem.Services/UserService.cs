@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using SchoolSystem.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services.Contracts;
-using SchoolSystem.Services.Exceptions;
 
 namespace SchoolSystem.Services;
 
@@ -39,7 +38,7 @@ public class UserService(UserManager<User> userManager, ILogger<UserService> log
         if (user == null)
         {
             logger.LogWarning("User {UserId} not found", userId);
-            throw new UserNotFoundException(userId);
+            throw new InvalidOperationException("User not found.");
         }
 
         UserDto? userDto = mapper.Map<UserDto>(user);
@@ -69,7 +68,7 @@ public class UserService(UserManager<User> userManager, ILogger<UserService> log
         if (user == null)
         {
             logger.LogWarning("User {UserId} not found for update", updatedUserDto.Id);
-            throw new UserNotFoundException(updatedUserDto.Id);
+            throw new InvalidOperationException("User not found.");
         }
 
         // Map editable fields from DTO to the existing user entity
@@ -82,7 +81,7 @@ public class UserService(UserManager<User> userManager, ILogger<UserService> log
         {
             logger.LogError("Failed to update user {UserId}: {Errors}", updatedUserDto.Id,
                 string.Join(", ", updateResult.Errors.Select(e => e.Description)));
-            throw new IdentityOperationException("Failed to update user", updateResult.Errors);
+            throw new InvalidOperationException("Failed to update user.");
         }
 
         logger.LogInformation("User {UserId} updated successfully", updatedUserDto.Id);
@@ -100,7 +99,7 @@ public class UserService(UserManager<User> userManager, ILogger<UserService> log
         if (user == null)
         {
             logger.LogWarning("User {UserId} not found for deletion", userId);
-            throw new UserNotFoundException(userId);
+            throw new InvalidOperationException("User not found.");
         }
 
         IdentityResult deleteResult = await userManager.DeleteAsync(user);
@@ -108,7 +107,7 @@ public class UserService(UserManager<User> userManager, ILogger<UserService> log
         {
             logger.LogError("Failed to delete user {UserId}: {Errors}", userId,
                 string.Join(", ", deleteResult.Errors.Select(e => e.Description)));
-            throw new IdentityOperationException("Failed to delete user", deleteResult.Errors);
+            throw new InvalidOperationException("Failed to delete user");
         }
 
         logger.LogInformation("User {UserId} deleted successfully", userId);
