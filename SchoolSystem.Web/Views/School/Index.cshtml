@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Web.Models.School
+@model IEnumerable<SchoolViewModel>
+
+@{
+    ViewData["Title"] = "School Management";
+}
+
+<h2>School Management</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Principal</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (SchoolViewModel school in this.Model)
+    {
+        <tr>
+            <td>@school.Name</td>
+            <td>@school.Address</td>
+            <td>@(string.IsNullOrEmpty(school.PrincipalName) ? "Not assigned" : school.PrincipalName)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@school.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@school.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<a asp-action="Create" class="btn btn-primary">Create New</a>

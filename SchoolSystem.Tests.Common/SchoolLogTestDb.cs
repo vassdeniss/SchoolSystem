@@ -15,9 +15,14 @@ public class SchoolLogTestDb
     public User User1 { get; set; }
     public User User2 { get; set; }
     public User User3 { get; set; }
+    public User User4 { get; set; }
 
     public Principal Principal1 { get; set; }
     public Principal Principal2 { get; set; }
+    public Principal Principal3 { get; set; }
+    
+    public School School1 { get; set; }
+    public School School2 { get; set; }
     
     private void SeedDatabase(SchoolLogContext dbContext)
     {
@@ -82,6 +87,23 @@ public class SchoolLogTestDb
 
         userManager.CreateAsync(this.User3, "user3Pass")
             .Wait();
+        
+        this.User4 = new User
+        {
+            Id = Guid.NewGuid(),
+            UserName = $"user4{DateTime.Now.Ticks.ToString().Substring(10)}",
+            NormalizedUserName = $"USER4{DateTime.Now.Ticks.ToString().Substring(10)}",
+            Email = "user4@mail.com",
+            NormalizedEmail = "USER4@MAIL.COM", 
+            FirstName = "User",
+            MiddleName = "G.",
+            LastName = "4",
+            DateOfBirth = DateTime.Today.AddYears(-10),
+            EmailConfirmed = true,
+        };
+
+        userManager.CreateAsync(this.User4, "user4Pass")
+            .Wait();
 
         this.Principal1 = new Principal
         {
@@ -102,6 +124,36 @@ public class SchoolLogTestDb
         };
         
         dbContext.Add(this.Principal2);
+        
+        this.Principal3 = new Principal
+        {
+            Id = Guid.NewGuid(),
+            Specialization = "Specialization3",
+            PhoneNumber = "132456782",
+            UserId = this.User3.Id
+        };
+        
+        dbContext.Add(this.Principal3);
+
+        this.School1 = new School
+        {
+            Id = Guid.NewGuid(),
+            Address = "address1",
+            Name = "school1",
+            PrincipalId = this.Principal1.Id
+        };
+        
+        dbContext.Add(this.School1);
+        
+        this.School2 = new School
+        {
+            Id = Guid.NewGuid(),
+            Address = "address2",
+            Name = "school2",
+            PrincipalId = this.Principal2.Id
+        };
+        
+        dbContext.Add(this.School2);
         
         dbContext.SaveChanges();
     }
