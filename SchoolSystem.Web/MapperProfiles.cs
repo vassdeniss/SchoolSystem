@@ -2,6 +2,7 @@
 using SchoolSystem.Common;
 using SchoolSystem.Web.Models;
 using SchoolSystem.Web.Models.Principal;
+using SchoolSystem.Web.Models.User;
 
 namespace SchoolSystem.Web;
 
@@ -9,6 +10,13 @@ public class MapperProfiles : Profile
 {
     public MapperProfiles()
     {
+        this.CreateMap<UserDto, UserViewModel>()
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src
+                    => $"{src.FirstName} {src.MiddleName} {src.LastName}"));
+        this.CreateMap<UserDto, UserEditViewModel>();
+        this.CreateMap<UserEditViewModel, UserDto>();
+
         this.CreateMap<PrincipalDto, PrincipalViewModel>()
             .ForMember(dest => dest.FullName, 
                 opt => opt.MapFrom(src 

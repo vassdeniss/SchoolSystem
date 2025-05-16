@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Web.Models.User
+@model IEnumerable<SchoolSystem.Web.Models.User.UserViewModel>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>DateOfBirth</th>
+        <th>Roles</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (UserViewModel user in Model)
+    {
+        <tr>
+            <td>@user.FullName</td>
+            <td>@user.Email</td>
+            <td>@user.DateOfBirth?.ToString("dd.MM.yyyy")</td>
+            <td>@string.Join(",", user.Roles!)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@user.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@user.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
