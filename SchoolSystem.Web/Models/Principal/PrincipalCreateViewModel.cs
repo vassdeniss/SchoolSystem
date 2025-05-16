@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace SchoolSystem.Web.Models;
+namespace SchoolSystem.Web.Models.Principal;
 
 public class PrincipalCreateViewModel
 {

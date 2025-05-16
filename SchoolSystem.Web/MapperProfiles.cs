@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SchoolSystem.Common;
 using SchoolSystem.Web.Models;
+using SchoolSystem.Web.Models.Principal;
 
 namespace SchoolSystem.Web;
 

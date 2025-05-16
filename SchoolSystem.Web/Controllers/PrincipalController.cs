@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolSystem.Common;
 using SchoolSystem.Services.Contracts;
-using SchoolSystem.Web.Models;
+using SchoolSystem.Web.Models.Principal;
+using SchoolSystem.Web.Models.User;
 
 namespace SchoolSystem.Web.Controllers;
 
