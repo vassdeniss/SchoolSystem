@@ -1,4 +1,4 @@
-﻿namespace SchoolSystem.Common;
+﻿namespace SchoolSystem.Services.Dtos;
 
 public class UserDto
 {

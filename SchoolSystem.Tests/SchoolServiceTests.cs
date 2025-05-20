@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using SchoolSystem.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services;
+using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Tests;
 
@@ -32,7 +32,7 @@ public class SchoolServiceTests : UnitTestBase
         // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Count(), Is.EqualTo(2));
-        Assert.That(result.First().Name, Is.EqualTo("school1"));
+        Assert.That(result.First().Name, Is.EqualTo(this.testDb.School1.Name));
     }
     
     [Test]
@@ -46,7 +46,7 @@ public class SchoolServiceTests : UnitTestBase
     
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Name, Is.EqualTo("school1"));
+        Assert.That(result.Name, Is.EqualTo(this.testDb.School1.Name));
     }
     
     [Test]

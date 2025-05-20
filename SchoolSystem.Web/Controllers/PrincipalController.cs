@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SchoolSystem.Common;
 using SchoolSystem.Services.Contracts;
+using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.User;
 

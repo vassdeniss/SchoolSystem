@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolSystem.Common;
 using SchoolSystem.Services.Contracts;
+using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models;
 using SchoolSystem.Web.Models.User;
 

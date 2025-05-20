@@ -5,7 +5,7 @@ namespace SchoolSystem.Web.Models.School;
 
 public class SchoolEditViewModel
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
     
     [Required(ErrorMessage = "School name is required")]
     [MaxLength(100)]

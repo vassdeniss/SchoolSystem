@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using SchoolSystem.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services;
+using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Tests;
 

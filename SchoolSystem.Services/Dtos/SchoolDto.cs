@@ -1,6 +1,6 @@
 ﻿using SchoolSystem.Infrastructure.Models;
 
-namespace SchoolSystem.Common;
+namespace SchoolSystem.Services.Dtos;
 
 public class SchoolDto
 {

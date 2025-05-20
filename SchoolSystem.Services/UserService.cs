@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SchoolSystem.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services.Contracts;
+using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Services;
 

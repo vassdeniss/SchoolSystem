@@ -1,4 +1,4 @@
-﻿using SchoolSystem.Common;
+﻿using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Services.Contracts;
 
