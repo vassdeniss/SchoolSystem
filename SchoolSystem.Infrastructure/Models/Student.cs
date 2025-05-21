@@ -12,7 +12,4 @@ public class Student
 
     public Guid ClassId { get; init; }
     public Class Class { get; init; } = null!;
-
-    public Guid SchoolId { get; init; }
-    public School School { get; init; } = null!;
 }

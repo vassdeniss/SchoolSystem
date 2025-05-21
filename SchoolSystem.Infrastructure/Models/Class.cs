@@ -9,10 +9,14 @@ public class Class
 
     [Required]
     [MaxLength(10)]
-    public string Name { get; init; } = null!;
+    public string Name { get; set; } = null!;
 
     [Required]
-    public int Year { get; init; }
+    public int Year { get; set; }
 
-    [Required] [MaxLength(20)] public string Term { get; init; } = null!;
+    [Required] [MaxLength(20)] public string Term { get; set; } = null!;
+    
+    public Guid SchoolId { get; set; }
+    
+    public School School { get; init; } = null!;
 }

@@ -1,0 +1,45 @@
+﻿@using SchoolSystem.Web.Models.Class
+@model SchoolSystem.Web.Models.School.SchoolDetailsViewModel
+
+@{
+    ViewData["Title"] = "School Details";
+}
+
+<h2>@Model.SchoolName</h2>
+<h4>Principal: @Model.PrincipalName</h4>
+
+<h3>Classes</h3>
+@if (Model.Classes.Any())
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>Class Name</th>
+        <th>Year</th>
+        <th>Term</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (ClassViewModel cls in Model.Classes)
+    {
+    <tr>
+        <td>@cls.Name</td>
+        <td>@cls.Year</td>
+        <td>@cls.Term</td>
+        <td>
+            <a asp-action="Edit" asp-controller="Class" asp-route-id="@cls.Id">Edit</a> |
+            <a asp-action="Delete" asp-controller="Class" asp-route-id="@cls.Id">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+else
+{
+<p>No classes found for this school.</p>
+}
+
+<a asp-action="Create" asp-controller="Class" asp-route-schoolId="@Model.Id" class="btn btn-primary">Create Class</a>
+<a asp-action="Index" class="btn btn-secondary">Back to List</a>

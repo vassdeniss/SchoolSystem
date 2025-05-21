@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using SchoolSystem.Common;
+using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models;
+using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
 using SchoolSystem.Web.Models.User;
@@ -38,5 +39,10 @@ public class MapperProfiles : Profile
         this.CreateMap<SchoolCreateViewModel, SchoolDto>();
         this.CreateMap<SchoolDto, SchoolEditViewModel>();
         this.CreateMap<SchoolEditViewModel, SchoolDto>();
+
+        this.CreateMap<ClassDto, ClassViewModel>();
+        this.CreateMap<ClassCreateViewModel, ClassDto>();
+        this.CreateMap<ClassDto, ClassEditViewModel>();
+        this.CreateMap<ClassEditViewModel, ClassDto>();
     }    
 }

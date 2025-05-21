@@ -28,6 +28,14 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     {
         modelBuilder.ApplyConfiguration(new PrincipalConfiguration());
         modelBuilder.ApplyConfiguration(new SchoolConfiguration());
+        modelBuilder.ApplyConfiguration(new ClassConfiguration());
+        
+        // TEMP
+        modelBuilder.Entity<Teacher>()
+            .HasOne(t => t.School)
+            .WithMany()
+            .HasForeignKey(t => t.SchoolId)
+            .OnDelete(DeleteBehavior.NoAction);
         
         modelBuilder.Entity<Principal>()
             .HasOne(p => p.School)

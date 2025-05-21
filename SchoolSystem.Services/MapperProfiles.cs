@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using SchoolSystem.Common;
 using SchoolSystem.Infrastructure.Models;
+using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Services;
 
@@ -17,5 +17,8 @@ public class MapperProfiles : Profile
 
         this.CreateMap<School, SchoolDto>();
         this.CreateMap<SchoolDto, School>();
+
+        this.CreateMap<Class, ClassDto>();
+        this.CreateMap<ClassDto, Class>();
     }    
 }

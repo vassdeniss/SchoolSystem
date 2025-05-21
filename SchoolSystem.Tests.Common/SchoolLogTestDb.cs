@@ -24,6 +24,9 @@ public class SchoolLogTestDb
     public School School1 { get; set; }
     public School School2 { get; set; }
     
+    public Class Class1 { get; set; }
+    public Class Class2 { get; set; }
+
     private void SeedDatabase(SchoolLogContext dbContext)
     {
         UserOnlyStore<User, SchoolLogContext, Guid> userStore = new(dbContext);
@@ -154,6 +157,28 @@ public class SchoolLogTestDb
         };
         
         dbContext.Add(this.School2);
+
+        this.Class1 = new Class
+        {
+            Id = Guid.NewGuid(),
+            Name = "class1",
+            Year = DateTime.Now.Year,
+            Term = "Fall",
+            SchoolId = this.School1.Id,
+        };
+
+        dbContext.Add(this.Class1);
+        
+        this.Class2 = new Class
+        {
+            Id = Guid.NewGuid(),
+            Name = "class2",
+            Year = DateTime.Now.Year,
+            Term = "Spring",
+            SchoolId = this.School1.Id,
+        };
+
+        dbContext.Add(Class2);
         
         dbContext.SaveChanges();
     }

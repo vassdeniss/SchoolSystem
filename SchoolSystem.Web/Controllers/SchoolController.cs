@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SchoolSystem.Common;
 using SchoolSystem.Services.Contracts;
+using SchoolSystem.Services.Dtos;
+using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
 using SchoolSystem.Web.Models.User;
@@ -11,7 +12,10 @@ using SchoolSystem.Web.Models.User;
 namespace SchoolSystem.Web.Controllers;
 
 [Authorize(Roles = "Administrator")]
-public class SchoolController(ISchoolService schoolService, IPrincipalService principalService, IMapper mapper) : Controller
+public class SchoolController(ISchoolService schoolService, 
+    IPrincipalService principalService, 
+    IClassService classService,
+    IMapper mapper) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index()
@@ -19,6 +23,34 @@ public class SchoolController(ISchoolService schoolService, IPrincipalService pr
         IEnumerable<SchoolDto> schools = await schoolService.GetSchoolsAsync();
         IEnumerable<SchoolViewModel> schoolsVm = mapper.Map<IEnumerable<SchoolViewModel>>(schools);
         return this.View(schoolsVm);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Details(Guid id)
+    {
+        SchoolDto? school = await schoolService.GetSchoolByIdAsync(id);
+        if (school == null)
+        {
+            return this.NotFound();
+        }
+        
+        IEnumerable<ClassDto> classes = await classService.GetClassesBySchoolIdAsync(id);
+
+        SchoolDetailsViewModel viewModel = new()
+        {
+            Id = school.Id,
+            SchoolName = school.Name,
+            PrincipalName = $"{school.Principal.User.FirstName} {school.Principal.User.MiddleName} {school.Principal.User.LastName}",
+            Classes = classes.Select(c => new ClassViewModel 
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Year = c.Year,
+                Term = c.Term
+            }).ToList()
+        };
+
+        return this.View(viewModel);
     }
     
     [HttpGet]
