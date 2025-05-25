@@ -1,0 +1,273 @@
+/* === help.css === */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f5f7;
+  color: #333;
+}
+
+/*  Sidebar */
+#sideMenu {
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #009999;
+  transition: left 0.3s ease;
+  padding-top: 20px;
+  z-index: 1000;
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+#sideMenu ul {
+  list-style: none;
+  padding: 0 20px;
+}
+
+#sideMenu li {
+  padding: 12px 0;
+}
+
+#sideMenu li:hover {
+  background: #007777;
+}
+
+#sideMenu a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/*  Hamburger  */
+#menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+#menu-btn .bar {
+  width: 30px;
+  height: 4px;
+  background: #333;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+/* Main */
+.help-page {
+  margin-top: 60px;
+  padding: 30px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+/* Search */
+.help-search input {
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* FAQ Accordion */
+.help-faq h2 {
+  color: #00b8b8;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.accordion .acc-item {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.acc-btn {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  font-size: 16px;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
+
+.acc-btn::after {
+  content: '+';
+  position: absolute;
+  right: 20px;
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+.acc-btn.active::after {
+  transform: rotate(45deg);
+}
+
+.acc-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 12px;
+}
+
+.acc-content p {
+  padding: 10px 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Guides */
+.help-guides h2 {
+  color: #00b8b8;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.help-guides ul {
+  list-style: none;
+}
+
+.help-guides li {
+  margin-bottom: 10px;
+}
+
+.help-guides a {
+  color: #00b8b8;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.help-guides a:hover {
+  text-decoration: underline;
+}
+
+/* Contact form */
+.help-contact h2 {
+  color: #00b8b8;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+#helpForm {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+#helpForm input,
+#helpForm select,
+#helpForm textarea {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#helpForm button {
+  padding: 10px;
+  font-size: 16px;
+  background: #00b8b8;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#helpForm button:hover {
+  background: #009999;
+}
+
+.support-info {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.support-info a {
+  color: #00b8b8;
+  text-decoration: none;
+}
+
+.support-info a:hover {
+  text-decoration: underline;
+}
+
+
+
+
+/* Footer */
+footer {
+  background-color: #00b8b8;
+  color: #ffffff;
+  padding: 20px 0;
+  font-size: 14px;
+}
+
+footer .footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+footer .footer-links,
+footer .footer-info,
+footer .footer-nav {
+  flex: 1;
+  min-width: 200px;
+}
+
+footer .footer-links ul,
+footer .footer-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer .footer-links li,
+footer .footer-nav li {
+  margin-bottom: 8px;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  footer .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  footer .footer-links,
+  footer .footer-info,
+  footer .footer-nav {
+    min-width: auto;
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Училище — Администратор</title>
+  <link rel="stylesheet" href="../CSS_STUDENT/css1.css">
+  <link rel="stylesheet" href="../CSS_ADMIN/school-admin.css">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="navbar-section left">
+      <div id="burgerBtn" class="menu-btn">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="navbar-section center">
+      <div class="logo"><img src="../IMG/img logo 1.jpg" alt="Лого"></div>
+    </div>
+    <div class="navbar-section right">
+      <button id="editBtn">Редактирай</button>
+      <button onclick="location.href='login.html'">Изход</button>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="dashboard.html">Начало</a></li>
+      <li><a href="school-admin.html">Училище</a></li>
+      <li><a href="directors.html">Директор</a></li>
+      <li><a href="teachers.html">Учители</a></li>
+      <li><a href="parents.html">Родители</a></li>
+      <li><a href="students.html">Ученици</a></li>
+      <li><a href="diary.html">Дневник</a></li>
+      <li><a href="../STUDENT/login.html">Изход</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="school-page">
+    <h1>Настройки на училището</h1>
+    <form id="schoolForm">
+      <div class="form-group">
+        <label for="schoolName">Име на училище</label>
+        <input type="text" id="schoolName" value="СОУ „Н. Й. Вапцаров“" disabled>
+      </div>
+      <div class="form-group">
+        <label for="schoolAddress">Адрес</label>
+        <input type="text" id="schoolAddress" value="ул. „Иван Вазов“ 1, София" disabled>
+      </div>
+      <div class="form-group">
+        <label for="schoolPhone">Телефон</label>
+        <input type="tel" id="schoolPhone" value="+359 2 123 4567" disabled>
+      </div>
+      <div class="form-group">
+        <label for="schoolEmail">Email</label>
+        <input type="email" id="schoolEmail" value="info@school.bg" disabled>
+      </div>
+      <div class="form-group">
+        <label for="schoolHours">Работно време</label>
+        <input type="text" id="schoolHours" value="08:00 – 17:00" disabled>
+      </div>
+    </form>
+  </main>
+
+  <!-- Scroll-to-top -->
+  <button id="scrollTopBtn">▲</button>
+  <script src="../JS_ADMIN/school-admin.js"></script>
+</body>
+
+</html>

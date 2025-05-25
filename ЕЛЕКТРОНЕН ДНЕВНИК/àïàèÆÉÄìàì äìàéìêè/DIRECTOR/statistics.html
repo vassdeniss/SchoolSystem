@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Статистика и отчети</title>
+  <link rel="stylesheet" href="css1.css" />
+  <link rel="stylesheet" href="../CSS_DIRECTOR/statistics.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Navbar + Burger -->
+  <div class="navbar">
+    <button id="burgerBtn" class="menu-btn" aria-label="Меню">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="logo"><img src="../IMG/img logo 1.jpg" alt="Лого"></div>
+    <div class="user-info">
+      <span>Директор</span>
+      <button onclick="location.href='login.html'">Изход</button>
+    </div>
+  </div>
+  <!--SLIDEBAR-->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="diary.html">Дневник</a></li>
+      <li><a href="enrollment.html">Ученици</a></li>
+      <li><a href="parent.html">Родители</a></li>
+      <li><a href="teachers.html">Учители</a></li>
+      <li><a href="statistics.html">Статистика</a></li>
+      <li><a href="../STUDENT/profile.html">Профил</a></li>
+      <li><a href="../STUDENT/login.html">Изход</a></li>
+
+    </ul>
+  </aside>
+  <!--MAIN-->
+  <main class="stats-page">
+    <!-- Филтри -->
+    <section class="stats-filters">
+      <select id="periodSelect">
+        <option value="year">Учебна година</option>
+        <option value="term1">Първи срок</option>
+        <option value="term2">Втори срок</option>
+      </select>
+      <select id="levelSelect">
+        <option value="school">Училище</option>
+        <option value="grade8">8 клас</option>
+        <option value="grade9">9 клас</option>
+        <option value="grade10">10 клас</option>
+        <option value="grade11">11 клас</option>
+        <option value="grade12">12 клас</option>
+      </select>
+      <button id="exportPdf" class="btn">Експорт PDF</button>
+    </section>
+
+    <!-- KPI cards -->
+    <section class="kpi-cards">
+      <div class="card">
+        <h3>Среден успех</h3>
+        <p id="kpiAvgGrade">4.85</p>
+      </div>
+      <div class="card">
+        <h3>Присъствия (%)</h3>
+        <p id="kpiAttendance">98.2 %</p>
+      </div>
+      <div class="card">
+        <h3>Неиздържани контролни</h3>
+        <p id="kpiFails">12</p>
+      </div>
+      <div class="card">
+        <h3>Отсъствия на ученик</h3>
+        <p id="kpiAbsences">1.3</p>
+      </div>
+    </section>
+
+    <!-- Диаграми -->
+    <section class="charts-grid">
+      <div>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="top5">
+        <h4>Топ 5 класове</h4>
+        <canvas id="topBarChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Седмична програма -->
+    <section class="weekly-program">
+      <h4>Програма на учителите (текуща седмица)</h4>
+      <div class="program-grid">
+        <div class="grid-header"></div>
+        <div class="grid-header">Пон</div>
+        <div class="grid-header">Вт</div>
+        <div class="grid-header">Ср</div>
+        <div class="grid-header">Чт</div>
+        <div class="grid-header">Пет</div>
+        <!-- times -->
+        <div class="time-slot">08:00</div>
+        <div>Математика</div>
+        <div>БЕЛ</div>
+        <div>Физика</div>
+        <div>История</div>
+        <div>География</div>
+        <div class="time-slot">09:00</div>
+        <div>Английски</div>
+        <div>Информатика</div>
+        <div>Химия</div>
+        <div>География</div>
+        <div>Музика</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../JS_DIRECTOR/statistics.js"></script>
+</body>
+
+</html>

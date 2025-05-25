@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Текущо оценяване</title>
+  <link rel="stylesheet" href="../CSS_STUDENT/css1.css">
+  <link rel="stylesheet" href="../CSS_STUDENT/grades.css">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-section left">
+      <div class="menu-btn" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="navbar-section center">
+      <div class="logo"><img src="../IMG/img logo 1.jpg" alt="Лого"></div>
+    </div>
+    <div class="navbar-section right">
+      <div class="user-info">
+        <span>Добре дошли</span>
+        <button onclick="location.href='login.html'">Изход</button>
+      </div>
+    </div>
+  </div>
+
+  <!--  navbar  -->
+  <div id="menu-btn" class="menu-btn">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  <!--SLIDEBAR-->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="main.html">Начало</a></li>
+      <li><a href="grades.html">Дневник</a></li>
+      <li><a href="school.html">Училище</a></li>
+      <li><a href="profile.html">Профил</a></li>
+      <li><a href="tests.html">Тестове</a></li>
+      <li><a href="weekprogram.html">Програма</a></li>
+      <li><a href="help.html">Помощ</a></li>
+      <li><a href="login.html">Изход</a></li>
+    </ul>
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="ratings-page">
+
+    <section class="ratings-header">
+      <h2>Текущо оценяване</h2>
+      <select id="term-select" class="term-select">
+        <option value="term1">Първи срок</option>
+        <option value="term2">Втори срок</option>
+      </select>
+    </section>
+
+    <!-- Таблици за двата срока -->
+    <div class="ratings-table-wrap">
+      <!-- Първи срок -->
+      <table class="ratings-table term1">
+        <thead>
+          <tr>
+            <th>Сигн.</th>
+            <th>Курс</th>
+            <th>Оценки</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Сигн.">1</td>
+            <td data-label="Курс">Български език и литература</td>
+            <td data-label="Оценки">
+              <div class="rating-row">T1 (Тест)</div>
+              <div class="rating-row">T2 (Тест)</div>
+              <div class="rating-row">T3 (Реферат)</div>
+              <div class="rating-row">T4 (Устно изпитване)</div>
+              <div class="rating-row">Т5 (Класна работа 1)</div>
+              <div class="rating-row">Т6 (Писмено изпитване)</div>
+              <div class="rating-row">Т7 (Класна работа 2)</div>
+              <div class="rating-row">ТО (Крайна оценка от срока)</div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Сигн.">2</td>
+            <td data-label="Курс">Математика</td>
+            <td data-label="Оценки">
+              <div class="rating-row">T1 (Писмено изпитване) 3.50</div>
+              <div class="rating-row">T2 (Тест)</div>
+              <div class="rating-row">T3 (Класна работа)</div>
+              <div class="rating-row">Т4 (Тест)</div>
+              <div class="rating-row">ТО (Крайна оценка от срока)</div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Сигн.">3</td>
+            <td data-label="Курс">Английски език</td>
+            <td data-label="Оценки">
+              <div class="rating-row">T1 (Тест)</div>
+              <div class="rating-row">T2 (Тест)</div>
+              <div class="rating-row">T3 (Реферат)</div>
+              <div class="rating-row">T4 (Устно изпитване)</div>
+              <div class="rating-row">Т5 (Класна работа 1)</div>
+              <div class="rating-row">Т6 (Писмено изпитване)</div>
+              <div class="rating-row">Т7 (Класна работа 2)</div>
+              <div class="rating-row">ТО (Крайна оценка от срока)</div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Сигн.">4</td>
+            <td data-label="Курс">История</td>
+            <td data-label="Оценки">
+              <div class="rating-row">T1 (Тест)</div>
+              <div class="rating-row">T2 (Тест)</div>
+              <div class="rating-row">T3 (Реферат)</div>
+              <div class="rating-row">T4 (Устно изпитване)</div>
+              <div class="rating-row">Т5 (Тест)</div>
+              <div class="rating-row">ТО (Крайна оценка от срока)</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- Втори срок -->
+      <table class="ratings-table term2">
+        <thead>
+          <tr>
+            <th>Сигн.</th>
+            <th>Курс</th>
+            <th>Оценки</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Сигн.">5</td>
+            <td data-label="Курс">Физика</td>
+            <td data-label="Оценки">
+              <div class="rating-row">Т1 (Тест)</div>
+              <div class="rating-row">Т2 (Тест)</div>
+              <div class="rating-row">ТO (Крайна оценка от срока)</div>
+            </td>
+          </tr>
+          <tr>
+            <td data-label="Сигн.">6</td>
+            <td data-label="Курс">Компютърни мрежи</td>
+            <td data-label="Оценки">
+              <div class="rating-row">Т1 (Писмено изложение)</div>
+              <div class="rating-row">Т2 (Събеседване)</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+
+
+  <button id="scrollTopBtn" aria-label="Върни се нагоре">▲</button>
+  <script src="../JS_STUDENT/scriptgrades.js"></script>
+</body>
+
+</html>

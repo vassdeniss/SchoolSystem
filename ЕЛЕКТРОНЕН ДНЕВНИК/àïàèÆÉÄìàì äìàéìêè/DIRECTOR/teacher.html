@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Управление на учители</title>
+  <link rel="stylesheet" href="../CSS_DIRECTOR/teacher.css">
+</head>
+
+<body>
+  <!-- NAVBAR + BURGER -->
+  <div class="navbar">
+    <button id="burgerBtn" class="menu-btn" aria-label="Меню">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </button>
+    <div class="logo"><img src="../IMG/img logo 1.jpg" alt="Лого"></div>
+    <div class="user-info">
+      <span>Директор</span>
+      <button onclick="location.href='login.html'">Изход</button>
+    </div>
+  </div>
+  <!--SLIDEBAR-->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="diary.html">Дневник</a></li>
+      <li><a href="enrollment.html">Ученици</a></li>
+      <li><a href="parent.html">Родители</a></li>
+      <li><a href="teacher.html">Учители</a></li>
+      <li><a href="statistics.html">Статистика</a></li>
+      <li><a href="../STUDENT/profile.html">Профил</a></li>
+      <li><a href="../STUDENT/login.html">Изход</a></li>
+    </ul>
+  </aside>
+  <!--MAIN-->
+  <main class="teachers-page">
+    <section class="controls">
+      <button id="modeAdd" class="mode-btn active">Добави учител</button>
+      <button id="modeRemove" class="mode-btn">Премахни учител</button>
+    </section>
+    <!--FORM-->
+    <section id="addFormSection" class="form-section">
+      <h2>Нов учител</h2>
+      <form id="addTeacherForm">
+        <input type="text" id="teacherName" placeholder="Име на учителя" required>
+
+        <label>Преподава по:</label>
+        <input type="text" id="teacherSubject" placeholder="Предмет" required>
+
+        <label>Класове:</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="8"> 8 клас</label>
+          <label><input type="checkbox" value="9"> 9 клас</label>
+          <label><input type="checkbox" value="10"> 10 клас</label>
+          <label><input type="checkbox" value="11"> 11 клас</label>
+          <label><input type="checkbox" value="12"> 12 клас</label>
+        </div>
+
+        <select id="teacherStatus">
+          <option value="active">Активен</option>
+          <option value="inactive">Неактивен</option>
+        </select>
+
+        <input type="text" id="teacherUser" placeholder="Потребител" required>
+        <input type="password" id="teacherPass" placeholder="Парола" required>
+
+        <button type="submit" class="btn">Добави</button>
+      </form>
+    </section>
+
+    <section class="table-section">
+      <table id="teachersTable">
+        <thead>
+          <tr>
+            <th> </th>
+            <th>Име</th>
+            <th>Предмет</th>
+            <th>Класове</th>
+            <th>Статус</th>
+            <th>Потребител</th>
+            <th>Парола</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody><!-- JS  --></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="../JS_DIRECTOR/teacher.js"></script>
+</body>
+
+</html>

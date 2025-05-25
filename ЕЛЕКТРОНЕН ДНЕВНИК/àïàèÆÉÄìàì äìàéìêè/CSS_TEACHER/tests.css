@@ -1,0 +1,171 @@
+/* Sidebar */
+#sideMenu {
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #009999;
+  transition: left 0.3s ease;
+  padding-top: 20px;
+  z-index: 1000;
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+#sideMenu ul {
+  list-style: none;
+  padding: 0 20px;
+}
+
+#sideMenu li {
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+#sideMenu li:hover {
+  background: #007777;
+}
+
+#sideMenu a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Hamburger */
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-btn .bar {
+  width: 30px;
+  height: 4px;
+  background: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Заглавие на секцията с бутон */
+.tests-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tests-section-header h2 {
+  margin: 0;
+  color: #00b8b8;
+}
+
+/* Общ бутон */
+.btn {
+  background: #00b8b8;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background: #009999;
+}
+
+/* Таблици */
+#upcomingTable,
+#archiveTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+#upcomingTable th,
+#upcomingTable td,
+#archiveTable th,
+#archiveTable td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#upcomingTable th,
+#archiveTable th {
+  background: #00b8b8;
+  color: #fff;
+}
+
+/* Диаграма */
+#gradesChart {
+  max-width: 500px;
+  margin: 20px auto;
+  display: block;
+}
+
+/* Scroll-to-top */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+  background-color: #00b8b8;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#scrollTopBtn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#scrollTopBtn:hover {
+  background-color: #009999;
+}
+
+/* прави фона на самия бутон прозрачен */
+.menu-btn {
+  background-color: transparent;
+}
+
+
+.menu-btn {
+  background-color: #00b8b8;
+}
+
+.menu-btn {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  outline: none !important;
+}
+
+
+.menu-btn:focus {
+  outline: none !important;
+}
+/* Responsive */
+@media (max-width:768px) {
+  .teacher-page {
+    display: block;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Статистика и отчети</title>
+  
+  <link rel="stylesheet" href="../CSS_STUDENT/css1.css">
+  <link rel="stylesheet" href="../CSS_TEACHER/stats.css">
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-section left">
+      <div class="menu-btn" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="navbar-section center">
+      <div class="logo"><img src="../IMG/img logo 1.jpg" alt="Лого"></div>
+    </div>
+    <div class="navbar-section right">
+      <div class="user-info">
+        <span>Добре дошли, Учителю!</span>
+        <button onclick="location.href='login.html'">Изход</button>
+      </div>
+    </div>
+  </div>
+  <!-- Sidebar -->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="main3.html">Начало</a></li>
+      <li><a href="Index1.html">Дневник</a></li>
+      <li><a href="absences.html">Отсъствия</a></li>
+      <li><a href="tests.html">Тестове</a></li>
+      <li><a href="stats.html">Статистика и програма</a></li>
+      <li><a href="../STUDENT/profile.html">Профил</a></li>
+      <li><a href="../STUDENT/help.html">Помощ</a></li>
+      <li><a href="../STUDENT/login.html">Изход</a></li>
+    </ul>
+  </aside>
+<!--MAIN-->
+  <main class="stats-page">
+    <!-- KPI cards -->
+    <section class="kpi-cards">
+      <div class="card">
+        <h3>Среден успех</h3>
+        <p id="kpi-average">–</p>
+      </div>
+      <div class="card">
+        <h3>Присъствие</h3>
+        <p id="kpi-attendance">–</p>
+      </div>
+      <div class="card">
+        <h3>Пропуснати контролни</h3>
+        <p id="kpi-missed">–</p>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts">
+      <div class="chart-container">
+        <h3>Успех през срока</h3>
+        <canvas id="gradesChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Присъствия</h3>
+        <canvas id="attChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Програма на учителя -->
+    <section class="schedule">
+      <h3>Седмична програма</h3>
+      <table id="scheduleTable">
+        <thead>
+          <tr>
+            <th>Ден</th><th>Час</th><th>Клас</th><th>Предмет</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <button id="export-pdf-btn" class="btn export">Експорт в PDF</button>
+  </main>
+
+  <button id="scrollTopBtn" aria-label="Върни се нагоре">▲</button>
+
+  <!-- глобален toggleMenu дефиниция -->
+  <script>
+    function toggleMenu(){
+      document.getElementById('sideMenu').classList.toggle('open');
+    }
+  </script>
+  <script src="../JS_STUDENT/scriptgrades.js"></script>
+  <script src="../JS_TEACHER/stats.js"></script>
+</body>
+</html>

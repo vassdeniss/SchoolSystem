@@ -1,0 +1,128 @@
+/* === parent/css/parent.css === */
+
+/* Общ контейнер */
+.parent-page {
+    margin-top: 60px;
+    padding: 20px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    gap: 30px;
+  }
+  
+  .section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .section h2 {
+    color: #00b8b8;
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  /* === Sidebar (от css1.css override) === */
+#sideMenu {
+    position: fixed;
+    top: 60px;
+    left: -250px;
+    width: 250px;
+    height: calc(100% - 60px);
+    background-color: #009999;
+    transition: left 0.3s ease;
+    padding-top: 20px;
+    z-index: 1000;
+  }
+  #sideMenu.open {
+    left: 0;
+  }
+  #sideMenu ul { list-style: none; padding: 0 20px; }
+  #sideMenu li { padding: 12px 0; }
+  #sideMenu li:hover { background: #007777; }
+  #sideMenu a { color: #fff; text-decoration: none; }
+  
+  /* === Hamburger === */
+  #menu-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    cursor: pointer;
+  }
+  #menu-btn .bar {
+    width: 30px; height: 4px;
+    background: #333;
+    margin: 6px 0;
+    transition: 0.3s;
+  }
+  
+  /* Таблица с оценки */
+  .parent-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .parent-table th,
+  .parent-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  .parent-table thead th {
+    background: #00b8b8;
+    color: #fff;
+  }
+  
+  /* Отсъствия */
+  .attendance ul {
+    list-style: none;
+    margin-top: 10px;
+  }
+  .attendance li {
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  
+  /* Акордеон за съобщения */
+  .accordion .acc-item {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 8px;
+  }
+  .accordion .acc-btn {
+    width: 100%;
+    text-align: left;
+    padding: 12px;
+    font-size: 16px;
+    background: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    position: relative;
+  }
+  .accordion .acc-btn::after {
+    content: '+';
+    position: absolute;
+    right: 20px;
+    transition: transform 0.3s;
+  }
+  .accordion .acc-btn.active::after {
+    transform: rotate(45deg);
+  }
+  .accordion .acc-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: #fff;
+    padding: 0 12px;
+  }
+  .accordion .acc-content p {
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  
+  /* Малки екрани */
+  @media (max-width: 600px) {
+    .parent-page { padding: 10px; }
+  }
+  

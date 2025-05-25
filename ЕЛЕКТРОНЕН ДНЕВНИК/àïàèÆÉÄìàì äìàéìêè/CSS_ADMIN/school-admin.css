@@ -1,0 +1,152 @@
+/* Navbar  */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  background-color: #00b8b8;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.navbar .navbar-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar-section.center {
+  justify-content: center;
+}
+
+.navbar .navbar-section.left {
+  justify-content: flex-start;
+}
+
+.navbar .navbar-section.right {
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.navbar .logo img {
+  height: 60px;
+}
+
+.navbar button {
+  background: #fff;
+  color: #00b8b8;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Hamburger */
+.menu-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+}
+
+.menu-btn .bar {
+  flex: 1;
+  background-color: #333;
+  margin: 2px 0;
+  border-radius: 2px;
+}
+
+/* Sidebar */
+.side-menu {
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #009999;
+  transition: left 0.3s ease;
+  padding-top: 20px;
+  z-index: 1000;
+}
+
+.side-menu.open {
+  left: 0;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu li {
+  padding: 12px 20px;
+}
+
+.side-menu li:hover {
+  background: #007777;
+}
+
+.side-menu a {
+  color: white;
+  text-decoration: none;
+}
+
+
+/* MAIN */
+.school-page {
+  margin-top: 80px;
+  /* за navbar */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.school-page h1 {
+  color: #00b8b8;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* FORM */
+#schoolForm .form-group {
+  margin-bottom: 15px;
+}
+
+#schoolForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+#schoolForm input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+#schoolForm input:disabled {
+  color: #555;
+  background: #eee;
+}
+
+/* При активен edit-mode */
+.editing #schoolForm input {
+  background: #fff;
+  border-color: #00b8b8;
+}

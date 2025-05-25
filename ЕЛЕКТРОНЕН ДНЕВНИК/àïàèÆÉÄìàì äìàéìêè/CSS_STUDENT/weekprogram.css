@@ -1,0 +1,208 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4fefe;
+}
+
+/* Hamburger */
+#menu-btn,
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+#menu-btn .bar,
+.menu-btn .bar {
+  width: 30px;
+  height: 4px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+/* Sidebar */
+#sideMenu,
+.side-menu {
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #009999;
+  transition: left 0.3s ease;
+  z-index: 1000;
+  padding-top: 20px;
+}
+
+#sideMenu.open,
+.side-menu.open {
+  left: 0;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0 20px;
+}
+
+.side-menu ul li {
+  padding: 12px 0;
+}
+
+.side-menu ul li:hover {
+  background-color: #007777;
+}
+
+.side-menu ul li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+
+/*MAIN */
+.program-page {
+  margin-top: 60px;
+  padding: 20px;
+}
+
+/* Header със седмица и контрол */
+.program-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.program-header h2 {
+  color: #00b8b8;
+  font-size: 24px;
+}
+
+.program-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.program-controls button,
+.program-controls select {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.program-controls button:hover,
+.program-controls select:hover {
+  background-color: #e0f7f7;
+}
+
+/* Grid за седмична програма */
+.program-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(5, 1fr);
+  gap: 1px;
+  background: #ddd;
+  margin-top: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.grid-header,
+.time-slot,
+.lesson {
+  padding: 10px;
+  background: #fff;
+  font-size: 14px;
+  text-align: center;
+}
+
+.grid-header {
+  background: #00b8b8;
+  color: #fff;
+  font-weight: bold;
+}
+
+.time-slot {
+  background: #f0f0f0;
+  font-weight: bold;
+}
+
+/* Цветови класове за предмети */
+.lesson.math {
+  background: #ffecb3;
+}
+
+.lesson.bg {
+  background: #c8e6c9;
+}
+
+.lesson.phy {
+  background: #bbdefb;
+}
+
+.lesson.his {
+  background: #f8bbd0;
+}
+
+.lesson.geo {
+  background: #d7ccc8;
+}
+
+/* Mobile: превключване към картов изглед */
+@media (max-width: 600px) {
+  .program-grid {
+    display: block;
+  }
+
+  .grid-header {
+    display: none;
+  }
+
+  .time-slot,
+  .lesson {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .time-slot {
+    background: #e0f7f7;
+  }
+}
+
+/* Print и Export бутони */
+.program-controls #print-btn,
+.program-controls #export-ical-btn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #00b8b8;
+  color: white;
+  cursor: pointer;
+}
+
+.program-controls #print-btn:hover,
+.program-controls #export-ical-btn:hover {
+  background: #009999;
+}
+
+/* Scroll-to-top бутон */
+/*#scrollTopBtn {
+    /* стилове наследени от css1.css */

@@ -1,0 +1,129 @@
+/* M */
+.absences-page {
+  margin-top: 60px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  gap: 30px;
+}
+
+.absences-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.absences-header h2 {
+  color: #00b8b8;
+}
+
+.absences-header select {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+#sideMenu {
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #009999;
+  transition: left 0.3s ease;
+  padding-top: 20px;
+  z-index: 1000;
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+#sideMenu ul {
+  list-style: none;
+  padding: 0 20px;
+}
+
+#sideMenu li {
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+#sideMenu li:hover {
+  background: #007777;
+}
+
+#sideMenu a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Hamburger */
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.menu-btn .bar {
+  width: 30px;
+  height: 4px;
+  background: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Таблица */
+.absences-table-wrap {
+  overflow-x: auto;
+}
+
+#abs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#abs-table th,
+#abs-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#abs-table thead th {
+  background: #00b8b8;
+  color: #fff;
+}
+
+/* Checkbox  */
+#abs-table td:nth-child(3) {
+  text-align: center;
+}
+
+/* Статистика (графика) */
+.absences-stats {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.absences-stats h2 {
+  margin-bottom: 15px;
+  color: #00b8b8;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .absences-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

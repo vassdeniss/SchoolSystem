@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Програма</title>
+  <link rel="stylesheet" href="../CSS_STUDENT/css1.css" />
+  <link rel="stylesheet" href="../CSS_STUDENT/weekprogram.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-section left">
+
+      <div id="menu-btn" class="menu-btn">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="navbar-section center">
+      <div class="logo">
+        <img src="../IMG/img logo 1.jpg" alt="Лого">
+      </div>
+    </div>
+    <div class="navbar-section right">
+      <div class="user-info">
+        <span>Добре дошли</span>
+        <button onclick="location.href='login.html'">Изход</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="main.html">Начало</a></li>
+      <li><a href="grades.html">Дневник</a></li>
+      <li><a href="school.html">Училище</a></li>
+      <li><a href="profile.html">Профил</a></li>
+      <li><a href="tests.html">Тестове</a></li>
+      <li><a href="weekprogram.html">Програма</a></li>
+      <li><a href="help.html">Помощ</a></li>
+      <li><a href="login.html">Изход</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="program-page">
+    <!-- Header със седмица и контрол -->
+    <section class="program-header">
+      <h2>Програма</h2>
+      <div class="program-controls">
+        <button id="prev-week">&larr;</button>
+        <span id="week-label">Седмица 19, 2025</span>
+        <button id="next-week">&rarr;</button>
+        <select id="view-select">
+          <option value="week">Седмичен</option>
+          <option value="day">Дневен</option>
+        </select>
+        <button id="print-btn">Печат</button>
+        <button id="export-ical-btn">Export iCal</button>
+      </div>
+    </section>
+
+    <!-- Седмична мрежа -->
+    <section class="program-grid week-view">
+      <!-- Header row: дни -->
+      <div class="grid-header time-slot"></div>
+      <div class="grid-header">Пон</div>
+      <div class="grid-header">Вто</div>
+      <div class="grid-header">Сря</div>
+      <div class="grid-header">Чет</div>
+      <div class="grid-header">Пет</div>
+
+      <!-- Примерни слотове -->
+      <div class="time-slot">08:00</div>
+      <div class="lesson math">Математика<br>101</div>
+      <div class="lesson bg">Български<br>201</div>
+      <div class="lesson phy">Физика<br>301</div>
+      <div class="lesson his">История<br>401</div>
+      <div class="lesson geo">География<br>501</div>
+      <!-- добавяне на още при нужда -->
+      <div class="time-slot">08:00</div>
+      <div class="lesson math">Математика<br>101</div>
+      <div class="lesson bg">Български<br>201</div>
+      <div class="lesson phy">Физика<br>301</div>
+      <div class="lesson his">История<br>401</div>
+      <div class="lesson geo">География<br>501</div>
+      <div class="time-slot">08:00</div>
+      <div class="lesson math">Математика<br>101</div>
+      <div class="lesson bg">Български<br>201</div>
+      <div class="lesson phy">Физика<br>301</div>
+      <div class="lesson his">История<br>401</div>
+      <div class="lesson geo">География<br>501</div>
+      <div class="time-slot">08:00</div>
+      <div class="lesson math">Математика<br>101</div>
+      <div class="lesson bg">Български<br>201</div>
+      <div class="lesson phy">Физика<br>301</div>
+      <div class="lesson his">История<br>401</div>
+      <div class="lesson geo">География<br>501</div>
+      <div class="time-slot">08:00</div>
+      <div class="lesson math">Математика<br>101</div>
+      <div class="lesson bg">Български<br>201</div>
+      <div class="lesson phy">Физика<br>301</div>
+      <div class="lesson his">История<br>401</div>
+      <div class="lesson geo">География<br>501</div>
+    </section>
+  </main>
+
+  <!-- Scroll-to-top -->
+  <button id="scrollTopBtn" aria-label="Върни се нагоре">▲</button>
+
+  <script src="../JS_STUDENT/weekprogramscript.js"></script>
+</body>
+
+</html>

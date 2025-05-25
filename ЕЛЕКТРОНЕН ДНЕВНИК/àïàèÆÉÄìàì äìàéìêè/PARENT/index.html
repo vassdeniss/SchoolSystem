@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link rel="icon" href="../IMG/school-solid.svg" type="image/x-icon">
+  <title>Родителски изглед</title>
+
+
+  <link rel="stylesheet" href="../CSS_STUDENT/css1.css" />
+
+
+  <link rel="stylesheet" href="../CSS_PARENT/parent.css" />
+</head>
+
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="navbar-section left">
+      <div id="menu-btn" class="menu-btn">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+    <div class="navbar-section center">
+      <div class="logo">
+        <img src="../IMG/img logo 1.jpg" alt="Лого" />
+      </div>
+    </div>
+    <div class="navbar-section right">
+      <div class="user-info">
+        <span>Добре дошли, Родител!</span>
+        <button onclick="location.href='../STUDENT/login.html'">Изход</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside id="sideMenu" class="side-menu">
+    <ul>
+      <li><a href="main2.html">Начало</a></li>
+      <li><a href="index.html">Дневник</a></li>
+      <li><a href="school2.html">Училище</a></li>
+      <li><a href="profile2.html">Профил</a></li>
+      <li><a href="help2.html">Помощ</a></li>
+      <li><a href="../STUDENT/login.html">Изход</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="parent-page">
+    <!-- Оценки -->
+    <section class="section grades">
+      <h2>Оценки на вашето дете</h2>
+      <table class="parent-table">
+        <thead>
+          <tr>
+            <th>Предмет</th>
+            <th>Дата</th>
+            <th>Оценка</th>
+          </tr>
+        </thead>
+        <tbody id="grades-body">
+          <!-- попълва се от parent.js -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Присъствия -->
+    <section class="section attendance">
+      <h2>Отсъствия</h2>
+      <p>Липсни дни този срок: <strong id="absences-count"></strong></p>
+      <ul id="absences-list">
+        <!-- попълва се от parent.js -->
+      </ul>
+    </section>
+
+    <!-- Съобщения -->
+    <section class="section messages">
+      <h2>Съобщения от учители</h2>
+      <div class="accordion" id="msg-accordion">
+        <!-- попълва се от parent.js -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Scroll-to-top -->
+  <button id="scrollTopBtn" aria-label="Върни се нагоре">▲</button>
+
+
+
+  <script src="../JS_PARENT/parent.js"></script>
+</body>
+
+</html>

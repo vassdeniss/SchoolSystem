@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f5f7;
+}
+
+/* Sidebar */
+#sideMenu {
+  position: fixed;
+  top: 60px;
+  left: -250px;
+  width: 250px;
+  height: calc(100% - 60px);
+  background-color: #009999;
+  transition: left 0.3s ease;
+  padding-top: 20px;
+  z-index: 1000;
+}
+
+#sideMenu.open {
+  left: 0;
+}
+
+#sideMenu ul {
+  list-style: none;
+  padding: 0 20px;
+}
+
+#sideMenu li {
+  padding: 12px 0;
+}
+
+#sideMenu li:hover {
+  background: #007777;
+}
+
+#sideMenu a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Hamburger */
+#menu-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  cursor: pointer;
+}
+
+#menu-btn .bar {
+  width: 30px;
+  height: 4px;
+  background: #333;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+/* MAIN */
+.tests-page {
+  margin-top: 60px;
+  padding: 20px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  gap: 40px;
+}
+
+/* Header filters */
+.tests-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tests-header select,
+.tests-header input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Tables */
+.upcoming-tests table,
+.archive-tests table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.upcoming-tests th,
+.upcoming-tests td,
+.archive-tests th,
+.archive-tests td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 14px;
+}
+
+.upcoming-tests th,
+.archive-tests th {
+  background: #00b8b8;
+  color: #fff;
+}
+
+/* Chart */
+.tests-chart {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+#gradesChart {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Scroll-to-top */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+  background-color: #00b8b8;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+#scrollTopBtn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#scrollTopBtn:hover {
+  background-color: #009999;
+}
