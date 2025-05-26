@@ -56,13 +56,6 @@ public class LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> l
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; init; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; init; }
     }
 
     public async Task OnGetAsync(string returnUrl = null)
@@ -88,7 +81,7 @@ public class LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> l
         {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            SignInResult result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+            SignInResult result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, false, lockoutOnFailure: false);
             if (result.Succeeded)
             {
                 logger.LogInformation("User logged in.");

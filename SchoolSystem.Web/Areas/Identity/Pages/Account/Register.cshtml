@@ -1,68 +1,73 @@
 ﻿@page
 @model RegisterModel
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Регистрация в електронен дневник";
+    Layout = null;
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="given-name" aria-required="true" placeholder="First Name" />
-                <label asp-for="Input.FirstName">First Name</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+<!DOCTYPE html>
+<html lang="bg">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="~/favicon.svg" type="image/x-icon" />
+        <title>Регистрация в електронен дневник</title>
+        <link rel="stylesheet" href="~/css/account.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    </head>
+    <body>
+    <div class="form-wrapper">
+        <img src="~/logo.jpg" alt="Лого на училище" class="logo" />
+        <form id="register-form" method="post" class="form-box active">
+            <h2>Регистрация</h2>
+            <div asp-validation-summary="All" style="color: red;" role="alert"></div>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input asp-for="Input.FirstName" autocomplete="given-name" aria-required="true" placeholder="Име" />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.MiddleName" class="form-control" autocomplete="additional-name" placeholder="Middle Name" />
-                <label asp-for="Input.MiddleName">Middle Name</label>
-                <span asp-validation-for="Input.MiddleName" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input asp-for="Input.MiddleName" autocomplete="additional-name" placeholder="Презиме" />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="family-name" aria-required="true" placeholder="Last Name" />
-                <label asp-for="Input.LastName">Last Name</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input asp-for="Input.LastName" autocomplete="family-name" aria-required="true" placeholder="Фамилия" />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.DateOfBirth" class="form-control" aria-required="true" type="date" />
-                <label asp-for="Input.DateOfBirth">Date of Birth</label>
-                <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-user-circle"></i>
+                <input asp-for="Input.DateOfBirth" aria-required="true" type="date" placeholder="Дата на раждане" />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="Имейл" />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input asp-for="Input.Password" placeholder="Парола" autocomplete="new-password" aria-required="true" />
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input asp-for="Input.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="Повтори парола"/>
             </div>
-            <div class="form-floating mb-3">
-                <select asp-for="Input.SelectedRole" class="form-control" aria-required="true">
-                    <option value="">Select Role</option>
+            <div class="input-group">
+                <i class="fas fa-user-tag"></i>
+                <select asp-for="Input.SelectedRole" aria-required="true">
+                    <option value="">Избери роля</option>
                     @foreach (SelectListItem? role in Model.RoleOptions)
                     {
                         <option value="@role.Value">@role.Text</option>
                     }
                 </select>
-                <label asp-for="Input.SelectedRole">Role</label>
-                <span asp-validation-for="Input.SelectedRole" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit">Регистрирай се</button>
+            <p>
+                Вече имате профил?
+                <a class="switch-form" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Вход</a>
+            </p>
         </form>
     </div>
-</div>
-
-@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
-}
+    </body>
+</html>

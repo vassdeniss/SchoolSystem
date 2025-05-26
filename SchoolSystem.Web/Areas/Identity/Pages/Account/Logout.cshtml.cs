@@ -5,10 +5,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SchoolSystem.Infrastructure.Models;
 
 namespace SchoolSystem.Web.Areas.Identity.Pages.Account;
 
-public class LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
+public class LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
     : PageModel
 {
     public async Task<IActionResult> OnPost(string returnUrl = null)
