@@ -31,6 +31,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPrincipalService, PrincipalService>();
 builder.Services.AddScoped<ISchoolService, SchoolService>();
 builder.Services.AddScoped<IClassService, ClassService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 
 WebApplication app = builder.Build();
 

@@ -15,6 +15,10 @@ public static class UserSeeder
                 new DateTime(1990, 1, 1), "Director"),
             (Guid.Parse("c7d81a30-6455-4a1f-8f47-923c1234abcd"), "janesmith@example.com", "janesmith", "Jane", "B.",
                 "Smith", new DateTime(1985, 5, 15), "Director"),
+            (Guid.Parse("97c18abd-5743-4173-8f66-cd43363e55d5"), "somestudent1@example.com", "somestudent1", "Some", "S.",
+                "Student1", new DateTime(2003, 5, 15), "Student"),
+            (Guid.Parse("bdcc8dcc-4d8e-4c97-a576-3aee878059c0"), "somestudent2@example.com", "somestudent2", "Mome", "B.",
+                "Student2", new DateTime(2003, 7, 4), "Student"),
         ];
 
         foreach ((Guid id, string email, string username, string firstName, string middleName, string lastName, DateTime dob, string role) in users)

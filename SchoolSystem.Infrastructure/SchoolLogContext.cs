@@ -29,6 +29,7 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.ApplyConfiguration(new PrincipalConfiguration());
         modelBuilder.ApplyConfiguration(new SchoolConfiguration());
         modelBuilder.ApplyConfiguration(new ClassConfiguration());
+        modelBuilder.ApplyConfiguration(new StudentConfiguration());
         
         // TEMP
         modelBuilder.Entity<Teacher>()

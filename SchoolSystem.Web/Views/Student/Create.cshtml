@@ -1,0 +1,25 @@
+﻿@model SchoolSystem.Web.Models.Student.StudentCreateViewModel
+
+@{
+    ViewData["Title"] = "Create New Student";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <input type="hidden" asp-for="ClassId" />
+            <input type="hidden" asp-for="SchoolId" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId"
+                        asp-items="Model.AvailableStudents"
+                        class="form-control">
+                    <option value="">Select User</option>
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Student</button>
+        </form>
+    </div>
+</div>

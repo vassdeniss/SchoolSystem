@@ -4,7 +4,7 @@ namespace SchoolSystem.Services.Dtos;
 
 public class ClassDto
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; init; }
     
     public string Name { get; init; } = null!;
 

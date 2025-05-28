@@ -16,6 +16,8 @@ public class SchoolLogTestDb
     public User User2 { get; set; }
     public User User3 { get; set; }
     public User User4 { get; set; }
+    public User User5 { get; set; }
+    public User User6 { get; set; }
 
     public Principal Principal1 { get; set; }
     public Principal Principal2 { get; set; }
@@ -26,6 +28,9 @@ public class SchoolLogTestDb
     
     public Class Class1 { get; set; }
     public Class Class2 { get; set; }
+    
+    public Student Student1 { get; set; }
+    public Student Student2 { get; set; }
 
     private void SeedDatabase(SchoolLogContext dbContext)
     {
@@ -40,73 +45,12 @@ public class SchoolLogTestDb
             normalizer, 
             null, null, null);
 
-        this.User1 = new User
-        {
-            Id = Guid.NewGuid(),
-            UserName = $"user1{DateTime.Now.Ticks.ToString().Substring(10)}",
-            NormalizedUserName = $"USER1{DateTime.Now.Ticks.ToString().Substring(10)}",
-            Email = "user1@mail.com",
-            NormalizedEmail = "USER1@MAIL.COM", 
-            FirstName = "User",
-            MiddleName = "G.",
-            LastName = "1",
-            DateOfBirth = DateTime.Today.AddYears(-20),
-            EmailConfirmed = true,
-        };
-
-        userManager.CreateAsync(this.User1, "user1Pass")
-            .Wait();
-
-        this.User2 = new User
-        {
-            Id = Guid.NewGuid(),
-            UserName = $"user2{DateTime.Now.Ticks.ToString().Substring(10)}",
-            NormalizedUserName = $"USER2{DateTime.Now.Ticks.ToString().Substring(10)}",
-            Email = "user2@mail.com",
-            NormalizedEmail = "USER2@MAIL.COM", 
-            FirstName = "User",
-            MiddleName = "G.",
-            LastName = "2",
-            DateOfBirth = DateTime.Today.AddYears(-30),
-            EmailConfirmed = true,
-        };
-
-        userManager.CreateAsync(this.User2, "user2Pass")
-            .Wait();
-        
-        this.User3 = new User
-        {
-            Id = Guid.NewGuid(),
-            UserName = $"user3{DateTime.Now.Ticks.ToString().Substring(10)}",
-            NormalizedUserName = $"USER3{DateTime.Now.Ticks.ToString().Substring(10)}",
-            Email = "user3@mail.com",
-            NormalizedEmail = "USER3@MAIL.COM", 
-            FirstName = "User",
-            MiddleName = "G.",
-            LastName = "3",
-            DateOfBirth = DateTime.Today.AddYears(-10),
-            EmailConfirmed = true,
-        };
-
-        userManager.CreateAsync(this.User3, "user3Pass")
-            .Wait();
-        
-        this.User4 = new User
-        {
-            Id = Guid.NewGuid(),
-            UserName = $"user4{DateTime.Now.Ticks.ToString().Substring(10)}",
-            NormalizedUserName = $"USER4{DateTime.Now.Ticks.ToString().Substring(10)}",
-            Email = "user4@mail.com",
-            NormalizedEmail = "USER4@MAIL.COM", 
-            FirstName = "User",
-            MiddleName = "G.",
-            LastName = "4",
-            DateOfBirth = DateTime.Today.AddYears(-10),
-            EmailConfirmed = true,
-        };
-
-        userManager.CreateAsync(this.User4, "user4Pass")
-            .Wait();
+        this.User1 = CreateUser(userManager, "user1");
+        this.User2 = CreateUser(userManager, "user2");
+        this.User3 = CreateUser(userManager, "user3");
+        this.User4 = CreateUser(userManager, "user4");
+        this.User5 = CreateUser(userManager, "user5");
+        this.User6 = CreateUser(userManager, "user6");
 
         this.Principal1 = new Principal
         {
@@ -178,8 +122,52 @@ public class SchoolLogTestDb
             SchoolId = this.School1.Id,
         };
 
-        dbContext.Add(Class2);
+        dbContext.Add(this.Class2);
+        
+        this.Student1 = new Student
+        {
+            Id = Guid.NewGuid(),
+            UserId = this.User5.Id,
+            ClassId = this.Class1.Id
+        };
+
+        dbContext.Add(this.Student1);
+        
+        this.Student2 = new Student
+        {
+            Id = Guid.NewGuid(),
+            UserId = this.User6.Id,
+            ClassId = this.Class1.Id
+        };
+
+        dbContext.Add(this.Student2);
         
         dbContext.SaveChanges();
+    }
+    
+    private User CreateUser(UserManager<User> userManager, string prefix)
+    {
+        string ticks = DateTime.Now.Ticks.ToString().Substring(10);
+        string userName = $"{prefix}{ticks}";
+        string normalizedUserName = userName.ToUpper();
+        string email = $"{prefix}@mail.com";
+        string normalizedEmail = email.ToUpper();
+
+        User user = new()
+        {
+            Id = Guid.NewGuid(),
+            UserName = userName,
+            NormalizedUserName = normalizedUserName,
+            Email = email,
+            NormalizedEmail = normalizedEmail,
+            FirstName = "User",
+            MiddleName = "G.",
+            LastName = prefix.Replace("user", ""), // Extract numeric suffix or use entire prefix
+            DateOfBirth = DateTime.Today.AddYears(-10),
+            EmailConfirmed = true,
+        };
+
+        userManager.CreateAsync(user, $"{prefix}Pass").Wait();
+        return user;
     }
 }

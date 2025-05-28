@@ -1,0 +1,40 @@
+﻿@model SchoolSystem.Web.Models.Student.StudentMoveViewModel
+
+@{
+    ViewData["Title"] = "Move Student";
+}
+
+<div class="container">
+    <h2>Move Student</h2>
+    <h4>Student: @Model.StudentName</h4>
+    
+    <form asp-action="Move" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input type="hidden" asp-for="StudentName"/>
+        <input type="hidden" asp-for="Id"/>
+        <input type="hidden" asp-for="SchoolId"/>
+        <input type="hidden" asp-for="CurrentClassId"/>
+
+        <div class="form-group">
+            <label asp-for="ClassId">Select New Class</label>
+            <select asp-for="ClassId" asp-items="Model.AvailableClasses"
+                    class="form-control" required>
+                <option value="">-- Select Class --</option>
+            </select>
+            <span asp-validation-for="ClassId" class="text-danger"></span>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Move Student</button>
+            <a asp-action="Students" asp-controller="Class"
+               asp-route-id="@Model.CurrentClassId" asp-route-schoolId="@Model.SchoolId" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

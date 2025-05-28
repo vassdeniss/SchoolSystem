@@ -38,7 +38,7 @@ public class SchoolController(ISchoolService schoolService,
 
         SchoolDetailsViewModel viewModel = new()
         {
-            Id = school.Id,
+            Id = id,
             SchoolName = school.Name,
             PrincipalName = $"{school.Principal.User.FirstName} {school.Principal.User.MiddleName} {school.Principal.User.LastName}",
             Classes = classes.Select(c => new ClassViewModel 

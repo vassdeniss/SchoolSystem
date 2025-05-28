@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolSystem.Services.Contracts;
 using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models.Class;
+using SchoolSystem.Web.Models.Student;
 
 namespace SchoolSystem.Web.Controllers;
 
 [Authorize(Roles = "Administrator")]
-public class ClassController(IClassService classService, IMapper mapper) : Controller
+public class ClassController(IClassService classService, IStudentService studentService, IMapper mapper) : Controller
 {
     [HttpGet]
     public IActionResult Create(Guid schoolId)
@@ -79,5 +80,28 @@ public class ClassController(IClassService classService, IMapper mapper) : Contr
     {
         await classService.DeleteClassAsync(id);
         return this.RedirectToAction("Details", "School", new { id = schoolId });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Students(Guid id, Guid schoolId)
+    {
+        ClassDto? classInfo = await classService.GetClassByIdAsync(id);
+        if (classInfo == null)
+        {
+            return this.NotFound();
+        }
+        
+        IEnumerable<StudentDto> students = await studentService.GetStudentsByClassAsync(id);
+        StudentListViewModel viewModel = new()
+        {
+            Id = id,
+            SchoolId = schoolId,
+            ClassName = classInfo.Name,
+            Year = classInfo.Year,
+            Term = classInfo.Term,
+            Students = mapper.Map<IEnumerable<StudentViewModel>>(students)
+        };
+        
+        return this.View(viewModel);
     }
 }
