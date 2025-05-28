@@ -44,7 +44,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  transition: background .2s;
+  transition: background 0.2s;
 }
 
 .btn:hover {
@@ -82,7 +82,7 @@
   height: calc(100%-60px);
   background: #009999;
   padding: 20px;
-  transition: left .3s ease;
+  transition: left 0.3s ease;
   z-index: 1000;
 }
 
@@ -105,7 +105,7 @@
   padding: 6px 8px;
   display: block;
   border-radius: 4px;
-  transition: background .2s;
+  transition: background 0.2s;
 }
 
 .side-menu ul li a:hover,
