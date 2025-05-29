@@ -7,6 +7,7 @@ using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
+using SchoolSystem.Web.Models.Subject;
 using SchoolSystem.Web.Models.User;
 
 namespace SchoolSystem.Web.Controllers;
@@ -15,6 +16,7 @@ namespace SchoolSystem.Web.Controllers;
 public class SchoolController(ISchoolService schoolService, 
     IPrincipalService principalService, 
     IClassService classService,
+    ISubjectService subjectService,
     IMapper mapper) : Controller
 {
     [HttpGet]
@@ -35,6 +37,7 @@ public class SchoolController(ISchoolService schoolService,
         }
         
         IEnumerable<ClassDto> classes = await classService.GetClassesBySchoolIdAsync(id);
+        IEnumerable<SubjectDto> subjects = await subjectService.GetSubjectsBySchoolIdAsync(id);
 
         SchoolDetailsViewModel viewModel = new()
         {
@@ -47,6 +50,11 @@ public class SchoolController(ISchoolService schoolService,
                 Name = c.Name,
                 Year = c.Year,
                 Term = c.Term
+            }).ToList(),
+            Subjects = subjects.Select(c => new SubjectViewModel 
+            {
+                Id = c.Id,
+                Name = c.Name
             }).ToList()
         };
 

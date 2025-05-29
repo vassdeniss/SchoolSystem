@@ -5,6 +5,7 @@ using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
 using SchoolSystem.Web.Models.Student;
+using SchoolSystem.Web.Models.Subject;
 using SchoolSystem.Web.Models.User;
 
 namespace SchoolSystem.Web;
@@ -56,5 +57,10 @@ public class MapperProfiles : Profile
         this.CreateMap<StudentCreateViewModel, StudentDto>();
         this.CreateMap<StudentDto, StudentMoveViewModel>();
         this.CreateMap<StudentMoveViewModel, StudentDto>();
+        
+        this.CreateMap<SubjectDto, SubjectViewModel>();
+        this.CreateMap<SubjectCreateViewModel, SubjectDto>();
+        this.CreateMap<SubjectDto, SubjectEditViewModel>();
+        this.CreateMap<SubjectEditViewModel, SubjectDto>();
     }    
 }

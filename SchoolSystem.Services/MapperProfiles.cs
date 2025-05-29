@@ -23,5 +23,8 @@ public class MapperProfiles : Profile
         
         this.CreateMap<Student, StudentDto>();
         this.CreateMap<StudentDto, Student>();
+        
+        this.CreateMap<Subject, SubjectDto>();
+        this.CreateMap<SubjectDto, Subject>();
     }    
 }

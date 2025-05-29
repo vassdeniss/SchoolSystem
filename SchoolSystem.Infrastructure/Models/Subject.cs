@@ -9,9 +9,10 @@ public class Subject
 
     [Required]
     [MaxLength(100)]
-    public string Name { get; init; } = null!;
-
-    public Guid DepartmentId { get; init; }
-    public Department Department { get; init; } = null!;
+    public string Name { get; set; } = null!;
+    
+    [Required]
+    public Guid SchoolId { get; set; }
+    
+    public School School { get; init; } = null!;
 }
-

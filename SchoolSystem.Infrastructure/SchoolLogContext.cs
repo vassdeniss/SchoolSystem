@@ -11,7 +11,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
 {
     public DbSet<School> Schools { get; init; }
     public DbSet<Principal> Principals { get; init; }
-    public DbSet<Department> Departments { get; init; }
     public DbSet<Subject> Subjects { get; init; }
     public DbSet<Teacher> Teachers { get; init; }
     public DbSet<TeacherSubject> TeacherSubjects { get; init; }
@@ -30,6 +29,7 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.ApplyConfiguration(new SchoolConfiguration());
         modelBuilder.ApplyConfiguration(new ClassConfiguration());
         modelBuilder.ApplyConfiguration(new StudentConfiguration());
+        modelBuilder.ApplyConfiguration(new SubjectConfiguration());
         
         // TEMP
         modelBuilder.Entity<Teacher>()

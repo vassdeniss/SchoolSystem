@@ -22,20 +22,6 @@ public class ClassServiceTests : UnitTestBase
     }
 
     [Test]
-    public async Task GetClassesAsync_ShouldReturnAllClasses()
-    {
-        // Arrange
-        
-        // Act
-        IEnumerable<ClassDto> result = await this._classService.GetClassesAsync();
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.Count(), Is.EqualTo(2));
-        Assert.That(result.First().Name, Is.EqualTo(this.testDb.Class1.Name));
-    }
-
-    [Test]
     public async Task GetClassesBySchoolIdAsync_ShouldReturnClassesForGivenSchool()
     {
         // Arrange

@@ -60,6 +60,10 @@ public class SchoolService(IRepository repository, ILogger<SchoolService> logger
 
     public async Task DeleteSchoolAsync(Guid id)
     {
+        IQueryable<Subject> subjects = repository.All<Subject>()
+            .Where(s => s.SchoolId == id);
+        repository.DeleteRange(subjects);
+        
         await repository.DeleteAsync<School>(id);
         await repository.SaveChangesAsync();
     }

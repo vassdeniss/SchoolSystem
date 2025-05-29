@@ -11,13 +11,6 @@ namespace SchoolSystem.Services;
 
 public class ClassService(IRepository repository, ILogger<SchoolService> logger, IMapper mapper) : IClassService
 {
-    public async Task<IEnumerable<ClassDto>> GetClassesAsync()
-    {
-        return await repository.AllReadonly<Class>()
-            .ProjectTo<ClassDto>(mapper.ConfigurationProvider)
-            .ToListAsync();
-    }
-
     public async Task<IEnumerable<ClassDto>> GetClassesBySchoolIdAsync(Guid id)
     {
         return await repository.AllReadonly<Class>()
