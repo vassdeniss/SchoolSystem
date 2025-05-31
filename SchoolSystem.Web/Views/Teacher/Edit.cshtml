@@ -1,0 +1,16 @@
+﻿@model SchoolSystem.Web.Models.Teacher.TeacherEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Teacher";
+}
+
+<form asp-action="Edit">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="SchoolId" />
+    <div class="form-group mb-3">
+        <label asp-for="Specialization" class="control-label"></label>
+        <input asp-for="Specialization" class="form-control" />
+        <span asp-validation-for="Specialization" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-warning">Edit</button>
+</form>

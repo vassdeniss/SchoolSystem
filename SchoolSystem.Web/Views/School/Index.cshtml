@@ -24,8 +24,8 @@
             <td>@school.Address</td>
             <td>@(string.IsNullOrEmpty(school.PrincipalName) ? "Not assigned" : school.PrincipalName)</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@school.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@school.Id">View</a> |
+                <a asp-action="Edit" asp-route-id="@school.Id">Edit</a> |
                 <a asp-action="Delete" asp-route-id="@school.Id">Delete</a>
             </td>
         </tr>

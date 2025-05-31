@@ -4,20 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolSystem.Services.Contracts;
 using SchoolSystem.Services.Dtos;
-using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
-using SchoolSystem.Web.Models.Subject;
-using SchoolSystem.Web.Models.User;
 
 namespace SchoolSystem.Web.Controllers;
 
 [Authorize(Roles = "Administrator")]
 public class SchoolController(ISchoolService schoolService, 
-    IPrincipalService principalService, 
-    IClassService classService,
-    ISubjectService subjectService,
-    IMapper mapper) : Controller
+    IPrincipalService principalService, IMapper mapper) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index()
@@ -36,27 +30,7 @@ public class SchoolController(ISchoolService schoolService,
             return this.NotFound();
         }
         
-        IEnumerable<ClassDto> classes = await classService.GetClassesBySchoolIdAsync(id);
-        IEnumerable<SubjectDto> subjects = await subjectService.GetSubjectsBySchoolIdAsync(id);
-
-        SchoolDetailsViewModel viewModel = new()
-        {
-            Id = id,
-            SchoolName = school.Name,
-            PrincipalName = $"{school.Principal.User.FirstName} {school.Principal.User.MiddleName} {school.Principal.User.LastName}",
-            Classes = classes.Select(c => new ClassViewModel 
-            {
-                Id = c.Id,
-                Name = c.Name,
-                Year = c.Year,
-                Term = c.Term
-            }).ToList(),
-            Subjects = subjects.Select(c => new SubjectViewModel 
-            {
-                Id = c.Id,
-                Name = c.Name
-            }).ToList()
-        };
+        SchoolDetailsViewModel viewModel = mapper.Map<SchoolDetailsViewModel>(school);
 
         return this.View(viewModel);
     }

@@ -15,4 +15,8 @@ public class School
     
     public Guid PrincipalId { get; set; }
     public Principal Principal { get; init; } = null!;
+    
+    public virtual ICollection<Teacher> Teachers { get; set; } = new HashSet<Teacher>();
+    public virtual ICollection<Class> Classes { get; set; } = new HashSet<Class>();
+    public virtual ICollection<Subject> Subjects { get; set; } = new HashSet<Subject>();
 }

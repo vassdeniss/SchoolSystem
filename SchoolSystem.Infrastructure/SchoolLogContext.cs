@@ -30,13 +30,7 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.ApplyConfiguration(new ClassConfiguration());
         modelBuilder.ApplyConfiguration(new StudentConfiguration());
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
-        
-        // TEMP
-        modelBuilder.Entity<Teacher>()
-            .HasOne(t => t.School)
-            .WithMany()
-            .HasForeignKey(t => t.SchoolId)
-            .OnDelete(DeleteBehavior.NoAction);
+        modelBuilder.ApplyConfiguration(new TeacherConfiguration());        
         
         modelBuilder.Entity<Principal>()
             .HasOne(p => p.School)
@@ -64,6 +58,11 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.Entity<SubjectCurriculum>()
             .HasKey(sc => new { sc.SubjectId, sc.CurriculumId });
 
+        modelBuilder.Entity("SchoolTeacher").HasData(
+            new { SchoolsId = Guid.Parse("b0cf0f90-50a5-4e86-9a29-fdf3928af26b"), TeachersId = Guid.Parse("8f374d37-5a0c-4637-ba8e-2b4d2ceef15f") },
+            new { SchoolsId = Guid.Parse("b0cf0f90-50a5-4e86-9a29-fdf3928af26b"), TeachersId = Guid.Parse("2a3d47b0-28d1-48f9-bd9a-504a9f2a1cbd") }
+        );
+        
         base.OnModelCreating(modelBuilder);
     }
 }

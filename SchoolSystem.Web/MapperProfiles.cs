@@ -6,6 +6,7 @@ using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
 using SchoolSystem.Web.Models.Student;
 using SchoolSystem.Web.Models.Subject;
+using SchoolSystem.Web.Models.Teacher;
 using SchoolSystem.Web.Models.User;
 
 namespace SchoolSystem.Web;
@@ -41,6 +42,10 @@ public class MapperProfiles : Profile
         this.CreateMap<SchoolCreateViewModel, SchoolDto>();
         this.CreateMap<SchoolDto, SchoolEditViewModel>();
         this.CreateMap<SchoolEditViewModel, SchoolDto>();
+        this.CreateMap<SchoolDto, SchoolDetailsViewModel>()
+            .ForMember(dest => dest.PrincipalName,
+                opt => opt.MapFrom(src =>
+                    $"{src.Principal.User.FirstName} {src.Principal.User.MiddleName} {src.Principal.User.LastName}"));
 
         this.CreateMap<ClassDto, ClassViewModel>();
         this.CreateMap<ClassCreateViewModel, ClassDto>();
@@ -62,5 +67,13 @@ public class MapperProfiles : Profile
         this.CreateMap<SubjectCreateViewModel, SubjectDto>();
         this.CreateMap<SubjectDto, SubjectEditViewModel>();
         this.CreateMap<SubjectEditViewModel, SubjectDto>();
+        
+        this.CreateMap<TeacherDto, TeacherViewModel>()
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src =>
+                    $"{src.User.FirstName} {src.User.MiddleName} {src.User.LastName}"));
+        this.CreateMap<TeacherCreateViewModel, TeacherDto>();
+        this.CreateMap<TeacherDto, TeacherEditViewModel>();
+        this.CreateMap<TeacherEditViewModel, TeacherDto>();
     }    
 }

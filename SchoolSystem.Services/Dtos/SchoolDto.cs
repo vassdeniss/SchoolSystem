@@ -13,4 +13,10 @@ public class SchoolDto
     public Guid PrincipalId { get; init; }
 
     public Principal Principal { get; init; } = null!;
+    
+    public ICollection<TeacherDto> Teachers { get; set; } = new HashSet<TeacherDto>();
+    
+    public ICollection<ClassDto> Classes { get; set; } = new HashSet<ClassDto>();
+    
+    public ICollection<SubjectDto> Subjects { get; set; } = new HashSet<SubjectDto>();
 }

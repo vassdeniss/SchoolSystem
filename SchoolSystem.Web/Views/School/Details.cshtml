@@ -1,13 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using SchoolSystem.Web.Models.Class
 @using SchoolSystem.Web.Models.Subject
+@using SchoolSystem.Web.Models.Teacher
 @model SchoolSystem.Web.Models.School.SchoolDetailsViewModel
 
 @{
     ViewData["Title"] = "School Details";
 }
 
-<h2>@Model.SchoolName</h2>
+<h2>@Model.Name</h2>
 <h4>Principal: @Model.PrincipalName</h4>
 
 <h3>Classes</h3>
@@ -74,5 +75,37 @@ else
 <p>No subjects found for this school.</p>
 }
 <a asp-action="Create" asp-controller="Subject" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Create Subject</a>
+
+<h3>Teachers</h3>
+@if (Model.Teachers.Any())
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Specialization</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (TeacherViewModel teacher in Model.Teachers)
+    {
+    <tr>
+        <td>@teacher.FullName</td>
+        <td>@teacher.Specialization</td>
+        <td>
+            <a asp-action="Edit" asp-controller="Teacher" asp-route-id="@teacher.Id" asp-route-schoolId="@Model.Id">Edit</a> |
+            <a asp-action="Delete" asp-controller="Teacher" asp-route-id="@teacher.Id" asp-route-schoolId="@Model.Id">Delete</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+}
+else
+{
+<p>No teachers found for this school.</p>
+}
+<a asp-action="Create" asp-controller="Teacher" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Add Teacher</a>
 <br />
 <a asp-action="Index" class="btn btn-secondary">Back to List</a>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolSystem.Infrastructure;
 
@@ -11,9 +12,11 @@ using SchoolSystem.Infrastructure;
 namespace SchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(SchoolLogContext))]
-    partial class SchoolLogContextModelSnapshot : ModelSnapshot
+    [Migration("20250530163051_SchoolTeacherTable")]
+    partial class SchoolTeacherTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -456,14 +459,9 @@ namespace SchoolSystem.Infrastructure.Migrations
                     b.Property<Guid>("SchoolId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SchoolId");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Subjects");
 
@@ -877,10 +875,6 @@ namespace SchoolSystem.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SchoolSystem.Infrastructure.Models.Teacher", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("TeacherId");
-
                     b.Navigation("School");
                 });
 
@@ -957,11 +951,6 @@ namespace SchoolSystem.Infrastructure.Migrations
                 {
                     b.Navigation("Classes");
 
-                    b.Navigation("Subjects");
-                });
-
-            modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Teacher", b =>
-                {
                     b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618

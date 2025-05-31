@@ -9,12 +9,11 @@ public class Teacher
 
     [Required]
     [MaxLength(50)]
-    public string Specialization { get; init; } = null!;
-
-    public Guid SchoolId { get; init; }
-    public School School { get; init; } = null!;
+    public string Specialization { get; set; } = null!;
 
     public Guid UserId { get; init; }
     public User User { get; init; } = null!;
+    
+    public virtual ICollection<School> Schools { get; set; } = new HashSet<School>();
+    public virtual ICollection<Subject> Subjects { get; set; } = new HashSet<Subject>();
 }
-

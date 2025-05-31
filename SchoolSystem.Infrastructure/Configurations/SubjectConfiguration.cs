@@ -11,7 +11,7 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
     public void Configure(EntityTypeBuilder<Subject> builder)
     {
         builder.HasOne(s => s.School)
-            .WithMany()
+            .WithMany(sch => sch.Subjects)
             .HasForeignKey(s => s.SchoolId)
             .OnDelete(DeleteBehavior.Restrict);
         
