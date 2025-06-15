@@ -17,7 +17,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     public DbSet<Parent> Parents { get; init; }
     public DbSet<Class> Classes { get; init; }
     public DbSet<Student> Students { get; init; }
-    public DbSet<ParentStudent> ParentStudents { get; init; }
     public DbSet<Grade> Grades { get; init; }
     public DbSet<Attendance> Attendances { get; init; }
     public DbSet<Curriculum> Curriculums { get; init; }
@@ -30,7 +29,8 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.ApplyConfiguration(new ClassConfiguration());
         modelBuilder.ApplyConfiguration(new StudentConfiguration());
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
-        modelBuilder.ApplyConfiguration(new TeacherConfiguration());        
+        modelBuilder.ApplyConfiguration(new TeacherConfiguration());
+        modelBuilder.ApplyConfiguration(new ParentConfiguration());
         
         modelBuilder.Entity<Principal>()
             .HasOne(p => p.School)
@@ -40,21 +40,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.Entity<TeacherSubject>()
             .HasKey(ts => new { ts.TeacherId, ts.SubjectId });
 
-        modelBuilder.Entity<ParentStudent>()
-            .HasKey(ps => new { ps.ParentId, ps.StudentId });
-        
-        modelBuilder.Entity<ParentStudent>()
-            .HasOne(ps => ps.Parent)
-            .WithMany()
-            .HasForeignKey(ps => ps.ParentId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        modelBuilder.Entity<ParentStudent>()
-            .HasOne(ps => ps.Student)
-            .WithMany()
-            .HasForeignKey(ps => ps.StudentId)
-            .OnDelete(DeleteBehavior.Restrict);
-        
         modelBuilder.Entity<SubjectCurriculum>()
             .HasKey(sc => new { sc.SubjectId, sc.CurriculumId });
 
@@ -62,6 +47,21 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
             new { SchoolsId = Guid.Parse("b0cf0f90-50a5-4e86-9a29-fdf3928af26b"), TeachersId = Guid.Parse("8f374d37-5a0c-4637-ba8e-2b4d2ceef15f") },
             new { SchoolsId = Guid.Parse("b0cf0f90-50a5-4e86-9a29-fdf3928af26b"), TeachersId = Guid.Parse("2a3d47b0-28d1-48f9-bd9a-504a9f2a1cbd") }
         );
+        
+        modelBuilder.Entity("ParentStudent").HasData(
+            new { ParentsId = Guid.Parse("8b5f7c12-0a97-4e45-9b34-123456789abc"), StudentsId = Guid.Parse("10101010-1010-1010-1010-101010101010") },
+            new { ParentsId = Guid.Parse("8b5f7c12-0a97-4e45-9b34-123456789abc"), StudentsId = Guid.Parse("20202020-2020-2020-2020-202020202020") }
+        );
+
+        modelBuilder.Entity<Grade>()
+            .HasOne(g => g.Student)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        modelBuilder.Entity<Attendance>()
+            .HasOne(a => a.Student)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
         
         base.OnModelCreating(modelBuilder);
     }

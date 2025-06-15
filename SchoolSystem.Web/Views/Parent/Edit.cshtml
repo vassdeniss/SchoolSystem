@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SchoolSystem.Web.Models.Parent.ParentEditViewModel
+
+@{
+    ViewData["Title"] = "Родители - Промяна";
+}
+
+<section id="addFormSection" class="form-section">
+    <h2>Редактирай родител</h2>
+    <form asp-action="Edit">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+        <button type="submit" class="btn">Запази</button>
+    </form>
+</section>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/parent-form.css" />
+}

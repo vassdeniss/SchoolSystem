@@ -8,6 +8,10 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
+        builder.HasOne(s => s.Class)
+            .WithMany()
+            .OnDelete(DeleteBehavior.SetNull);
+        
         builder.HasData(new List<Student>
         {
             new()

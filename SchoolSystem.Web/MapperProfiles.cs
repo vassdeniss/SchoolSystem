@@ -2,6 +2,7 @@
 using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models;
 using SchoolSystem.Web.Models.Class;
+using SchoolSystem.Web.Models.Parent;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
 using SchoolSystem.Web.Models.Student;
@@ -29,10 +30,7 @@ public class MapperProfiles : Profile
             .ForMember(dest => dest.SchoolName, 
                 opt => opt.MapFrom(src => src.School!.Name));
         this.CreateMap<PrincipalCreateViewModel, PrincipalDto>();
-        this.CreateMap<PrincipalDto, PrincipalEditViewModel>()
-            .ForMember(dest => dest.FullName,
-                opt => opt.MapFrom(src
-                    => $"{src.User.FirstName} {src.User.MiddleName} {src.User.LastName}"));
+        this.CreateMap<PrincipalDto, PrincipalEditViewModel>();
         this.CreateMap<PrincipalEditViewModel, PrincipalDto>();
         
         this.CreateMap<SchoolDto, SchoolViewModel>()
@@ -58,7 +56,10 @@ public class MapperProfiles : Profile
                     $"{src.User.FirstName} {src.User.MiddleName} {src.User.LastName}"))
             .ForMember(dest => dest.Dob,
                 opt => opt.MapFrom(src =>
-                    src.User.DateOfBirth));
+                    src.User.DateOfBirth))
+            .ForMember(dest => dest.ClassName,
+                opt => opt.MapFrom(src =>
+                    src.Class.Name));
         this.CreateMap<StudentCreateViewModel, StudentDto>();
         this.CreateMap<StudentDto, StudentMoveViewModel>();
         this.CreateMap<StudentMoveViewModel, StudentDto>();
@@ -75,5 +76,13 @@ public class MapperProfiles : Profile
         this.CreateMap<TeacherCreateViewModel, TeacherDto>();
         this.CreateMap<TeacherDto, TeacherEditViewModel>();
         this.CreateMap<TeacherEditViewModel, TeacherDto>();
+        
+        this.CreateMap<ParentDto, ParentViewModel>()
+            .ForMember(dest => dest.FullName, 
+                opt => opt.MapFrom(src 
+                    => $"{src.User.FirstName} {src.User.MiddleName} {src.User.LastName}"));
+        this.CreateMap<ParentCreateViewModel, ParentDto>();
+        this.CreateMap<ParentDto, ParentEditViewModel>();
+        this.CreateMap<ParentEditViewModel, ParentDto>();
     }    
 }

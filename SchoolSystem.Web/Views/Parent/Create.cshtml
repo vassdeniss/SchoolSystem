@@ -1,26 +1,21 @@
-﻿@model PrincipalCreateViewModel
+﻿@model SchoolSystem.Web.Models.Parent.ParentCreateViewModel
 
 @{
-    ViewData["Title"] = "Директори - Създаване";
+    ViewData["Title"] = "Родители - Създаване";
 }
 
 <main class="page">
     <form asp-action="Create" class="card">
-        <h2>Нов директор</h2>
+        <h2>Нов родител</h2>
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="UserId" class="control-label"></label>
             <select asp-for="UserId"
-                    asp-items="Model.AvailablePrincipals"
+                    asp-items="Model.AvailableParents"
                     class="form-control">
                 <option value="">Избери потребител</option>
             </select>
             <span asp-validation-for="UserId" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Specialization" class="control-label"></label>
-            <input asp-for="Specialization" class="form-control" />
-            <span asp-validation-for="Specialization" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="PhoneNumber" class="control-label"></label>

@@ -10,6 +10,8 @@ public class Student
     public Guid UserId { get; init; }
     public User User { get; init; } = null!;
 
-    public Guid ClassId { get; set; }
-    public Class Class { get; init; } = null!;
+    public Guid? ClassId { get; set; }
+    public Class? Class { get; init; }
+    
+    public virtual ICollection<Parent> Parents { get; init; } = new HashSet<Parent>();
 }

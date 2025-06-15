@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolSystem.Infrastructure;
 
@@ -11,9 +12,11 @@ using SchoolSystem.Infrastructure;
 namespace SchoolSystem.Infrastructure.Migrations
 {
     [DbContext(typeof(SchoolLogContext))]
-    partial class SchoolLogContextModelSnapshot : ModelSnapshot
+    [Migration("20250607142942_ChangedRelationships")]
+    partial class ChangedRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,33 +154,6 @@ namespace SchoolSystem.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("ParentStudent", b =>
-                {
-                    b.Property<Guid>("ParentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("StudentsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ParentsId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("ParentStudent");
-
-                    b.HasData(
-                        new
-                        {
-                            ParentsId = new Guid("8b5f7c12-0a97-4e45-9b34-123456789abc"),
-                            StudentsId = new Guid("10101010-1010-1010-1010-101010101010")
-                        },
-                        new
-                        {
-                            ParentsId = new Guid("8b5f7c12-0a97-4e45-9b34-123456789abc"),
-                            StudentsId = new Guid("20202020-2020-2020-2020-202020202020")
-                        });
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Attendance", b =>
@@ -344,20 +320,6 @@ namespace SchoolSystem.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Parents");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("8b5f7c12-0a97-4e45-9b34-123456789abc"),
-                            PhoneNumber = "0888123456",
-                            UserId = new Guid("3905cc60-cff6-4b59-b365-03d1749d9c7b")
-                        },
-                        new
-                        {
-                            Id = new Guid("9c6f8d23-1b07-4f56-ab45-23456789abcd"),
-                            PhoneNumber = "0888234567",
-                            UserId = new Guid("35ea475e-72e3-4786-8c66-c2586503171b")
-                        });
                 });
 
             modelBuilder.Entity("SchoolSystem.Infrastructure.Models.Principal", b =>
@@ -750,21 +712,6 @@ namespace SchoolSystem.Infrastructure.Migrations
                     b.HasOne("SchoolSystem.Infrastructure.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ParentStudent", b =>
-                {
-                    b.HasOne("SchoolSystem.Infrastructure.Models.Parent", null)
-                        .WithMany()
-                        .HasForeignKey("ParentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolSystem.Infrastructure.Models.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

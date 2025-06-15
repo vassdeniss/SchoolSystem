@@ -1,0 +1,25 @@
+.form-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section h2 {
+    margin-bottom: 15px;
+    color: #00b8b8;
+}
+
+.form-section form {
+    display: grid;
+    gap: 10px;
+}
+
+.form-section input,
+.form-section select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

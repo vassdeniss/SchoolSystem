@@ -1,0 +1,27 @@
+﻿@model SchoolSystem.Web.Models.Parent.AddStudentToParentViewModel
+
+@{
+    ViewData["Title"] = "Добави ученик към родител";
+}
+
+<main class="page">
+    <form asp-action="AddStudent" method="post" class="card">
+        <input type="hidden" asp-for="ParentId" />
+        <h2>Добави ученик към родител</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label>Избери ученик</label>
+            <select asp-for="SelectedStudentId" asp-items="Model.AvailableStudents" class="form-control">
+                <option value="">-- Избери ученик --</option>
+            </select>
+            <span asp-validation-for="SelectedStudentId" class="text-danger"></span>
+        </div>
+        <button type="submit" id="add-btn" class="btn full mb-3">Добави</button>
+        <a asp-action="Index" class="btn full">Назад</a>
+    </form>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" />
+}

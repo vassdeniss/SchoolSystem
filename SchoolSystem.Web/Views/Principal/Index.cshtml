@@ -1,43 +1,10 @@
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model IEnumerable<PrincipalViewModel>
 
 @{
-    ViewData["Title"] = "Директори- Администратор";
+    ViewData["Title"] = "Директори - Администратор";
 }
 
 <main class="page">
-    @* <section class="card"> *@
-    @*     <h2>Нов директор</h2> *@
-    @*     <div class="form-group"> *@
-    @*         <label for="inp-name">Име</label> *@
-    @*         <input type="text" id="inp-name" placeholder="Име на директора"> *@
-    @*     </div> *@
-    @*     <div class="form-group"> *@
-    @*         <label for="inp-from">От дата</label> *@
-    @*         <input type="date" id="inp-from"> *@
-    @*     </div> *@
-    @*     <div class="form-group"> *@
-    @*         <label for="inp-to">До дата</label> *@
-    @*         <input type="date" id="inp-to"> *@
-    @*     </div> *@
-    @*     <div class="form-group"> *@
-    @*         <label for="inp-status">Статус</label> *@
-    @*         <select id="inp-status"> *@
-    @*             <option value="active">активен</option> *@
-    @*             <option value="inactive">неактивен</option> *@
-    @*         </select> *@
-    @*     </div> *@
-    @*     <div class="form-group"> *@
-    @*         <label for="inp-user">Потребител</label> *@
-    @*         <input type="text" id="inp-user" placeholder="Потребител"> *@
-    @*     </div> *@
-    @*     <div class="form-group"> *@
-    @*         <label for="inp-pass">Парола</label> *@
-    @*         <input type="password" id="inp-pass" placeholder="Парола"> *@
-    @*     </div> *@
-    @*     <button id="add-btn" class="btn full">Добави</button> *@
-    @* </section> *@
-
     <section class="card">
         <h2>Списък на директори</h2>
         <a asp-action="Create" class="btn btn-primary m-3">Създай нов директор</a>
@@ -61,7 +28,11 @@
                 <td>@principal.PhoneNumber</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@principal.Id">📝</a> |
-                    <a asp-action="Delete" asp-route-id="@principal.Id">🗑️</a>
+                    <form asp-action="Delete" asp-route-id="@principal.Id" method="post" style="display:inline;" 
+                          onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този директор?');">
+                        @Html.AntiForgeryToken();
+                        <button type="submit" style="background:none;border:none;">🗑️</button>
+                    </form>
                 </td>
             </tr>
             }
@@ -72,5 +43,5 @@
     
 @section Styles
 {
-    <link rel="stylesheet" href="~/css/principals-details.css" />
+    <link rel="stylesheet" href="~/css/details.css" />
 }

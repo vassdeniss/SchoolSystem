@@ -6,4 +6,5 @@ public class StudentViewModel
     public string FullName { get; init; } = null!;
     public DateTime Dob { get; init; }
     public Guid ClassId { get; init; }
+    public string ClassName { get; init; } = null!;
 }

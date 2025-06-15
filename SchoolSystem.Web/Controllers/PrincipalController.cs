@@ -91,22 +91,10 @@ public class PrincipalController(IUserService userService, IPrincipalService pri
             return this.View(model);
         }
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        PrincipalDto? principal = await principalService.GetPrincipalByIdAsync(id);
-        if (principal == null)
-        {
-            return this.NotFound();
-        }
 
-        return this.View(mapper.Map<PrincipalViewModel>(principal));
-    }
-
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         await principalService.DeletePrincipalAsync(id);
         return this.RedirectToAction(nameof(Index));

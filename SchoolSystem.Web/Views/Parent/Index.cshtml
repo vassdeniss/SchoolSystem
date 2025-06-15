@@ -1,0 +1,131 @@
+@using SchoolSystem.Web.Extensions
+@using SchoolSystem.Web.Models.Parent
+@using SchoolSystem.Web.Models.Student
+@model IEnumerable<SchoolSystem.Web.Models.Parent.ParentViewModel>
+
+@{
+    ViewData["Title"] = "Родители - Администратор";
+}
+
+<main class="page">
+    <section class="card">
+        <h2>Списък на родители</h2>
+        @if (this.User.IsInRole("Administrator"))
+        {
+            <a asp-action="Create" class="btn btn-primary m-3">Създай нов родител</a>
+        }
+        @if (this.TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">
+                @this.TempData["Error"]
+            </div>
+        }
+        <table id="parentsTable">
+            <thead>
+            <tr>
+                <th>Име</th>
+                <th>Номер</th>
+                <th>Родител на</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (ParentViewModel parent in Model)
+            {
+            <tr>
+                <td>@parent.FullName</td>
+                <td>@parent.PhoneNumber</td>
+                <td>
+                    @if (parent.Students.Any())
+                    {
+                    <ul class="student-list">
+                        @foreach (StudentViewModel student in parent.Students)
+                        {
+                            <li>@student.FullName (Клас: @student.ClassName)
+                            @if (this.User.Id() == parent.Id || this.User.IsInRole("Administrator"))
+                            {
+                                <form asp-action="RemoveStudent" method="post" id="removeForm-@student.Id">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="parentId" value="@parent.Id" />
+                                    <input type="hidden" name="studentId" value="@student.Id" />
+                                    <button type="submit" onclick="confirmRemove('@student.Id')">🗑️</button>
+                                </form>
+                            }
+                            </li>
+                        }
+                    </ul>
+                    }
+                    else
+                    {
+                    <span>Няма регистрирани ученици</span>
+                    }
+                </td>
+                <td>
+                    @if (this.User.Id() == parent.Id || this.User.IsInRole("Administrator"))
+                    {
+                        <text>
+                            <a asp-action="AddStudent" asp-route-parentId="@parent.Id">👤</a> |
+                        </text>
+                    }
+                    @if (this.User.IsInRole("Administrator"))
+                    {
+                        <text>
+                            <a asp-action="Edit" asp-route-id="@parent.Id">📝</a> |
+                            <form asp-action="Delete" asp-route-id="@parent.Id" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този родител?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" style="background:none;border:none;padding:0;">🗑️</button>
+                            </form>
+                        </text>
+                    }
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </section>
+</main>
+    
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details.css"/>
+    <style>
+    .student-list {
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .student-list li {
+        list-style-type: none;
+        position: relative;
+        padding-left: 15px;
+    }
+
+    .student-list li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #555;
+    }
+    
+    form {
+        display: inline;
+    }
+    
+    button {
+        border: none;
+        background-color: transparent;
+        display: inline;
+    }
+</style>
+}
+
+@section Scripts {
+    <script>
+        function confirmRemove(studentId) {
+            if (confirm('Сигурен ли си че искаш да махнеш този ученик от родителя?')) {
+                document.getElementById('removeForm-' + studentId).submit();
+            }
+        }
+    </script>
+}

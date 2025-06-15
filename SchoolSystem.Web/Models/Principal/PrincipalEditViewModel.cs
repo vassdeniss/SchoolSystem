@@ -6,8 +6,6 @@ public class PrincipalEditViewModel
 {
     public Guid Id { get; init; }
     
-    public string? FullName { get; init; }
-    
     [Required(ErrorMessage = "Specialization is required")]
     [Display(Name = "Specialization")]
     [StringLength(50, ErrorMessage = "Maximum 50 characters")]

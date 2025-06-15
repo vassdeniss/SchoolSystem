@@ -24,7 +24,11 @@ public static class UserSeeder
             (Guid.Parse("7f74d5cd-5061-4e53-a10b-221cfb9488a0"), "someteacher2@example.com", "someteacher2", "Some", "B.",
                 "Teacher2", new DateTime(2003, 7, 4), "Teacher"),
             (Guid.Parse("8f438533-ab99-4235-ab40-f2bc7d2b96ba"), "someteacher3@example.com", "someteacher3", "Some", "B.",
-                "Teacher3", new DateTime(2003, 7, 4), "Teacher")
+                "Teacher3", new DateTime(2003, 7, 4), "Teacher"),
+            (Guid.Parse("3905cc60-cff6-4b59-b365-03d1749d9c7b"), "someparent1@example.com", "someparent1", "Some", "B.",
+                "Parent1", new DateTime(2003, 7, 4), "Parent"),
+            (Guid.Parse("35ea475e-72e3-4786-8c66-c2586503171b"), "someparent2@example.com", "someparent2", "Some", "B.",
+                "Parent2", new DateTime(2003, 7, 4), "Parent")
         ];
 
         foreach ((Guid id, string email, string username, string firstName, string middleName, string lastName, DateTime dob, string role) in users)

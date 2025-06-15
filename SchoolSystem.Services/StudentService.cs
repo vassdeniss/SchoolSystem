@@ -25,6 +25,14 @@ public class StudentService(IRepository repository, IMapper mapper) : IStudentSe
             .ProjectTo<StudentDto>(mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();    
     }
+    
+    public async Task<IEnumerable<StudentDto>> GetStudentsNotAssignedToParentAsync(Guid parentId)
+    {
+        return await repository.AllReadonly<Student>(
+                s => s.Parents.All(p => p.Id != parentId))
+            .ProjectTo<StudentDto>(mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
 
     public async Task CreateStudentAsync(StudentDto studentDto)
     {
