@@ -1,0 +1,62 @@
+﻿@model SchoolSystem.Web.Models.Curriculum.CurriculumFormViewModel
+
+@{
+    bool isEdit = Model.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Учебен план - Редактиране" : "Учебен план - Създаване";
+    string formAction = isEdit ? "Edit" : "Create";
+}
+
+<main class="page">
+    <form asp-action="@formAction" class="card">
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <input type="hidden" asp-for="ClassId" />
+        <input type="hidden" asp-for="SchoolId" />
+
+        <h2>@(isEdit ? "Редактиране на учебен час" : "Създаване на учебен час")</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="DayOfWeek">Ден от седмицата</label>
+            <select asp-for="DayOfWeek" class="form-control">
+                @foreach (string day in new[] { "Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък", "Събота", "Неделя" })
+                {
+                    <option value="@day" selected="@(day == Model.DayOfWeek)">@day</option>
+                }
+            </select>
+            <span asp-validation-for="DayOfWeek" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartTime">Начален час</label>
+            <input asp-for="StartTime" type="time" class="form-control" value="@Model.StartTime.ToString("hh\\:mm")" />
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndTime">Краен час</label>
+            <input asp-for="EndTime" type="time" class="form-control" value="@Model.EndTime.ToString("hh\\:mm")" />
+            <span asp-validation-for="EndTime" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TeacherId">Учител</label>
+            <select asp-for="TeacherId" asp-items="Model.AvailableTeachers" class="form-control">
+                <option value="">-- Изберете учител --</option>
+            </select>
+            <span asp-validation-for="TeacherId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SubjectId">Предмет</label>
+            <select asp-for="SubjectId" asp-items="Model.AvailableSubjects" class="form-control">
+                <option value="">-- Изберете предмет --</option>
+            </select>
+            <span asp-validation-for="SubjectId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn full">Запазване</button>
+    </form>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" />
+}

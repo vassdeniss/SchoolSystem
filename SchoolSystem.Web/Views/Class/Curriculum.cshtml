@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Web.Models.Curriculum
+@model CurriculumListViewModel
+
+@{
+    ViewData["Title"] = $"{this.Model.ClassName} Curriculum";
+}
+
+<main class="page">
+    <section class="card">
+        <h2>Списък на занятия</h2>
+        <a asp-action="Create" asp-controller="Curriculum"
+           asp-route-classId="@this.Model.ClassId"
+           asp-route-schoolId="@this.Model.SchoolId"
+           class="btn btn-primary m-3">
+            Създай ново занятие
+        </a>
+        @if (this.Model.Curriculum.Any())
+        {
+            <table>
+                <thead>
+                <tr>
+                    <th>Ден</th>
+                    <th>Предмет</th>
+                    <th>Начало</th>
+                    <th>Край</th>
+                    <th>Учител</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (CurriculumViewModel curr in this.Model.Curriculum)
+                {
+                    <tr>
+                        <td>@curr.DayOfWeek</td>
+                        <td>@curr.SubjectName</td>
+                        <td>@curr.StartTime.ToString(@"hh\:mm")</td>
+                        <td>@curr.EndTime.ToString(@"hh\:mm")</td>
+                        <td>@curr.TeacherName</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Curriculum" asp-route-id="@curr.Id">📝</a> |
+                            <form asp-action="Delete" asp-route-id="@curr.Id" asp-route-classId="@Model.ClassId" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този предмет?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" style="background:none;border:none;">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Няма налични занятия
+            </div>
+        }
+    </section>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details.css" />
+}

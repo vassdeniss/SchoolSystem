@@ -9,18 +9,20 @@ public class Curriculum
 
     [Required]
     [MaxLength(20)]
-    public string DayOfWeek { get; init; } = null!;
+    public string DayOfWeek { get; set; } = null!;
 
     [Required]
-    public TimeSpan StartTime { get; init; }
+    public TimeSpan StartTime { get; set; }
 
     [Required]
-    public TimeSpan EndTime { get; init; }
+    public TimeSpan EndTime { get; set; }
 
-    public Guid TeacherId { get; init; }
+    public Guid TeacherId { get; set; }
     public Teacher Teacher { get; init; } = null!;
 
-    public Guid ClassId { get; init; }
+    public Guid ClassId { get; set; }
     public Class Class { get; init; } = null!;
+    
+    public Guid SubjectId { get; set; }
+    public Subject Subject { get; init; } = null!;
 }
-

@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolSystem.Services.Contracts;
 using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models.Class;
+using SchoolSystem.Web.Models.Curriculum;
 using SchoolSystem.Web.Models.Student;
 
 namespace SchoolSystem.Web.Controllers;
 
-[Authorize(Roles = "Administrator")]
-public class ClassController(IClassService classService, IStudentService studentService, IMapper mapper) : Controller
+[Authorize(Roles = "Administrator,Director")]
+public class ClassController(IClassService classService, IStudentService studentService, ICurriculumService curriculumService, IMapper mapper) : Controller
 {
     [HttpGet]
     public IActionResult Create(Guid schoolId)
@@ -100,6 +101,27 @@ public class ClassController(IClassService classService, IStudentService student
             Year = classInfo.Year,
             Term = classInfo.Term,
             Students = mapper.Map<IEnumerable<StudentViewModel>>(students)
+        };
+        
+        return this.View(viewModel);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Curriculum(Guid classId)
+    {
+        ClassDto? classInfo = await classService.GetClassByIdAsync(classId);
+        if (classInfo == null)
+        {
+            return this.NotFound();
+        }
+        
+        IEnumerable<CurriculumDto> curriculum = await curriculumService.GetCurriculumsByClassIdAsync(classId);
+        CurriculumListViewModel viewModel = new()
+        {
+            ClassId = classId,
+            ClassName = classInfo.Name,
+            SchoolId = classInfo.SchoolId,
+            Curriculum = mapper.Map<IEnumerable<CurriculumViewModel>>(curriculum)
         };
         
         return this.View(viewModel);

@@ -20,7 +20,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     public DbSet<Grade> Grades { get; init; }
     public DbSet<Attendance> Attendances { get; init; }
     public DbSet<Curriculum> Curriculums { get; init; }
-    public DbSet<SubjectCurriculum> SubjectCurriculums { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +30,7 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.ApplyConfiguration(new SubjectConfiguration());
         modelBuilder.ApplyConfiguration(new TeacherConfiguration());
         modelBuilder.ApplyConfiguration(new ParentConfiguration());
+        modelBuilder.ApplyConfiguration(new CurriculumConfiguration());
         
         modelBuilder.Entity<Principal>()
             .HasOne(p => p.School)
@@ -39,9 +39,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         
         modelBuilder.Entity<TeacherSubject>()
             .HasKey(ts => new { ts.TeacherId, ts.SubjectId });
-
-        modelBuilder.Entity<SubjectCurriculum>()
-            .HasKey(sc => new { sc.SubjectId, sc.CurriculumId });
 
         modelBuilder.Entity("SchoolTeacher").HasData(
             new { SchoolsId = Guid.Parse("b0cf0f90-50a5-4e86-9a29-fdf3928af26b"), TeachersId = Guid.Parse("8f374d37-5a0c-4637-ba8e-2b4d2ceef15f") },

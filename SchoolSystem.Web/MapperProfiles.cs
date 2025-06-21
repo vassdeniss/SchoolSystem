@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SchoolSystem.Services.Dtos;
-using SchoolSystem.Web.Models;
 using SchoolSystem.Web.Models.Class;
+using SchoolSystem.Web.Models.Curriculum;
 using SchoolSystem.Web.Models.Parent;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
@@ -84,5 +84,21 @@ public class MapperProfiles : Profile
         this.CreateMap<ParentCreateViewModel, ParentDto>();
         this.CreateMap<ParentDto, ParentEditViewModel>();
         this.CreateMap<ParentEditViewModel, ParentDto>();
+        
+        this.CreateMap<CurriculumDto, CurriculumViewModel>()
+            .ForMember(dest => dest.TeacherName,
+                opt => opt.MapFrom(src
+                    => $"{src.Teacher.User.FirstName} {src.Teacher.User.MiddleName} {src.Teacher.User.LastName}"))
+            .ForMember(dest => dest.SubjectName,
+                opt => opt.MapFrom(
+                    src => src.Subject.Name))
+            .ForMember(dest => dest.ClassName,
+                opt => opt.MapFrom(
+                    src => src.Class.Name));
+        this.CreateMap<CurriculumDto, CurriculumFormViewModel>()
+            .ForMember(dest => dest.SchoolId,
+                opt => opt.MapFrom(
+                    src => src.Class.SchoolId));
+        this.CreateMap<CurriculumFormViewModel, CurriculumDto>();
     }    
 }

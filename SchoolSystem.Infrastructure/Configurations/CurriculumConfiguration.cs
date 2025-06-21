@@ -18,8 +18,9 @@ public class CurriculumConfiguration : IEntityTypeConfiguration<Curriculum>
                 DayOfWeek = "Monday",
                 StartTime = new TimeSpan(8, 0, 0),
                 EndTime = new TimeSpan(9, 30, 0),
-                TeacherId = Guid.Parse("7f8e9d0c-aaaa-bbbb-cccc-ddddeeeeffff"),
-                ClassId = Guid.Parse("12345678-aaaa-bbbb-cccc-1234567890ab")
+                TeacherId = Guid.Parse("8f374d37-5a0c-4637-ba8e-2b4d2ceef15f"),
+                ClassId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                SubjectId = Guid.Parse("a1b2c3d4-e5f6-4789-8abc-111111111111")
             },
             new()
             {
@@ -27,8 +28,9 @@ public class CurriculumConfiguration : IEntityTypeConfiguration<Curriculum>
                 DayOfWeek = "Wednesday",
                 StartTime = new TimeSpan(10, 0, 0),
                 EndTime = new TimeSpan(11, 30, 0),
-                TeacherId = Guid.Parse("8f9e0c1d-bbbb-cccc-dddd-eeeeffff0000"),
-                ClassId = Guid.Parse("23456789-bbbb-cccc-dddd-234567890abc")
+                TeacherId = Guid.Parse("8f374d37-5a0c-4637-ba8e-2b4d2ceef15f"),
+                ClassId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                SubjectId = Guid.Parse("a1b2c3d4-e5f6-4789-8abc-111111111111")
             },
             new()
             {
@@ -36,8 +38,9 @@ public class CurriculumConfiguration : IEntityTypeConfiguration<Curriculum>
                 DayOfWeek = "Friday",
                 StartTime = new TimeSpan(13, 0, 0),
                 EndTime = new TimeSpan(14, 30, 0),
-                TeacherId = Guid.Parse("9fa0b1c2-cccc-dddd-eeee-ffff00001111"),
-                ClassId = Guid.Parse("34567890-cccc-dddd-eeee-34567890abcd")
+                TeacherId = Guid.Parse("2a3d47b0-28d1-48f9-bd9a-504a9f2a1cbd"),
+                ClassId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                SubjectId = Guid.Parse("b2c3d4e5-f6a7-589a-8bcd-222222222222")
             }
         });
     }
