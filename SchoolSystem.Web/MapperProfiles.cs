@@ -2,6 +2,7 @@
 using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Curriculum;
+using SchoolSystem.Web.Models.Grade;
 using SchoolSystem.Web.Models.Parent;
 using SchoolSystem.Web.Models.Principal;
 using SchoolSystem.Web.Models.School;
@@ -59,7 +60,10 @@ public class MapperProfiles : Profile
                     src.User.DateOfBirth))
             .ForMember(dest => dest.ClassName,
                 opt => opt.MapFrom(src =>
-                    src.Class.Name));
+                    src.Class.Name))
+            .ForMember(dest => dest.SchoolId,
+                opt => opt.MapFrom(src =>
+                    src.Class.SchoolId));
         this.CreateMap<StudentCreateViewModel, StudentDto>();
         this.CreateMap<StudentDto, StudentMoveViewModel>();
         this.CreateMap<StudentMoveViewModel, StudentDto>();
@@ -100,5 +104,12 @@ public class MapperProfiles : Profile
                 opt => opt.MapFrom(
                     src => src.Class.SchoolId));
         this.CreateMap<CurriculumFormViewModel, CurriculumDto>();
+
+        this.CreateMap<GradeDto, GradeViewModel>()
+            .ForMember(dest => dest.SubjectName,
+                opt => opt.MapFrom(
+                    src => src.Subject.Name));
+        this.CreateMap<GradeDto, GradeFormViewModel>();
+        this.CreateMap<GradeFormViewModel, GradeDto>();
     }    
 }

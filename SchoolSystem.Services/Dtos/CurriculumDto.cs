@@ -4,7 +4,7 @@ namespace SchoolSystem.Services.Dtos;
 
 public class CurriculumDto
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; init; }
     
     public string DayOfWeek { get; init; } = null!;
 
@@ -15,8 +15,6 @@ public class CurriculumDto
     public Guid TeacherId { get; init; }
     
     public Teacher Teacher { get; init; } = null!;
-
-    public Guid ClassId { get; init; }
     
     public Class Class { get; init; } = null!;
     

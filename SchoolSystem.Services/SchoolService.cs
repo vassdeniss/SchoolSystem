@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using SchoolSystem.Infrastructure.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services.Contracts;
@@ -9,7 +8,7 @@ using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Services;
 
-public class SchoolService(IRepository repository, ILogger<SchoolService> logger, IMapper mapper) : ISchoolService
+public class SchoolService(IRepository repository, IMapper mapper) : ISchoolService
 {
     public async Task<IEnumerable<SchoolDto>> GetSchoolsAsync()
     {

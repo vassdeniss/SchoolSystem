@@ -7,4 +7,5 @@ public class StudentViewModel
     public DateTime Dob { get; init; }
     public Guid ClassId { get; init; }
     public string ClassName { get; init; } = null!;
+    public Guid SchoolId { get; init; }
 }

@@ -9,7 +9,7 @@ using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Services;
 
-public class ClassService(IRepository repository, ILogger<SchoolService> logger, IMapper mapper) : IClassService
+public class ClassService(IRepository repository, IMapper mapper) : IClassService
 {
     public async Task<IEnumerable<ClassDto>> GetClassesBySchoolIdAsync(Guid id)
     {

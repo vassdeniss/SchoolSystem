@@ -12,13 +12,11 @@ namespace SchoolSystem.Tests;
 public class ClassServiceTests : UnitTestBase
 {
     private ClassService _classService;
-    private Mock<ILogger<SchoolService>> _loggerMock;
     
     [SetUp]
     public void SetUp()
     {
-        this._loggerMock = new Mock<ILogger<SchoolService>>();
-        this._classService = new ClassService(this.repo, this._loggerMock.Object, this.mapper);
+        this._classService = new ClassService(this.repo, this.mapper);
     }
 
     [Test]

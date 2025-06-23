@@ -31,6 +31,7 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
         modelBuilder.ApplyConfiguration(new TeacherConfiguration());
         modelBuilder.ApplyConfiguration(new ParentConfiguration());
         modelBuilder.ApplyConfiguration(new CurriculumConfiguration());
+        modelBuilder.ApplyConfiguration(new GradeConfiguration());
         
         modelBuilder.Entity<Principal>()
             .HasOne(p => p.School)

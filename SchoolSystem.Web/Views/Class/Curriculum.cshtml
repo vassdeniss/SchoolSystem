@@ -39,7 +39,7 @@
                         <td>@curr.TeacherName</td>
                         <td>
                             <a asp-action="Edit" asp-controller="Curriculum" asp-route-id="@curr.Id">📝</a> |
-                            <form asp-action="Delete" asp-route-id="@curr.Id" asp-route-classId="@Model.ClassId" method="post" style="display:inline;"
+                            <form asp-action="Delete" asp-controller="Curriculum" asp-route-id="@curr.Id" asp-route-classId="@Model.ClassId" method="post" style="display:inline;"
                                   onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този предмет?');">
                                 @Html.AntiForgeryToken()
                                 <button type="submit" style="background:none;border:none;">🗑️</button>

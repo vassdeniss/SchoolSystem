@@ -10,11 +10,11 @@ public class Grade
     public Guid StudentId { get; init; }
     public Student Student { get; init; } = null!;
 
-    public Guid SubjectId { get; init; }
+    public Guid SubjectId { get; set; }
     public Subject Subject { get; init; } = null!;
 
     [Range(2, 6)]
-    public int GradeValue { get; init; }
+    public int GradeValue { get; set; }
 
-    public DateTime GradeDate { get; init; }
+    public DateTime GradeDate { get; set; }
 }

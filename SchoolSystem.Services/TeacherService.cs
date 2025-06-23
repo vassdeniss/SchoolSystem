@@ -25,6 +25,15 @@ public class TeacherService(IRepository repository, IMapper mapper) : ITeacherSe
             .ProjectTo<TeacherDto>(mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
     }
+    
+    public async Task<bool> CanTeacherManageStudent(Guid teacherId, Guid studentId)
+    {
+        Teacher teacher = await repository.GetByIdAsync<Teacher>(teacherId);
+        Student student = await repository.GetByIdAsync<Student>(studentId);
+        
+        return repository.AllReadonly<Curriculum>()
+            .Any(c => c.TeacherId == teacher.Id && c.ClassId == student.ClassId);
+    }
 
     public async Task CreateTeacherAsync(TeacherDto dto)
     {
