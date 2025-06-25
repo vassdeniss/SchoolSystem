@@ -142,6 +142,15 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.School1, this.School2);
     }
 
+    public void ClearSchoolsAndDown()
+    {
+        dbContext.Students.RemoveRange(dbContext.Students);
+        dbContext.Classes.RemoveRange(dbContext.Classes);
+        dbContext.Schools.RemoveRange(dbContext.Schools);
+
+        dbContext.SaveChanges();
+    }
+
     private void SeedClasses()
     {
         this.Class1 = new Class
