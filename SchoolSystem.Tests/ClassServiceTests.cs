@@ -20,6 +20,7 @@ public class ClassServiceTests : UnitTestBase
     }
 
     [Test]
+    [Category("HappyPath")]
     public async Task GetClassesBySchoolIdAsync_ShouldReturnClassesForGivenSchool()
     {
         // Arrange
@@ -33,6 +34,58 @@ public class ClassServiceTests : UnitTestBase
         Assert.That(result.All(c => c.SchoolId == schoolId));
         Assert.That(result, Is.Ordered.Descending.By("Year"));
     }
+
+    [Test]
+    [Category("EdgeCase")]
+    public async Task GetClassesBySchoolIdAsync_ShouldReturnEmptyList_WhenSchoolHasNoClasses()
+    {
+        // Arrange
+        Guid schoolId = this.testDb.School2.Id; // School2 doesn't have classes
+
+        // Act
+        var result = await this._classService.GetClassesBySchoolIdAsync(schoolId);
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.Empty);
+    }
+
+    [Test]
+    [Category("InvalidInput")]
+    public async Task GetClassesBySchoolIdAsync_ShouldReturnEmpty_WhenSchoolIdDoesNotExist()
+    {
+        // Arrange
+        Guid nonExistentId = Guid.NewGuid();
+
+        // Act
+        var result = await this._classService.GetClassesBySchoolIdAsync(nonExistentId);
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.Empty);
+    }
+
+    [TestCase("school1", ExpectedResult = 2)]
+    [TestCase("school2", ExpectedResult = 0)]
+    [Category("ParameterizedTest")]
+    public async Task<int> GetClassesBySchoolIdAsync_ShouldReturnCorrectCount(string schoolAlias)
+    {
+        // Arrange
+        Guid schoolId = schoolAlias switch
+        {
+            "school1" => this.testDb.School1.Id,
+            "school2" => this.testDb.School2.Id,
+            _ => throw new ArgumentException("Unknown alias")
+        };
+
+        // Act
+        var result = await this._classService.GetClassesBySchoolIdAsync(schoolId);
+
+        // Assert
+        return result.Count();
+    }
+
+    //////////////////////
 
     [Test]
     public async Task GetClassByIdAsync_ShouldReturnClass_WhenClassExists()

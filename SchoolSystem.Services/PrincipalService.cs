@@ -10,19 +10,18 @@ namespace SchoolSystem.Services;
 
 public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalService
 {
-    public async Task<IEnumerable<PrincipalDto>> GetAllPrincipalsAsync()
-    {
-        return await repo.AllReadonly<Principal>()
-            .ProjectTo<PrincipalDto>(mapper.ConfigurationProvider)
-            .ToListAsync();
-    }
-
     public async Task<PrincipalDto?> GetPrincipalByIdAsync(Guid id)
     {
         return await repo.AllReadonly<Principal>()
             .Where(p => p.Id == id)
             .ProjectTo<PrincipalDto>(mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
+    }
+    public async Task<IEnumerable<PrincipalDto>> GetAllPrincipalsAsync()
+    {
+        return await repo.AllReadonly<Principal>()
+            .ProjectTo<PrincipalDto>(mapper.ConfigurationProvider)
+            .ToListAsync();
     }
 
     public async Task CreatePrincipalAsync(PrincipalDto dto)
