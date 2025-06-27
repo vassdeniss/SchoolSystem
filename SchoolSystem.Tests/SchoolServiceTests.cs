@@ -24,7 +24,7 @@ public class GetSchoolsAsyncTests : SchoolServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task GetSchoolsAsync_ShouldReturnListOfSchoolDto()
+    public async Task ShouldReturnListOfSchoolDto()
     {
         // Act
         IEnumerable<SchoolDto> result = await this._schoolService.GetSchoolsAsync();
@@ -37,7 +37,7 @@ public class GetSchoolsAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task GetSchoolsAsync_ShouldReturnEmptyList_WhenNoSchoolsExist()
+    public async Task ShouldReturnEmptyList_WhenNoSchoolsExist()
     {
         // Arrange
         this.testDb.ClearSchoolsAndDown();
@@ -51,7 +51,7 @@ public class GetSchoolsAsyncTests : SchoolServiceTestBase
     }
 
     [Test]
-    public async Task GetSchoolsAsync_ShouldIncludeExpectedSchools()
+    public async Task ShouldIncludeExpectedSchools()
     {
         // Act
         var result = (await this._schoolService.GetSchoolsAsync()).ToList();
@@ -70,7 +70,7 @@ public class GetSchoolByIdAsyncTests : SchoolServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task GetSchoolByIdAsync_ShouldReturnSchoolDto_WhenSchoolExists()
+    public async Task ShouldReturnSchoolDto_WhenSchoolExists()
     {
         // Arrange
         Guid id = this.testDb.School1.Id;
@@ -85,7 +85,7 @@ public class GetSchoolByIdAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task GetSchoolByIdAsync_ShouldReturnNull_WhenIdIsEmpty()
+    public async Task ShouldReturnNull_WhenIdIsEmpty()
     {
         // Act
         var result = await this._schoolService.GetSchoolByIdAsync(Guid.Empty);
@@ -96,7 +96,7 @@ public class GetSchoolByIdAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public async Task GetSchoolByIdAsync_ShouldReturnNull_WhenSchoolNotFound()
+    public async Task ShouldReturnNull_WhenSchoolNotFound()
     {
         // Arrange
         Guid fakeId = Guid.NewGuid();
@@ -111,7 +111,7 @@ public class GetSchoolByIdAsyncTests : SchoolServiceTestBase
     [TestCase("school1")]
     [TestCase("school2")]
     [Category("ParameterizedTest")]
-    public async Task GetSchoolByIdAsync_ShouldReturnCorrectSchoolData(string schoolAlias)
+    public async Task ShouldReturnCorrectSchoolData(string schoolAlias)
     {
         // Arrange
         Guid expectedId = schoolAlias switch
@@ -143,7 +143,7 @@ public class CreateSchoolAsyncTests : SchoolServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task CreateSchoolAsync_ShouldCreateSchool_WhenValidDto()
+    public async Task ShouldCreateSchool_WhenValidDto()
     {
         // Arrange
         SchoolDto dto = new()
@@ -171,7 +171,7 @@ public class CreateSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void CreateSchoolAsync_ShouldThrowException_WhenPrincipalAlreadyManagingASchool()
+    public void ShouldThrowException_WhenPrincipalAlreadyManagingASchool()
     {
         // Arrange
         SchoolDto dto = new()
@@ -189,7 +189,7 @@ public class CreateSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task CreateSchoolAsync_ShouldNotAllowCreation_WhenPrincipalIdIsEmpty()
+    public async Task ShouldNotAllowCreation_WhenPrincipalIdIsEmpty()
     {
         // Arrange
         SchoolDto dto = new()
@@ -216,7 +216,7 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task UpdateSchoolAsync_ShouldUpdateSchool_WhenSchoolExists()
+    public async Task ShouldUpdateSchool_WhenSchoolExists()
     {
         // Arrange
         SchoolDto dto = new() { Id = this.testDb.School1.Id, Name = "Updated School Name" };
@@ -230,7 +230,7 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void UpdateSchoolAsync_ShouldNotUpdateSchool_WhenSchoolNotFound()
+    public void ShouldNotUpdateSchool_WhenSchoolNotFound()
     {
         // Arrange
         SchoolDto dto = new() { Id = Guid.NewGuid(), Name = "Updated School Name", PrincipalId = this.testDb.Principal1.Id };
@@ -243,7 +243,7 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void UpdateSchoolAsync_ShouldThrowException_WhenPrincipalIdIsEmpty()
+    public void ShouldThrowException_WhenPrincipalIdIsEmpty()
     {
         // Arrange
         SchoolDto dto = new()
@@ -266,7 +266,7 @@ public class DeleteSchoolAsyncTests : SchoolServiceTestBase
 {           
     [Test]
     [Category("InvalidInput")]
-    public async Task DeleteSchoolAsync_ShouldDeleteSchool_WhenSchoolExists()
+    public async Task ShouldDeleteSchool_WhenSchoolExists()
     {
         // Arrange
         Guid id = this.testDb.School1.Id;
@@ -280,7 +280,7 @@ public class DeleteSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void DeleteSchoolAsync_ShouldThrow_WhenSchoolDoesNotExist()
+    public void ShouldThrowException_WhenSchoolDoesNotExist()
     {
         // Arrange
         var nonExistentId = Guid.NewGuid();
@@ -294,7 +294,7 @@ public class DeleteSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public void DeleteSchoolAsync_ShouldThrow_WhenSchoolHasClasses()
+    public void ShouldThrowException_WhenSchoolHasClasses()
     {
         // Arrange
         var schoolId = this.testDb.School1.Id;

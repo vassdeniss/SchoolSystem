@@ -8,26 +8,29 @@ using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Tests;
 
-[TestFixture]
-public class ClassServiceTests : UnitTestBase
+public class ClassServiceTestBase : UnitTestBase
 {
-    private ClassService _classService;
-    
+    protected ClassService _classService;
+
     [SetUp]
     public void SetUp()
     {
         this._classService = new ClassService(this.repo, this.mapper);
     }
+}
 
+[TestFixture]
+public class GetClassesBySchoolIdAsyncTests : ClassServiceTestBase
+{
     [Test]
     [Category("HappyPath")]
-    public async Task GetClassesBySchoolIdAsync_ShouldReturnClassesForGivenSchool()
+    public async Task ShouldReturnClassesForGivenSchool()
     {
         // Arrange
         Guid schoolId = this.testDb.School1.Id;
 
         // Act
-        IEnumerable<ClassDto> result = await this._classService.GetClassesBySchoolIdAsync(schoolId);
+        var result = await this._classService.GetClassesBySchoolIdAsync(schoolId);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -37,30 +40,19 @@ public class ClassServiceTests : UnitTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task GetClassesBySchoolIdAsync_ShouldReturnEmptyList_WhenSchoolHasNoClasses()
+    public async Task ShouldReturnEmptyList_WhenSchoolHasNoClasses()
     {
-        // Arrange
-        Guid schoolId = this.testDb.School2.Id; // School2 doesn't have classes
-
-        // Act
+        Guid schoolId = this.testDb.School2.Id;
         var result = await this._classService.GetClassesBySchoolIdAsync(schoolId);
-
-        // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.Empty);
     }
 
     [Test]
     [Category("InvalidInput")]
-    public async Task GetClassesBySchoolIdAsync_ShouldReturnEmpty_WhenSchoolIdDoesNotExist()
+    public async Task ShouldReturnEmpty_WhenSchoolIdDoesNotExist()
     {
-        // Arrange
-        Guid nonExistentId = Guid.NewGuid();
-
-        // Act
-        var result = await this._classService.GetClassesBySchoolIdAsync(nonExistentId);
-
-        // Assert
+        var result = await this._classService.GetClassesBySchoolIdAsync(Guid.NewGuid());
         Assert.That(result, Is.Not.Null);
         Assert.That(result, Is.Empty);
     }
@@ -68,9 +60,8 @@ public class ClassServiceTests : UnitTestBase
     [TestCase("school1", ExpectedResult = 2)]
     [TestCase("school2", ExpectedResult = 0)]
     [Category("ParameterizedTest")]
-    public async Task<int> GetClassesBySchoolIdAsync_ShouldReturnCorrectCount(string schoolAlias)
+    public async Task<int> ShouldReturnCorrectCount(string schoolAlias)
     {
-        // Arrange
         Guid schoolId = schoolAlias switch
         {
             "school1" => this.testDb.School1.Id,
@@ -78,75 +69,85 @@ public class ClassServiceTests : UnitTestBase
             _ => throw new ArgumentException("Unknown alias")
         };
 
-        // Act
         var result = await this._classService.GetClassesBySchoolIdAsync(schoolId);
-
-        // Assert
         return result.Count();
     }
+}
 
-    //////////////////////
-
+[TestFixture]
+public class GetClassByIdAsyncTests : ClassServiceTestBase
+{
     [Test]
-    public async Task GetClassByIdAsync_ShouldReturnClass_WhenClassExists()
+    [Category("HappyPath")]
+    public async Task ShouldReturnClass_WhenClassExists()
     {
         // Arrange
         Guid classId = this.testDb.Class1.Id;
 
         // Act
-        ClassDto? result = await this._classService.GetClassByIdAsync(classId);
+        var result = await this._classService.GetClassByIdAsync(classId);
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Id, Is.EqualTo(classId));
+        Assert.That(result!.Id, Is.EqualTo(classId));
         Assert.That(result.Name, Is.EqualTo(this.testDb.Class1.Name));
     }
 
     [Test]
-    public async Task GetClassByIdAsync_ShouldReturnNull_WhenClassNotFound()
+    [Category("InvalidInput")]
+    public async Task ShouldReturnNull_WhenClassNotFound()
     {
-        // Arrange
-        
         // Act
-        ClassDto? result = await this._classService.GetClassByIdAsync(Guid.NewGuid());
+        var result = await this._classService.GetClassByIdAsync(Guid.NewGuid());
 
         // Assert
         Assert.That(result, Is.Null);
     }
+}
 
+[TestFixture]
+public class CreateClassAsyncTests : ClassServiceTestBase
+{
     [Test]
-    public async Task CreateClassAsync_ShouldAddNewClass()
+    [Category("HappyPath")]
+    public async Task ShouldAddNewClass()
     {
         // Arrange
-        ClassDto dto = new()
+        var dto = new ClassDto
         {
             Name = "New Class",
             Year = 2023,
             Term = "Fall",
             SchoolId = this.testDb.School1.Id
         };
-        int countBefore = await repo.AllReadonly<Class>().CountAsync();
+
+        int countBefore = await this.repo.AllReadonly<Class>().CountAsync();
 
         // Act
         await this._classService.CreateClassAsync(dto);
 
         // Assert
-        int countAfter = await repo.AllReadonly<Class>().CountAsync();
+        int countAfter = await this.repo.AllReadonly<Class>().CountAsync();
         Assert.That(countAfter, Is.EqualTo(countBefore + 1));
 
-        Class? createdClass = await repo.AllReadonly<Class>()
-            .Where(c => c.Name == "New Class" && c.SchoolId == dto.SchoolId)
-            .FirstOrDefaultAsync();
-        Assert.That(createdClass, Is.Not.Null);
-        Assert.That(createdClass.Year, Is.EqualTo(2023));
-        Assert.That(createdClass.Term, Is.EqualTo("Fall"));
-    }
+        var created = await this.repo.AllReadonly<Class>()
+            .FirstOrDefaultAsync(c => c.Name == "New Class" && c.SchoolId == dto.SchoolId);
 
+        Assert.That(created, Is.Not.Null);
+        Assert.That(created!.Year, Is.EqualTo(2023));
+        Assert.That(created.Term, Is.EqualTo("Fall"));
+    }
+}
+
+[TestFixture]
+public class UpdateClassAsyncTests : ClassServiceTestBase
+{
     [Test]
-    public async Task UpdateClassAsync_ShouldUpdateExistingClass()
+    [Category("HappyPath")]
+    public async Task ShouldUpdateExistingClass()
     {
         // Arrange
-        ClassDto dto = new()
+        var dto = new ClassDto
         {
             Id = this.testDb.Class1.Id,
             Name = "Updated Class Name",
@@ -159,18 +160,19 @@ public class ClassServiceTests : UnitTestBase
         await this._classService.UpdateClassAsync(dto);
 
         // Assert
-        Class updatedClass = await repo.GetByIdAsync<Class>(dto.Id);
-        Assert.That(updatedClass, Is.Not.Null);
-        Assert.That(updatedClass.Name, Is.EqualTo("Updated Class Name"));
-        Assert.That(updatedClass.Year, Is.EqualTo(2030));
-        Assert.That(updatedClass.Term, Is.EqualTo("Spring"));
+        var updated = await this.repo.GetByIdAsync<Class>(dto.Id);
+        Assert.That(updated, Is.Not.Null);
+        Assert.That(updated!.Name, Is.EqualTo("Updated Class Name"));
+        Assert.That(updated.Year, Is.EqualTo(2030));
+        Assert.That(updated.Term, Is.EqualTo("Spring"));
     }
 
     [Test]
-    public void UpdateClassAsync_ShouldThrowException_WhenClassNotFound()
+    [Category("InvalidInput")]
+    public void ShouldThrow_WhenClassNotFound()
     {
         // Arrange
-        ClassDto dto = new()
+        var dto = new ClassDto
         {
             Id = Guid.NewGuid(),
             Name = "Nonexistent Class",
@@ -180,12 +182,19 @@ public class ClassServiceTests : UnitTestBase
         };
 
         // Act & Assert
-        Assert.That(async () => await this._classService.UpdateClassAsync(dto),
-            Throws.Exception.TypeOf<InvalidOperationException>().With.Message.EqualTo("Class not found."));
+        Assert.That(
+            async () => await this._classService.UpdateClassAsync(dto),
+            Throws.Exception.TypeOf<InvalidOperationException>()
+                .With.Message.EqualTo("Class not found."));
     }
+}
 
+[TestFixture]
+public class DeleteClassAsyncTests : ClassServiceTestBase
+{
     [Test]
-    public async Task DeleteClassAsync_ShouldDeleteClass_WhenClassExists()
+    [Category("HappyPath")]
+    public async Task ShouldDeleteClass_WhenClassExists()
     {
         // Arrange
         Guid classId = this.testDb.Class2.Id;
@@ -194,7 +203,8 @@ public class ClassServiceTests : UnitTestBase
         await this._classService.DeleteClassAsync(classId);
 
         // Assert
-        Class deletedClass = await repo.GetByIdAsync<Class>(classId);
-        Assert.That(deletedClass, Is.Null);
+        var deleted = await this.repo.GetByIdAsync<Class>(classId);
+        Assert.That(deleted, Is.Null);
     }
 }
+

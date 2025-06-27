@@ -22,7 +22,7 @@ public class GetPrincipalByIdTests : PrincipalServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task GetPrincipalByIdAsync_ShouldReturnPrincipalDto_WhenPrincipalExists()
+    public async Task ShouldReturnPrincipalDto_WhenPrincipalExists()
     {
         // Arrange
         Guid id = this.testDb.Principal1.Id;
@@ -41,7 +41,7 @@ public class GetPrincipalByIdTests : PrincipalServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task GetPrincipalByIdAsync_ShouldReturnNull_WhenIdIsEmpty()
+    public async Task ShouldReturnNull_WhenIdIsEmpty()
     {
         // Arrange
         Guid emptyId = Guid.Empty;
@@ -55,7 +55,7 @@ public class GetPrincipalByIdTests : PrincipalServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public async Task GetPrincipalByIdAsync_ShouldReturnNull_WhenPrincipalNotFound()
+    public async Task ShouldReturnNull_WhenPrincipalNotFound()
     {
         // Arrange & Act
         PrincipalDto? result = await this._principalService.GetPrincipalByIdAsync(Guid.NewGuid());
@@ -67,7 +67,7 @@ public class GetPrincipalByIdTests : PrincipalServiceTestBase
     [TestCase("principal1")]
     [TestCase("principal2")]
     [Category("ParameterizedTest")]
-    public async Task GetPrincipalByIdAsync_ShouldReturnCorrectUserId(string principalAlias)
+    public async Task ShouldReturnCorrectUserId(string principalAlias)
     {
         var (principalId, expectedUserId) = principalAlias switch
         {
@@ -88,7 +88,7 @@ public class GetAllPrincipalsTests : PrincipalServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task GetAllPrincipalsAsync_ShouldReturnAllExistingPrincipals()
+    public async Task ShouldReturnAllExistingPrincipals()
     {
         // Arrange
         var expectedCount = 3;
@@ -106,7 +106,7 @@ public class GetAllPrincipalsTests : PrincipalServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task GetAllPrincipalsAsync_ShouldReturnEmptyList_WhenNoPrincipalsExist()
+    public async Task ShouldReturnEmptyList_WhenNoPrincipalsExist()
     {
         // Arrange
         this.testDb.ClearPrincipalsAndDown();
@@ -124,7 +124,7 @@ public class GetAllPrincipalsTests : PrincipalServiceTestBase
 
     [Test]
     [Category("ParameterizedTest")]
-    public async Task GetAllPrincipalsAsync_ShouldIncludeExpectedPrincipals()
+    public async Task ShouldIncludeExpectedPrincipals()
     {
         // Act
         var result = (await this._principalService.GetAllPrincipalsAsync()).ToList();
@@ -144,7 +144,7 @@ public class CreatePrincipalTests : PrincipalServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task CreatePrincipalAsync_ShouldCreatePrincipal_WhenValidDto()
+    public async Task ShouldCreatePrincipal_WhenValidDto()
     {
         // Arrange
         PrincipalDto dto = new() { UserId = this.testDb.User4.Id, Specialization = "Math", PhoneNumber = "12345" };
@@ -169,7 +169,7 @@ public class CreatePrincipalTests : PrincipalServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public async Task CreatePrincipalAsync_ShouldNotAllowCreation_WhenUserIdIsEmpty_ButItDoes()
+    public async Task ShouldNotAllowCreation_WhenUserIdIsEmpty_ButItDoes()
     {
         // Arrange
         PrincipalDto dto = new()
@@ -191,33 +191,28 @@ public class CreatePrincipalTests : PrincipalServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
-    public async Task CreatePrincipalAsync_ShouldFail_WhenPhoneNumberIsDuplicated()
+    [Category("InvalidInput")]
+    public void ShouldThrowException_WhenPhoneNumberIsAlreadyUsed()
     {
         // Arrange
-        string duplicatePhone = this.testDb.Principal1.PhoneNumber;
+        var duplicatePhone = this.testDb.Principal1.PhoneNumber;
 
-        PrincipalDto dto = new()
+        var dto = new PrincipalDto
         {
             UserId = this.testDb.User4.Id,
             Specialization = "Informatics",
             PhoneNumber = duplicatePhone
         };
 
-        // Act
-        await this._principalService.CreatePrincipalAsync(dto);
-
-        // Assert
-        int countWithSamePhone = await this.repo.AllReadonly<Principal>()
-            .CountAsync(p => p.PhoneNumber == duplicatePhone);
-
-        Assert.That(countWithSamePhone, Is.EqualTo(1),
-            "A second principal was created with the same phone number — uniqueness may be required.");
+        // Act & Assert
+        Assert.That(async () => await this._principalService.CreatePrincipalAsync(dto),
+            Throws.Exception.TypeOf<InvalidOperationException>()
+                  .With.Message.EqualTo("Phone number already exists"));
     }
 
     [Test]
     [Category("InvalidInput")]
-    public void CreatePrincipalAsync_ShouldThrowException_WhenUserAlreadyPrincipal()
+    public void ShouldThrowException_WhenUserAlreadyPrincipal()
     {
         // Arrange
         PrincipalDto dto = new() { UserId = this.testDb.User1.Id, Specialization = "Math", PhoneNumber = "12345" };
@@ -234,7 +229,7 @@ public class UpdatePrincipalTests : PrincipalServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task UpdatePrincipalAsync_ShouldUpdatePrincipal_WhenPrincipalExists()
+    public async Task ShouldUpdatePrincipal_WhenPrincipalExists()
     {
         // Arrange
         PrincipalDto dto = new() { Id = this.testDb.Principal1.Id, Specialization = "Physics", PhoneNumber = "67890" };
@@ -249,7 +244,7 @@ public class UpdatePrincipalTests : PrincipalServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public void UpdatePrincipalAsync_ShouldThrow_WhenPhoneNumberAlreadyExists()
+    public void ShouldThrowException_WhenPhoneNumberAlreadyExists()
     {
         // Arrange
         string duplicatePhone = this.testDb.Principal1.PhoneNumber;
@@ -258,7 +253,7 @@ public class UpdatePrincipalTests : PrincipalServiceTestBase
         {
             Id = this.testDb.Principal2.Id,
             Specialization = "Biology",
-            PhoneNumber = duplicatePhone    
+            PhoneNumber = duplicatePhone
         };
 
         // Act & Assert
@@ -270,7 +265,7 @@ public class UpdatePrincipalTests : PrincipalServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void UpdatePrincipalAsync_ShouldNotUpdatePrincipal_WhenPrincipalNotFound()
+    public void ShouldNotUpdatePrincipal_WhenPrincipalNotFound()
     {
         // Arrange
         PrincipalDto dto = new() { Id = Guid.NewGuid(), Specialization = "Physics", PhoneNumber = "67890" };
@@ -287,7 +282,7 @@ public class DeletePrincipalTests : PrincipalServiceTestBase
 {
     [Test]
     [Category("HappyPath")]
-    public async Task DeletePrincipalAsync_ShouldDeletePrincipal_WhenPrincipalExists()
+    public async Task ShouldDeletePrincipal_WhenPrincipalExists()
     {
         Guid id = this.testDb.Principal3.Id;
 
@@ -298,7 +293,7 @@ public class DeletePrincipalTests : PrincipalServiceTestBase
 
     [Test]
     [Category("EdgeCase")]
-    public void DeletePrincipalAsync_ShouldThrow_WhenPrincipalIsAssignedToSchool()
+    public void ShouldThrowException_WhenPrincipalIsAssignedToSchool()
     {
         // Arrange
         var principalId = this.testDb.Principal1.Id;
@@ -312,7 +307,7 @@ public class DeletePrincipalTests : PrincipalServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void DeletePrincipalAsync_ShouldThrow_WhenPrincipalDoesNotExist()
+    public void ShouldThrowException_WhenPrincipalDoesNotExist()
     {
         // Arrange
         var nonExistentId = Guid.NewGuid(); // ID, който със сигурност не съществува в базата

@@ -6,18 +6,23 @@ using SchoolSystem.Services.Dtos;
 
 namespace SchoolSystem.Tests;
 
-public class StudentServiceTests : UnitTestBase
+public class StudentServiceTestBase : UnitTestBase
 {
-    private StudentService _studentService;
+    protected StudentService _studentService;
 
     [SetUp]
-    public void SetUp()
+    public void SetupService()
     {
         this._studentService = new StudentService(this.repo, this.mapper);
     }
+}
 
+[TestFixture]
+public class GetStudentsByClassAsyncTests : StudentServiceTestBase
+{
     [Test]
-    public async Task GetStudentsByClassAsync_ShouldReturnStudentsForClass()
+    [Category("HappyPath")]
+    public async Task ShouldReturnStudentsForClass()
     {
         // Arrange
         Guid classId = this.testDb.Class1.Id;
@@ -30,9 +35,14 @@ public class StudentServiceTests : UnitTestBase
         Assert.That(result.All(s => s.ClassId == classId));
         Assert.That(result.Count(), Is.EqualTo(2));
     }
+}
 
+[TestFixture]
+public class GetStudentAsyncTests : StudentServiceTestBase
+{
     [Test]
-    public async Task GetStudentAsync_ShouldReturnStudent_WhenStudentExists()
+    [Category("HappyPath")]
+    public async Task ShouldReturnStudent_WhenStudentExists()
     {
         // Arrange
         Guid id = this.testDb.Student1.Id;
@@ -46,7 +56,8 @@ public class StudentServiceTests : UnitTestBase
     }
 
     [Test]
-    public async Task GetStudentAsync_ShouldReturnNull_WhenStudentDoesNotExist()
+    [Category("InvalidInput")]
+    public async Task ShouldReturnNull_WhenStudentDoesNotExist()
     {
         // Arrange
         Guid id = Guid.NewGuid();
@@ -57,25 +68,14 @@ public class StudentServiceTests : UnitTestBase
         // Assert
         Assert.That(result, Is.Null);
     }
+}
 
+[TestFixture]
+public class CreateStudentAsyncTests : StudentServiceTestBase
+{
     [Test]
-    public void CreateStudentAsync_ShouldThrowException_WhenUserIsAlreadyStudent()
-    {
-        // Arrange
-        StudentDto dto = new()
-        {
-            UserId = this.testDb.Student1.UserId,
-            ClassId = this.testDb.Class1.Id
-        };
-
-        // Act & Assert
-        Assert.That(async () => await this._studentService.CreateStudentAsync(dto),
-            Throws.Exception.TypeOf<InvalidOperationException>()
-                .With.Message.EqualTo("User is already a student."));
-    }
-
-    [Test]
-    public async Task CreateStudentAsync_ShouldCreateStudent_WhenValid()
+    [Category("HappyPath")]
+    public async Task ShouldCreateStudent_WhenValid()
     {
         // Arrange
         StudentDto dto = new()
@@ -95,11 +95,34 @@ public class StudentServiceTests : UnitTestBase
         Student? newStudent = await this.repo.AllReadonly<Student>()
             .FirstOrDefaultAsync(s => s.UserId == dto.UserId);
         Assert.That(newStudent, Is.Not.Null);
-        Assert.That(newStudent.ClassId, Is.EqualTo(dto.ClassId));
+        Assert.That(newStudent!.ClassId, Is.EqualTo(dto.ClassId));
     }
 
     [Test]
-    public async Task UpdateStudentAsync_ShouldUpdateClassId_WhenStudentExists()
+    [Category("InvalidInput")]
+    public void ShouldThrowException_WhenUserIsAlreadyStudent()
+    {
+        // Arrange
+        StudentDto dto = new()
+        {
+            UserId = this.testDb.Student1.UserId,
+            ClassId = this.testDb.Class1.Id
+        };
+
+        // Act & Assert
+        Assert.That(
+            async () => await this._studentService.CreateStudentAsync(dto),
+            Throws.Exception.TypeOf<InvalidOperationException>()
+                .With.Message.EqualTo("User is already a student."));
+    }
+}
+
+[TestFixture]
+public class UpdateStudentAsyncTests : StudentServiceTestBase
+{
+    [Test]
+    [Category("HappyPath")]
+    public async Task ShouldUpdateClassId_WhenStudentExists()
     {
         // Arrange
         Student existingStudent = this.testDb.Student1;
@@ -115,11 +138,12 @@ public class StudentServiceTests : UnitTestBase
         // Assert
         Student updatedStudent = await this.repo.GetByIdAsync<Student>(existingStudent.Id);
         Assert.That(updatedStudent, Is.Not.Null);
-        Assert.That(updatedStudent.ClassId, Is.EqualTo(dto.ClassId));
+        Assert.That(updatedStudent!.ClassId, Is.EqualTo(dto.ClassId));
     }
 
     [Test]
-    public void UpdateStudentAsync_ShouldThrowException_WhenStudentNotFound()
+    [Category("InvalidInput")]
+    public void ShouldThrowException_WhenStudentNotFound()
     {
         // Arrange
         StudentDto dto = new()
@@ -129,13 +153,19 @@ public class StudentServiceTests : UnitTestBase
         };
 
         // Act & Assert
-        Assert.That(async () => await this._studentService.UpdateStudentAsync(dto),
+        Assert.That(
+            async () => await this._studentService.UpdateStudentAsync(dto),
             Throws.Exception.TypeOf<InvalidOperationException>()
                 .With.Message.EqualTo("Student not found."));
     }
+}
 
+[TestFixture]
+public class DeleteStudentAsyncTests : StudentServiceTestBase
+{
     [Test]
-    public async Task DeleteStudentAsync_ShouldDeleteStudent_WhenStudentExists()
+    [Category("HappyPath")]
+    public async Task ShouldDeleteStudent_WhenStudentExists()
     {
         // Arrange
         Guid id = this.testDb.Student1.Id;
@@ -148,3 +178,4 @@ public class StudentServiceTests : UnitTestBase
         Assert.That(deletedStudent, Is.Null);
     }
 }
+
