@@ -310,7 +310,7 @@ public class DeletePrincipalTests : PrincipalServiceTestBase
     public void ShouldThrowException_WhenPrincipalDoesNotExist()
     {
         // Arrange
-        var nonExistentId = Guid.NewGuid(); // ID, който със сигурност не съществува в базата
+        var nonExistentId = Guid.NewGuid();
 
         // Act & Assert
         var ex = Assert.ThrowsAsync<InvalidOperationException>(async () =>
