@@ -23,7 +23,6 @@ public class ClassServiceTestBase : UnitTestBase
 public class GetClassesBySchoolIdAsyncTests : ClassServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldReturnAllClassesForGivenSchool_WhenClassesExist()
     {
         // Arrange
@@ -45,7 +44,6 @@ public class GetClassesBySchoolIdAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
     public async Task ShouldReturnEmptyList_WhenSchoolHasNoClasses()
     {
         Guid schoolId = this.testDb.School2.Id;
@@ -55,7 +53,6 @@ public class GetClassesBySchoolIdAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
     public async Task ShouldReturnEmptyList_WhenSchoolIdIsEmpty()
     {
         // Arrange
@@ -73,11 +70,23 @@ public class GetClassesBySchoolIdAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     public async Task ShouldReturnEmpty_WhenSchoolIdDoesNotExist()
     {
         var result = await this._classService.GetClassesBySchoolIdAsync(Guid.NewGuid());
         Assert.That(result, Is.Not.Null);
+        Assert.That(result, Is.Empty);
+    }
+
+    [Test]
+    public async Task ShouldReturnEmptyList_WhenNoClassesExist()
+    {
+        // Arrange
+        this.testDb.ClearDatabase();
+
+        // Act
+        var result = await this._classService.GetClassesBySchoolIdAsync(Guid.NewGuid());
+
+        // Assert
         Assert.That(result, Is.Empty);
     }
 }
@@ -86,7 +95,6 @@ public class GetClassesBySchoolIdAsyncTests : ClassServiceTestBase
 public class GetClassByIdAsyncTests : ClassServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldReturnClass_WhenClassExists()
     {
         // Arrange
@@ -109,7 +117,6 @@ public class GetClassByIdAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
     public async Task ShouldReturnNull_WhenIdIsEmpty()
     {
         // Arrange
@@ -123,7 +130,6 @@ public class GetClassByIdAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     public async Task ShouldReturnNull_WhenClassNotFound()
     {
         // Act
@@ -138,7 +144,6 @@ public class GetClassByIdAsyncTests : ClassServiceTestBase
 public class CreateClassAsyncTests : ClassServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldAddNewClass_WhenValidDtoIsProvided()
     {
         // Arrange
@@ -168,7 +173,6 @@ public class CreateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test] //Waiting for term specification
-    [Category("EdgeCase")]
     public void ShouldThrowException_WhenClassWithSameNameAndYearExistsInSchool()
     {
         // Arrange
@@ -191,7 +195,6 @@ public class CreateClassAsyncTests : ClassServiceTestBase
 
 
     [Test] 
-    [Category("EdgeCase")]
     public void ShouldThrowException_WhenSchoolIdDoesNotExist()
     {
         // Arrange
@@ -211,7 +214,6 @@ public class CreateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test] //Waiting for term specification
-    [Category("InvalidInput")]
     [TestCase("Summer")]
     [TestCase("Winter")]
     public void ShouldThrowException_WhenTermIsInvalid(string invalidTerm)
@@ -235,7 +237,6 @@ public class CreateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     [TestCase(-10)]
     [TestCase(0)]
     public void ShouldThrowException_WhenYearIsInvalid(int invalidYear)
@@ -262,7 +263,6 @@ public class CreateClassAsyncTests : ClassServiceTestBase
 public class UpdateClassAsyncTests : ClassServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldUpdateClass_WhenValidDtoIsProvided()
     {
         // Arrange
@@ -293,7 +293,6 @@ public class UpdateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
     public void ShouldThrowArgumentException_WhenUpdatingClassWithNonExistentSchoolId()
     {
         // Arrange
@@ -316,7 +315,6 @@ public class UpdateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test] //Waiting for term specification
-    [Category("EdgeCase")]
     public void ShouldThrowException_WhenUpdatingClassToDuplicateNameWithinSameSchool()
     {
         // Arrange
@@ -340,7 +338,6 @@ public class UpdateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     [TestCase(0)]
     [TestCase(-100)]
     public void ShouldThrowException_WhenYearIsInvalid(int invalidYear)
@@ -365,7 +362,6 @@ public class UpdateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     public void ShouldThrowException_WhenClassNotFound()
     {
         // Arrange
@@ -386,7 +382,6 @@ public class UpdateClassAsyncTests : ClassServiceTestBase
     }
 
     [Test] //Waiting for term specification
-    [Category("InvalidInput")]
     [TestCase("Winter")]
     [TestCase("Summer")]
     public void ShouldThrowArgumentException_WhenTermIsInvalid(string invalidTerm)
@@ -415,7 +410,6 @@ public class UpdateClassAsyncTests : ClassServiceTestBase
 public class DeleteClassAsyncTests : ClassServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldDeleteClass_WhenClassExists()
     {
         // Arrange
@@ -430,7 +424,6 @@ public class DeleteClassAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
     public void ShouldThrowException_WhenTryingToDeleteClassWithEnrolledStudents()
     {
         // Arrange
@@ -444,7 +437,6 @@ public class DeleteClassAsyncTests : ClassServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     public void ShouldThrowException_WhenDeletingNonExistentClass()
     {
         // Arrange
