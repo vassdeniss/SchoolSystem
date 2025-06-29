@@ -109,7 +109,7 @@ public class GetAllPrincipalsTests : PrincipalServiceTestBase
     public async Task ShouldReturnEmptyList_WhenNoPrincipalsExist()
     {
         // Arrange
-        this.testDb.ClearPrincipalsAndDown();
+        this.testDb.ClearDatabase();
 
         // Act
         var result = await this._principalService.GetAllPrincipalsAsync();

@@ -23,44 +23,41 @@ public class SchoolServiceTestBase : UnitTestBase
 public class GetSchoolsAsyncTests : SchoolServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
-    public async Task ShouldReturnListOfSchoolDto()
-    {
-        // Act
-        IEnumerable<SchoolDto> result = await this._schoolService.GetSchoolsAsync();
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result.Count(), Is.EqualTo(2));
-        Assert.That(result.First().Name, Is.EqualTo(this.testDb.School1.Name));
-    }
-
-    [Test]
-    [Category("EdgeCase")]
-    public async Task ShouldReturnEmptyList_WhenNoSchoolsExist()
+    public async Task ShouldReturnAllSchools_WithMappedPrincipalAndUser()
     {
         // Arrange
-        this.testDb.ClearSchoolsAndDown();
+        var expectedSchoolIds = new[] { this.testDb.School1.Id, this.testDb.School2.Id };
+        var expectedPrincipalIds = new[] { this.testDb.School1.Principal.Id, this.testDb.School2.Principal.Id };
 
-        // Act
-        var result = (await this._schoolService.GetSchoolsAsync()).ToList();
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result, Is.Empty);
-    }
-
-    [Test]
-    public async Task ShouldIncludeExpectedSchools()
-    {
         // Act
         var result = (await this._schoolService.GetSchoolsAsync()).ToList();
 
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(result.Any(s => s.Name == this.testDb.School1.Name), Is.True, "School1 should be present");
-            Assert.That(result.Any(s => s.Name == this.testDb.School2.Name), Is.True, "School2 should be present");
+            Assert.That(result, Is.Not.Null, "Result should not be null");
+            Assert.That(result.Select(s => s.Id), Is.EquivalentTo(expectedSchoolIds), "Returned school IDs should match expected");
+
+            Assert.That(result.All(s => s.Principal != null), Is.True, "Each school should have a non-null Principal");
+            Assert.That(result.All(s => s.Principal.User != null), Is.True, "Each Principal should have an associated User");
+            Assert.That(result.Select(s => s.Principal.Id), Is.EquivalentTo(expectedPrincipalIds), "Principal IDs should match expected");
+        });
+    }
+
+    [Test]
+    public async Task ShouldReturnEmptyList_WhenNoSchoolsExist()
+    {
+        // Arrange
+        this.testDb.ClearDatabase();
+
+        // Act
+        var result = (await this._schoolService.GetSchoolsAsync()).ToList();
+
+        // Assert
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null, "Result should not be null when no schools exist");
+            Assert.That(result, Is.Empty, "Result should be an empty list when no schools are present");
         });
     }
 }
@@ -69,72 +66,49 @@ public class GetSchoolsAsyncTests : SchoolServiceTestBase
 public class GetSchoolByIdAsyncTests : SchoolServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
-    public async Task ShouldReturnSchoolDto_WhenSchoolExists()
+    public async Task ShouldReturnCorrectSchoolDto_WhenSchoolExists()
     {
         // Arrange
-        Guid id = this.testDb.School1.Id;
+        Guid schoolId = this.testDb.School1.Id;
+        var expected = this.testDb.School1;
 
         // Act
-        SchoolDto? result = await this._schoolService.GetSchoolByIdAsync(id);
+        var result = await this._schoolService.GetSchoolByIdAsync(schoolId);
 
         // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result!.Name, Is.EqualTo(this.testDb.School1.Name));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result, Is.Not.Null, "Expected a non-null SchoolDto");
+            Assert.That(result!.Id, Is.EqualTo(expected.Id), "School ID mismatch");
+            Assert.That(result.Name, Is.EqualTo(expected.Name), "School Name mismatch");
+            Assert.That(result.Principal, Is.Not.Null, "Expected School to have a Principal");
+            Assert.That(result.Principal.Id, Is.EqualTo(expected.Principal.Id), "Principal ID mismatch");
+            Assert.That(result.Principal.User, Is.Not.Null, "Expected Principal to have associated User");
+            Assert.That(result.Principal.User.Email, Is.EqualTo(expected.Principal.User.Email), "Principal's User Email mismatch");
+        });
     }
 
     [Test]
-    [Category("EdgeCase")]
-    public async Task ShouldReturnNull_WhenIdIsEmpty()
+    public async Task ShouldReturnNull_WhenSchoolIdIsEmpty()
     {
         // Act
         var result = await this._schoolService.GetSchoolByIdAsync(Guid.Empty);
 
         // Assert
-        Assert.That(result, Is.Null);
+        Assert.That(result, Is.Null, "Expected null when passing Guid.Empty as school ID");
     }
 
     [Test]
-    [Category("InvalidInput")]
-    public async Task ShouldReturnNull_WhenSchoolNotFound()
+    public async Task ShouldReturnNull_WhenSchoolWithGivenIdDoesNotExist()
     {
         // Arrange
-        Guid fakeId = Guid.NewGuid();
+        Guid nonexistentId = Guid.NewGuid();
 
         // Act
-        var result = await this._schoolService.GetSchoolByIdAsync(fakeId);
+        var result = await this._schoolService.GetSchoolByIdAsync(nonexistentId);
 
         // Assert
-        Assert.That(result, Is.Null);
-    }
-
-    [TestCase("school1")]
-    [TestCase("school2")]
-    [Category("ParameterizedTest")]
-    public async Task ShouldReturnCorrectSchoolData(string schoolAlias)
-    {
-        // Arrange
-        Guid expectedId = schoolAlias switch
-        {
-            "school1" => this.testDb.School1.Id,
-            "school2" => this.testDb.School2.Id,
-            _ => throw new ArgumentException("Unknown alias")
-        };
-
-        string expectedName = schoolAlias switch
-        {
-            "school1" => this.testDb.School1.Name,
-            "school2" => this.testDb.School2.Name,
-            _ => throw new ArgumentException("Unknown alias")
-        };
-
-        // Act
-        var result = await this._schoolService.GetSchoolByIdAsync(expectedId);
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result!.Id, Is.EqualTo(expectedId));
-        Assert.That(result.Name, Is.EqualTo(expectedName));
+        Assert.That(result, Is.Null, "Expected result to be null when attempting to retrieve a school with a non-existent ID.");
     }
 }
 
@@ -142,35 +116,35 @@ public class GetSchoolByIdAsyncTests : SchoolServiceTestBase
 public class CreateSchoolAsyncTests : SchoolServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
-    public async Task ShouldCreateSchool_WhenValidDto()
+    public async Task ShouldCreateSchool_WhenDtoIsValid()
     {
         // Arrange
-        SchoolDto dto = new()
+        var dto = new SchoolDto
         {
             Name = "New School",
             Address = "newaddress",
             PrincipalId = this.testDb.Principal3.Id
         };
 
-        int schoolCountBefore = await this.repo.AllReadonly<School>().CountAsync();
+        var schoolCountBefore = await this.repo.AllReadonly<School>().CountAsync();
 
         // Act
         await this._schoolService.CreateSchoolAsync(dto);
 
         // Assert
-        int schoolCountAfter = await this.repo.AllReadonly<School>().CountAsync();
-        Assert.That(schoolCountAfter, Is.EqualTo(schoolCountBefore + 1));
+        var schoolsAfter = await this.repo.AllReadonly<School>().ToListAsync();
+        var newSchool = schoolsAfter.FirstOrDefault(s => s.Name == "New School");
 
-        School? newSchoolInDb = await this.repo.AllReadonly<School>()
-            .Where(s => s.Name == "New School")
-            .FirstOrDefaultAsync();
-
-        Assert.That(newSchoolInDb, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(schoolsAfter.Count, Is.EqualTo(schoolCountBefore + 1), "School count should increase by 1");
+            Assert.That(newSchool, Is.Not.Null, "New school should exist in database");
+            Assert.That(newSchool!.Address, Is.EqualTo(dto.Address), "School address mismatch");
+            Assert.That(newSchool.PrincipalId, Is.EqualTo(dto.PrincipalId), "Principal ID mismatch");
+        });
     }
 
     [Test]
-    [Category("InvalidInput")]
     public void ShouldThrowException_WhenPrincipalAlreadyManagingASchool()
     {
         // Arrange
@@ -188,26 +162,39 @@ public class CreateSchoolAsyncTests : SchoolServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
-    public async Task ShouldNotAllowCreation_WhenPrincipalIdIsEmpty()
+    public void ShouldThrowException_WhenSchoolNameAlreadyExists()
     {
         // Arrange
-        SchoolDto dto = new()
+        var dto = new SchoolDto
         {
-            Name = "Nameless School",
-            Address = "nowhere",
-            PrincipalId = Guid.Empty
+            Name = "school1",
+            Address = "duplicate address",
+            PrincipalId = this.testDb.Principal3.Id
         };
 
-        // Act
-        await this._schoolService.CreateSchoolAsync(dto);
+        // Act & Assert
+        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await this._schoolService.CreateSchoolAsync(dto));
 
-        // Assert
-        School? created = await this.repo.AllReadonly<School>()
-            .Where(s => s.PrincipalId == Guid.Empty)
-            .FirstOrDefaultAsync();
+        Assert.That(ex!.Message, Is.EqualTo("A school with this name already exists."));
+    }
 
-        Assert.That(created, Is.Null, "School with empty PrincipalId should not be created.");
+    [Test]
+    public void ShouldThrowException_WhenPrincipalDoesNotExist()
+    {
+        // Arrange
+        var dto = new SchoolDto
+        {
+            Name = "Phantom School",
+            Address = "ghost street",
+            PrincipalId = Guid.NewGuid()
+        };
+
+        // Act & Assert
+        var ex = Assert.ThrowsAsync<DbUpdateException>(async () =>
+            await this._schoolService.CreateSchoolAsync(dto));
+
+        Assert.That(ex, Is.Not.Null, "Expected an exception when using a non-existent PrincipalId");
     }
 }
 
@@ -215,21 +202,33 @@ public class CreateSchoolAsyncTests : SchoolServiceTestBase
 public class UpdateSchoolAsyncTests : SchoolServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldUpdateSchool_WhenSchoolExists()
     {
         // Arrange
-        SchoolDto dto = new() { Id = this.testDb.School1.Id, Name = "Updated School Name" };
+        var dto = new SchoolDto
+        {
+            Id = this.testDb.School1.Id,
+            Name = "Updated School Name",
+            Address = "Updated Address",
+            PrincipalId = this.testDb.Principal3.Id
+        };
 
         // Act
         await this._schoolService.UpdateSchoolAsync(dto);
 
         // Assert
-        Assert.That(this.testDb.School1.Name, Is.EqualTo("Updated School Name"));
+        var updated = await this.repo.GetByIdAsync<School>(dto.Id);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(updated, Is.Not.Null, "Expected the school to exist after update");
+            Assert.That(updated!.Name, Is.EqualTo(dto.Name), "Name should be updated");
+            Assert.That(updated.Address, Is.EqualTo(dto.Address), "Address should be updated");
+            Assert.That(updated.PrincipalId, Is.EqualTo(dto.PrincipalId), "Principal ID should be updated");
+        });
     }
 
     [Test]
-    [Category("InvalidInput")]
     public void ShouldNotUpdateSchool_WhenSchoolNotFound()
     {
         // Arrange
@@ -243,21 +242,41 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
 
     [Test]
     [Category("InvalidInput")]
-    public void ShouldThrowException_WhenPrincipalIdIsEmpty()
+    public void ShouldThrowException_WhenUpdatingSchoolWithNonExistentPrincipal()
     {
         // Arrange
-        SchoolDto dto = new()
+        var dto = new SchoolDto
         {
             Id = this.testDb.School1.Id,
-            Name = "Updated Name",
-            Address = "New Address",
-            PrincipalId = Guid.Empty
+            Name = "Updated School",
+            Address = "Updated Address",
+            PrincipalId = Guid.NewGuid()
         };
 
         // Act & Assert
-        Assert.That(
-            async () => await this._schoolService.UpdateSchoolAsync(dto),
-            Throws.TypeOf<ArgumentException>());
+        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await this._schoolService.UpdateSchoolAsync(dto));
+
+        Assert.That(ex!.Message, Is.EqualTo("Principal not found."));
+    }
+
+    [Test]
+    public void ShouldThrowException_WhenUpdatingSchoolWithExistingName()
+    {
+        // Arrange
+        var dto = new SchoolDto
+        {
+            Id = this.testDb.School1.Id,
+            Name = this.testDb.School2.Name,
+            Address = "Updated Address",
+            PrincipalId = this.testDb.Principal3.Id
+        };
+
+        // Act & Assert
+        var ex = Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            await this._schoolService.UpdateSchoolAsync(dto));
+
+        Assert.That(ex!.Message, Is.EqualTo("A school with this name already exists."));
     }
 }
 
@@ -265,7 +284,6 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
 public class DeleteSchoolAsyncTests : SchoolServiceTestBase
 {           
     [Test]
-    [Category("InvalidInput")]
     public async Task ShouldDeleteSchool_WhenSchoolExists()
     {
         // Arrange
@@ -279,7 +297,6 @@ public class DeleteSchoolAsyncTests : SchoolServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     public void ShouldThrowException_WhenSchoolDoesNotExist()
     {
         // Arrange
@@ -293,7 +310,6 @@ public class DeleteSchoolAsyncTests : SchoolServiceTestBase
     }
 
     [Test]
-    [Category("EdgeCase")]
     public void ShouldThrowException_WhenSchoolHasClasses()
     {
         // Arrange

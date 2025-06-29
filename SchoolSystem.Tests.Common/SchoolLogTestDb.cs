@@ -111,17 +111,6 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.Principal1, this.Principal2, this.Principal3);
     }
 
-    public void ClearPrincipalsAndDown()
-    {
-
-        dbContext.Students.RemoveRange(dbContext.Students);
-        dbContext.Classes.RemoveRange(dbContext.Classes);
-        dbContext.Schools.RemoveRange(dbContext.Schools);
-        dbContext.Principals.RemoveRange(dbContext.Principals);
-
-        dbContext.SaveChanges();
-    }
-
     private void SeedSchools()
     {
         this.School1 = new School
@@ -140,15 +129,6 @@ public class SchoolLogTestDb
         };
 
         dbContext.AddRange(this.School1, this.School2);
-    }
-
-    public void ClearSchoolsAndDown()
-    {
-        dbContext.Students.RemoveRange(dbContext.Students);
-        dbContext.Classes.RemoveRange(dbContext.Classes);
-        dbContext.Schools.RemoveRange(dbContext.Schools);
-
-        dbContext.SaveChanges();
     }
 
     private void SeedClasses()
@@ -209,4 +189,16 @@ public class SchoolLogTestDb
 
         dbContext.SaveChanges();
     }
+
+    public void ClearDatabase()
+    {
+        dbContext.Students.RemoveRange(dbContext.Students);
+        dbContext.Classes.RemoveRange(dbContext.Classes);
+        dbContext.Schools.RemoveRange(dbContext.Schools);
+        dbContext.Principals.RemoveRange(dbContext.Principals);
+        dbContext.Users.RemoveRange(dbContext.Users);                                   
+
+        dbContext.SaveChanges();
+    }
+
 }

@@ -258,7 +258,7 @@ public class CreateClassAsyncTests : ClassServiceTestBase
     }
 }
 
-[TestFixture]
+[TestFixture] 
 public class UpdateClassAsyncTests : ClassServiceTestBase
 {
     [Test]
