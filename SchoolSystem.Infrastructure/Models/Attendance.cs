@@ -10,15 +10,10 @@ public class Attendance
     public Guid StudentId { get; init; }
     public Student Student { get; init; } = null!;
 
-    public Guid SubjectId { get; init; }
+    public Guid SubjectId { get; set; }
     public Subject Subject { get; init; } = null!;
 
     [Required]
     [MaxLength(50)]
-    public string AbsenceType { get; init; } = null!;
-
-    [Required]
-    [MaxLength(50)]
-    public string Status { get; init; } = null!;
+    public string AbsenceType { get; set; } = null!;
 }
-

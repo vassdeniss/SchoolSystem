@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SchoolSystem.Services.Dtos;
+using SchoolSystem.Web.Models.Attendance;
 using SchoolSystem.Web.Models.Class;
 using SchoolSystem.Web.Models.Curriculum;
 using SchoolSystem.Web.Models.Grade;
@@ -111,5 +112,12 @@ public class MapperProfiles : Profile
                     src => src.Subject.Name));
         this.CreateMap<GradeDto, GradeFormViewModel>();
         this.CreateMap<GradeFormViewModel, GradeDto>();
+        
+        this.CreateMap<AttendanceDto, AttendanceViewModel>()
+            .ForMember(dest => dest.SubjectName,
+                opt => opt.MapFrom(
+                    src => src.Subject.Name));
+        this.CreateMap<AttendanceDto, AttendanceFormViewModel>();
+        this.CreateMap<AttendanceFormViewModel, AttendanceDto>();
     }    
 }

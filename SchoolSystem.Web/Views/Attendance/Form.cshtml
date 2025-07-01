@@ -1,0 +1,38 @@
+﻿@model SchoolSystem.Web.Models.Attendance.AttendanceFormViewModel
+
+@{
+    bool isEdit = Model.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Отсъствие - Редактиране" : "Отсъствие - Създаване";
+    string formAction = isEdit ? "Edit" : "Create";
+}
+
+<main class="page">
+    <form asp-action="@formAction" class="card">
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <input type="hidden" asp-for="StudentId" />
+
+        <h2>@(isEdit ? "Редактиране на отсъствие" : "Създаване на отсъствие")</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="AbsenceType">Причина</label>
+            <input asp-for="AbsenceType" class="form-control" value="@Model.AbsenceType" />
+            <span asp-validation-for="AbsenceType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SubjectId">Предмет</label>
+            <select asp-for="SubjectId" asp-items="Model.AvailableSubjects" class="form-control">
+                <option value="">-- Изберете предмет --</option>
+            </select>
+            <span asp-validation-for="SubjectId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn full">Запазване</button>
+    </form>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" />
+}

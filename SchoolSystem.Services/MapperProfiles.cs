@@ -38,5 +38,8 @@ public class MapperProfiles : Profile
         
         this.CreateMap<Grade, GradeDto>();
         this.CreateMap<GradeDto, Grade>();
+        
+        this.CreateMap<Attendance, AttendanceDto>();
+        this.CreateMap<AttendanceDto, Attendance>();
     }    
 }

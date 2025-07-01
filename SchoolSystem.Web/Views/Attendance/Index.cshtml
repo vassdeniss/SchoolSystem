@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Web.Models.Attendance
+@model SchoolSystem.Web.Models.Attendance.AttendanceListViewModel
+
+@{
+    ViewData["Title"] = "Отсъствия - Администратор";
+}
+
+<main class="page">
+    <section class="card">
+        <h2>Отсъствия на @Model.StudentName</h2>
+        <a asp-action="Create" asp-route-studentId="@Model.StudentId" asp-route-schoolId="@Model.SchoolId" class="btn btn-primary m-3">Добави отсъствие</a>
+        <table id="gradesTable">
+            <thead>
+            <tr>
+                <th>Причина</th>
+                <th>Предмет</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (AttendanceViewModel attendance in Model.Attendances)
+            {
+                <tr>
+                    <td>@attendance.AbsenceType</td>
+                    <td>@attendance.SubjectName</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@attendance.Id" asp-route-schoolId="@Model.SchoolId" asp-route-studentId="@Model.StudentId">📝</a> |
+                        <form asp-action="Delete" asp-route-id="@attendance.Id" asp-route-studentId="@Model.StudentId" method="post" style="display:inline;" 
+                              onsubmit="return confirm('Сигурни ли сте, че искате да изтриете това отсъствие?');">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" style="background:none;border:none;">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </section>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details.css" />
+}

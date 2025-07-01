@@ -29,9 +29,10 @@
                     <td>@student.FullName</td>
                     <td>@student.Dob.ToString("dd.MM.yyyy")</td>
                     <td>
-                        <a asp-action="Index" asp-controller="Grade" asp-route-studentId="@student.Id">Grades</a> |
-                        <a asp-action="Move" asp-controller="Student" asp-route-id="@student.Id" asp-route-schoolId="@Model.SchoolId">Move</a> |
-                        <a asp-action="Delete" asp-controller="Student" asp-route-id="@student.Id">Delete</a>
+                        <a asp-action="Index" asp-controller="Grade" asp-route-studentId="@student.Id">Оценки</a> |
+                        <a asp-action="Index" asp-controller="Attendance" asp-route-studentId="@student.Id">Отсъствия</a> |
+                        <a asp-action="Move" asp-controller="Student" asp-route-id="@student.Id" asp-route-schoolId="@Model.SchoolId">Премести</a> |
+                        <a asp-action="Delete" asp-controller="Student" asp-route-id="@student.Id">Изтрий</a>
                     </td>                
                 </tr>
             }

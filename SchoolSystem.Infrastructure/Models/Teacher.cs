@@ -15,5 +15,4 @@ public class Teacher
     public User User { get; init; } = null!;
     
     public virtual ICollection<School> Schools { get; set; } = new HashSet<School>();
-    public virtual ICollection<Subject> Subjects { get; set; } = new HashSet<Subject>();
 }

@@ -13,7 +13,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
     public DbSet<Principal> Principals { get; init; }
     public DbSet<Subject> Subjects { get; init; }
     public DbSet<Teacher> Teachers { get; init; }
-    public DbSet<TeacherSubject> TeacherSubjects { get; init; }
     public DbSet<Parent> Parents { get; init; }
     public DbSet<Class> Classes { get; init; }
     public DbSet<Student> Students { get; init; }
@@ -23,23 +22,7 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new PrincipalConfiguration());
-        modelBuilder.ApplyConfiguration(new SchoolConfiguration());
-        modelBuilder.ApplyConfiguration(new ClassConfiguration());
-        modelBuilder.ApplyConfiguration(new StudentConfiguration());
-        modelBuilder.ApplyConfiguration(new SubjectConfiguration());
-        modelBuilder.ApplyConfiguration(new TeacherConfiguration());
-        modelBuilder.ApplyConfiguration(new ParentConfiguration());
-        modelBuilder.ApplyConfiguration(new CurriculumConfiguration());
-        modelBuilder.ApplyConfiguration(new GradeConfiguration());
-        
-        modelBuilder.Entity<Principal>()
-            .HasOne(p => p.School)
-            .WithOne(s => s.Principal)
-            .HasForeignKey<School>(s => s.PrincipalId);
-        
-        modelBuilder.Entity<TeacherSubject>()
-            .HasKey(ts => new { ts.TeacherId, ts.SubjectId });
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SchoolLogContext).Assembly);
 
         modelBuilder.Entity("SchoolTeacher").HasData(
             new { SchoolsId = Guid.Parse("b0cf0f90-50a5-4e86-9a29-fdf3928af26b"), TeachersId = Guid.Parse("8f374d37-5a0c-4637-ba8e-2b4d2ceef15f") },
@@ -50,16 +33,6 @@ public class SchoolLogContext(DbContextOptions<SchoolLogContext> options)
             new { ParentsId = Guid.Parse("8b5f7c12-0a97-4e45-9b34-123456789abc"), StudentsId = Guid.Parse("10101010-1010-1010-1010-101010101010") },
             new { ParentsId = Guid.Parse("8b5f7c12-0a97-4e45-9b34-123456789abc"), StudentsId = Guid.Parse("20202020-2020-2020-2020-202020202020") }
         );
-
-        modelBuilder.Entity<Grade>()
-            .HasOne(g => g.Student)
-            .WithMany()
-            .OnDelete(DeleteBehavior.NoAction);
-        
-        modelBuilder.Entity<Attendance>()
-            .HasOne(a => a.Student)
-            .WithMany()
-            .OnDelete(DeleteBehavior.NoAction);
         
         base.OnModelCreating(modelBuilder);
     }

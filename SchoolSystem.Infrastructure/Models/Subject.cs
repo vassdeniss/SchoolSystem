@@ -14,5 +14,5 @@ public class Subject
     [Required]
     public Guid SchoolId { get; set; }
     
-    public School School { get; set; } = null!;
+    public School School { get; init; } = null!;
 }

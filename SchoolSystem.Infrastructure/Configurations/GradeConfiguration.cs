@@ -10,6 +10,10 @@ public class GradeConfiguration : IEntityTypeConfiguration<Grade>
 {
     public void Configure(EntityTypeBuilder<Grade> builder)
     {
+        builder.HasOne(g => g.Student)
+            .WithMany()
+            .OnDelete(DeleteBehavior.NoAction);
+        
         builder.HasData(new List<Grade>
         {
             new()

@@ -8,6 +8,10 @@ public class PrincipalConfiguration : IEntityTypeConfiguration<Principal>
 {
     public void Configure(EntityTypeBuilder<Principal> builder)
     {
+        builder.HasOne(p => p.School)
+            .WithOne(s => s.Principal)
+            .HasForeignKey<School>(s => s.PrincipalId);
+        
         builder.HasData(new List<Principal>
         {
             new()
