@@ -240,7 +240,6 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.Parent1, this.Parent2, this.Parent3, this.Parent4, this.Parent5, this.Parent6);
     }
 
-
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
