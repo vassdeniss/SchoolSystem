@@ -10,18 +10,19 @@ namespace SchoolSystem.Services;
 
 public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalService
 {
+    public async Task<IEnumerable<PrincipalDto>> GetAllPrincipalsAsync()
+    {
+        return await repo.AllReadonly<Principal>()
+            .ProjectTo<PrincipalDto>(mapper.ConfigurationProvider)
+            .ToListAsync();
+    }
+
     public async Task<PrincipalDto?> GetPrincipalByIdAsync(Guid id)
     {
         return await repo.AllReadonly<Principal>()
             .Where(p => p.Id == id)
             .ProjectTo<PrincipalDto>(mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
-    }
-    public async Task<IEnumerable<PrincipalDto>> GetAllPrincipalsAsync()
-    {
-        return await repo.AllReadonly<Principal>()
-            .ProjectTo<PrincipalDto>(mapper.ConfigurationProvider)
-            .ToListAsync();
     }
 
     public async Task CreatePrincipalAsync(PrincipalDto dto)
@@ -44,6 +45,11 @@ public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalServ
         {
             throw new InvalidOperationException("Principal not found.");
         }
+
+        // TODO: Validate phone number uniqueness:
+        //       if another Principal exists with the same PhoneNumber and a different Id, 
+        //       throw InvalidOperationException.
+        //       If the PhoneNumber belongs to this same Principal (same Id), skip the check.
 
         principal.Specialization = dto.Specialization;
         principal.PhoneNumber = dto.PhoneNumber;
