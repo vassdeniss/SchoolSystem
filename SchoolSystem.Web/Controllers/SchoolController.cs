@@ -41,22 +41,22 @@ public class SchoolController(ISchoolService schoolService,
         IEnumerable<PrincipalDto> principals = await principalService.GetAllPrincipalsAsync();
         IEnumerable<PrincipalViewModel> principalsVm = mapper.Map<IEnumerable<PrincipalViewModel>>(principals);
         
-        SchoolCreateViewModel viewModel = new()
+        SchoolFormViewModel viewModel = new()
         {
             AvailablePrincipals = new SelectList(principalsVm, "Id", "FullName")
         };
         
-        return this.View(viewModel);
+        return this.View("Form", viewModel);
     }
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(SchoolCreateViewModel model)
+    public async Task<IActionResult> Create(SchoolFormViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
             model.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<PrincipalViewModel>>(await principalService.GetAllPrincipalsAsync()), "Id", "FullName");
-            return this.View(model);
+            return this.View("Form", model);
         }
 
         try
@@ -69,7 +69,7 @@ public class SchoolController(ISchoolService schoolService,
         {
             model.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<PrincipalViewModel>>(await principalService.GetAllPrincipalsAsync()), "Id", "FullName");
             this.ModelState.AddModelError(string.Empty, ex.Message);
-            return this.View(model);
+            return this.View("Form", model);
         }
     }
     
@@ -82,19 +82,19 @@ public class SchoolController(ISchoolService schoolService,
             return this.NotFound();
         }
 
-        SchoolEditViewModel viewModel = mapper.Map<SchoolEditViewModel>(school);
+        SchoolFormViewModel viewModel = mapper.Map<SchoolFormViewModel>(school);
         viewModel.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<PrincipalViewModel>>(await principalService.GetAllPrincipalsAsync()), "Id", "FullName");
-        return this.View(viewModel);
+        return this.View("Form", viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(SchoolEditViewModel model)
+    public async Task<IActionResult> Edit(SchoolFormViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
             model.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<PrincipalViewModel>>(await principalService.GetAllPrincipalsAsync()), "Id", "FullName");
-            return this.View(model);
+            return this.View("Form", model);
         }
 
         try
@@ -107,25 +107,13 @@ public class SchoolController(ISchoolService schoolService,
         {
             model.AvailablePrincipals = new SelectList(mapper.Map<IEnumerable<PrincipalViewModel>>(await principalService.GetAllPrincipalsAsync()), "Id", "FullName");
             this.ModelState.AddModelError(string.Empty, ex.Message);
-            return this.View(model);
+            return this.View("Form", model);
         }
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        SchoolDto? school = await schoolService.GetSchoolByIdAsync(id);
-        if (school == null)
-        {
-            return this.NotFound();
-        }
 
-        return this.View(mapper.Map<SchoolViewModel>(school));
-    }
-
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         await schoolService.DeleteSchoolAsync(id);
         return this.RedirectToAction(nameof(Index));

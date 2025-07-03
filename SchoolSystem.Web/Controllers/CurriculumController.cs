@@ -14,8 +14,30 @@ namespace SchoolSystem.Web.Controllers;
 public class CurriculumController(ICurriculumService curriculumService, 
     ITeacherService teacherService,
     ISubjectService subjectService,
+    IClassService classService,
     IMapper mapper) : Controller
 {
+    [HttpGet]
+    public async Task<IActionResult> Index(Guid classId)
+    {
+        ClassDto? classInfo = await classService.GetClassByIdAsync(classId);
+        if (classInfo == null)
+        {
+            return this.NotFound();
+        }
+        
+        IEnumerable<CurriculumDto> curriculum = await curriculumService.GetCurriculumsByClassIdAsync(classId);
+        CurriculumListViewModel viewModel = new()
+        {
+            ClassId = classId,
+            ClassName = classInfo.Name,
+            SchoolId = classInfo.SchoolId,
+            Curriculum = mapper.Map<IEnumerable<CurriculumViewModel>>(curriculum)
+        };
+        
+        return this.View(viewModel);
+    }
+    
     [HttpGet]
     public async Task<IActionResult> Create(Guid classId, Guid schoolId)
     {

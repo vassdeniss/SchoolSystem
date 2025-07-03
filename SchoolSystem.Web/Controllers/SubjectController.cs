@@ -13,21 +13,21 @@ public class SubjectController(ISubjectService subjectService, IMapper mapper) :
     [HttpGet]
     public IActionResult Create(Guid schoolId)
     {
-        SubjectCreateViewModel model = new()
+        SubjectFormViewModel model = new()
         {
             SchoolId = schoolId
         };
         
-        return this.View(model);
+        return this.View("Form", model);
     }
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(SubjectCreateViewModel model)
+    public async Task<IActionResult> Create(SubjectFormViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
-            return this.View(model);
+            return this.View("Form", model);
         }
 
         await subjectService.CreateSubjectAsync(mapper.Map<SubjectDto>(model));
@@ -43,39 +43,27 @@ public class SubjectController(ISubjectService subjectService, IMapper mapper) :
             return this.NotFound();
         }
 
-        SubjectEditViewModel viewModel = mapper.Map<SubjectEditViewModel>(subject);
-        return this.View(viewModel);
+        SubjectFormViewModel viewModel = mapper.Map<SubjectFormViewModel>(subject);
+        return this.View("Form", viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(SubjectEditViewModel model)
+    public async Task<IActionResult> Edit(SubjectFormViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
-            return this.View(model);
+            return this.View("Form", model);
         }
 
         SubjectDto? dto = mapper.Map<SubjectDto>(model);
         await subjectService.UpdateSubjectAsync(dto);
         return this.RedirectToAction("Details", "School", new { id = model.SchoolId });
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        SubjectDto? subject = await subjectService.GetSubjectByIdAsync(id);
-        if (subject == null)
-        {
-            return this.NotFound();
-        }
 
-        return this.View(mapper.Map<SubjectViewModel>(subject));
-    }
-
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id, Guid schoolId)
+    public async Task<IActionResult> Delete(Guid id, Guid schoolId)
     {
         await subjectService.DeleteSubjectAsync(id);
         return this.RedirectToAction("Details", "School", new { id = schoolId });

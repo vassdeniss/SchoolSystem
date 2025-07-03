@@ -2,7 +2,7 @@
 
 namespace SchoolSystem.Web.Models.Subject;
 
-public class SubjectEditViewModel
+public class SubjectFormViewModel
 {
     public Guid Id { get; init; }
     

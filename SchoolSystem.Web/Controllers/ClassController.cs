@@ -4,32 +4,30 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolSystem.Services.Contracts;
 using SchoolSystem.Services.Dtos;
 using SchoolSystem.Web.Models.Class;
-using SchoolSystem.Web.Models.Curriculum;
-using SchoolSystem.Web.Models.Student;
 
 namespace SchoolSystem.Web.Controllers;
 
 [Authorize(Roles = "Administrator,Director")]
-public class ClassController(IClassService classService, IStudentService studentService, ICurriculumService curriculumService, IMapper mapper) : Controller
+public class ClassController(IClassService classService, IMapper mapper) : Controller
 {
     [HttpGet]
     public IActionResult Create(Guid schoolId)
     {
-        ClassCreateViewModel model = new()
+        ClassFormViewModel model = new()
         {
             SchoolId = schoolId
         };
         
-        return this.View(model);
+        return this.View("Form", model);
     }
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ClassCreateViewModel model)
+    public async Task<IActionResult> Create(ClassFormViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
-            return this.View(model);
+            return this.View("Form", model);
         }
 
         await classService.CreateClassAsync(mapper.Map<ClassDto>(model));
@@ -45,85 +43,28 @@ public class ClassController(IClassService classService, IStudentService student
             return this.NotFound();
         }
 
-        ClassEditViewModel viewModel = mapper.Map<ClassEditViewModel>(cls);
-        return this.View(viewModel);
+        ClassFormViewModel viewModel = mapper.Map<ClassFormViewModel>(cls);
+        return this.View("Form", viewModel);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(ClassEditViewModel model)
+    public async Task<IActionResult> Edit(ClassFormViewModel model)
     {
         if (!this.ModelState.IsValid)
         {
-            return this.View(model);
+            return this.View("Form", model);
         }
 
         ClassDto? dto = mapper.Map<ClassDto>(model);
         await classService.UpdateClassAsync(dto);
         return this.RedirectToAction("Details", "School", new { id = model.SchoolId });
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        ClassDto? cls = await classService.GetClassByIdAsync(id);
-        if (cls == null)
-        {
-            return this.NotFound();
-        }
-
-        return this.View(mapper.Map<ClassViewModel>(cls));
-    }
-
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id, Guid schoolId)
+    public async Task<IActionResult> Delete(Guid id, Guid schoolId)
     {
         await classService.DeleteClassAsync(id);
         return this.RedirectToAction("Details", "School", new { id = schoolId });
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Students(Guid id, Guid schoolId)
-    {
-        ClassDto? classInfo = await classService.GetClassByIdAsync(id);
-        if (classInfo == null)
-        {
-            return this.NotFound();
-        }
-        
-        IEnumerable<StudentDto> students = await studentService.GetStudentsByClassAsync(id);
-        StudentListViewModel viewModel = new()
-        {
-            Id = id,
-            SchoolId = schoolId,
-            ClassName = classInfo.Name,
-            Year = classInfo.Year,
-            Term = classInfo.Term,
-            Students = mapper.Map<IEnumerable<StudentViewModel>>(students)
-        };
-        
-        return this.View(viewModel);
-    }
-    
-    [HttpGet]
-    public async Task<IActionResult> Curriculum(Guid classId)
-    {
-        ClassDto? classInfo = await classService.GetClassByIdAsync(classId);
-        if (classInfo == null)
-        {
-            return this.NotFound();
-        }
-        
-        IEnumerable<CurriculumDto> curriculum = await curriculumService.GetCurriculumsByClassIdAsync(classId);
-        CurriculumListViewModel viewModel = new()
-        {
-            ClassId = classId,
-            ClassName = classInfo.Name,
-            SchoolId = classInfo.SchoolId,
-            Curriculum = mapper.Map<IEnumerable<CurriculumViewModel>>(curriculum)
-        };
-        
-        return this.View(viewModel);
     }
 }

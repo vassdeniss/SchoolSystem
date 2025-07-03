@@ -29,7 +29,7 @@ public class AttendanceController(
         }
 
         Guid userId = this.User.Id();
-        if (this.User.IsInRole("Student") && studentId != userId)
+        if (this.User.IsInRole("Student") && studentInfo.UserId != userId)
         {
             return this.Forbid();
         }
@@ -53,6 +53,31 @@ public class AttendanceController(
         };
         
         return this.View(vm);
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Student,Parent,Director")]
+    public async Task<IActionResult> Stats()
+    {
+        StudentDto? studentInfo = await studentService.GetStudentsByUserAsync(this.User.Id());
+        if (studentInfo == null)
+        {
+            return this.NotFound();
+        }
+
+        StudentViewModel studentVm = mapper.Map<StudentViewModel>(studentInfo);
+        IEnumerable<AttendanceDto> attendances = await attendanceService.GetAttendancesByStudentIdAsync(studentInfo.Id);
+        IEnumerable<AttendanceViewModel> attendancesVm = mapper.Map<IEnumerable<AttendanceViewModel>>(attendances);
+        
+        AttendanceListViewModel vm = new()
+        {
+            StudentId = studentInfo.Id,
+            StudentName = studentVm.FullName,
+            SchoolId = studentVm.SchoolId,
+            Attendances = attendancesVm
+        };
+        
+        return this.View(nameof(Index), vm);
     }
     
     [HttpGet]

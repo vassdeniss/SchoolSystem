@@ -1,0 +1,45 @@
+﻿@model SchoolSystem.Web.Models.School.SchoolFormViewModel
+
+@{
+    bool isEdit = Model.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Училище - Редактиране" : "Училище - Създаване";
+    string formAction = isEdit ? "Edit" : "Create";
+}
+
+<main class="page">
+    <form asp-action="@formAction" class="card">
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+
+        <h2>@(isEdit ? "Редактиране на училище" : "Създаване на училище")</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <div class="form-group">
+            <label asp-for="Name">Име</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address">Адрес</label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PrincipalId" class="control-label">Директор</label>
+            <select asp-for="PrincipalId"
+                    asp-items="Model.AvailablePrincipals"
+                    class="form-control">
+                <option value="">-- Изберете директор --</option>
+            </select>
+            <span asp-validation-for="PrincipalId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn full">Запазване</button>
+    </form>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" />
+}

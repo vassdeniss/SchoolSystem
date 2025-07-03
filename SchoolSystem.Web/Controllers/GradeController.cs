@@ -19,7 +19,7 @@ public class GradeController(
     IMapper mapper) : Controller
 {
     [HttpGet]
-    [Authorize(Roles = "Administrator,Teacher,Student,Director")]
+    [Authorize(Roles = "Administrator,Teacher,Parent,Student,Director")]
     public async Task<IActionResult> Index(Guid studentId)
     {
         StudentDto? studentInfo = await studentService.GetStudentAsync(studentId);
@@ -29,7 +29,7 @@ public class GradeController(
         }
 
         Guid userId = this.User.Id();
-        if (this.User.IsInRole("Student") && studentId != userId)
+        if (this.User.IsInRole("Student") && studentInfo.UserId != userId)
         {
             return this.Forbid();
         }
@@ -53,6 +53,31 @@ public class GradeController(
         };
         
         return this.View(vm);
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Administrator,Student,Parent")]
+    public async Task<IActionResult> Stats()
+    {
+        StudentDto? studentInfo = await studentService.GetStudentsByUserAsync(this.User.Id());
+        if (studentInfo == null)
+        {
+            return this.NotFound();
+        }
+
+        StudentViewModel studentVm = mapper.Map<StudentViewModel>(studentInfo);
+        IEnumerable<GradeDto> grades = await gradeService.GetGradesByStudentIdAsync(studentInfo.Id);
+        IEnumerable<GradeViewModel> gradesVm = mapper.Map<IEnumerable<GradeViewModel>>(grades);
+        
+        GradeListViewModel vm = new()
+        {
+            StudentId = studentInfo.Id,
+            StudentName = studentVm.FullName,
+            SchoolId = studentVm.SchoolId,
+            Grades = gradesVm
+        };
+        
+        return this.View(nameof(Index), vm);
     }
     
     [HttpGet]

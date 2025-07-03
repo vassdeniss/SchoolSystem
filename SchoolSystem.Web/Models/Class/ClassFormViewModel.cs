@@ -2,7 +2,7 @@
 
 namespace SchoolSystem.Web.Models.Class;
 
-public class ClassEditViewModel
+public class ClassFormViewModel
 {
     public Guid Id { get; init; }
     

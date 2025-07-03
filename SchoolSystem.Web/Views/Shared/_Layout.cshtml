@@ -26,22 +26,31 @@
                     @if (User.IsInRole("Administrator"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Users</a>
+                            <a class="nav-link text-dark" asp-controller="User" asp-action="Index">Потребители</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Principal" asp-action="Index">Principals</a>
+                            <a class="nav-link text-dark" asp-controller="Principal" asp-action="Index">Директори</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="School" asp-action="Index">Schools</a>
+                            <a class="nav-link text-dark" asp-controller="School" asp-action="Index">Училища</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Parent" asp-action="Index">Parents</a>
+                            <a class="nav-link text-dark" asp-controller="Parent" asp-action="Index">Родители</a>
                         </li>
                     }
                     else if (User.IsInRole("Parent"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Parent" asp-action="Index">Parents</a>
+                            <a class="nav-link text-dark" asp-controller="Parent" asp-action="Children">Ученици</a>
+                        </li>
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Grade" asp-action="Stats">Оценки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Attendance" asp-action="Stats">Отсъствия</a>
                         </li>
                     }
                 </ul>

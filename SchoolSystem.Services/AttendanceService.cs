@@ -20,7 +20,7 @@ public class AttendanceService(IRepository repository, IMapper mapper) : IAttend
     public async Task<AttendanceDto?> GetAttendanceByIdAsync(Guid id)
     {
         return await repository.AllReadonly<Attendance>()
-            .Where(c => c.Id == id)
+            .Where(a => a.Id == id)
             .ProjectTo<AttendanceDto>(mapper.ConfigurationProvider)
             .FirstOrDefaultAsync();
     }

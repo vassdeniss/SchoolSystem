@@ -5,111 +5,127 @@
 @model SchoolSystem.Web.Models.School.SchoolDetailsViewModel
 
 @{
-    ViewData["Title"] = "School Details";
+    ViewData["Title"] = "Детайли за училището";
 }
 
 <h2>@Model.Name</h2>
-<h4 class="mb-3">Principal: @Model.PrincipalName</h4>
+<h4 class="mb-3">Директор: @Model.PrincipalName</h4>
 
-<a class="mb-3 btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
-<a class="mb-3 btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+<a class="mb-3 btn" asp-action="Edit" asp-route-id="@Model.Id">Редактирай</a>
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;"
+      onsubmit="return confirm('Сигурни ли сте, че искате да изтриете това училище?');">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn mb-3">Изтрий</button>
+</form>
 
-<h3>Classes</h3>
+<h3>Класове</h3>
 @if (Model.Classes.Any())
 {
-<table class="table">
-    <thead>
-    <tr>
-        <th>Class Name</th>
-        <th>Year</th>
-        <th>Term</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (ClassViewModel cls in Model.Classes)
-    {
-    <tr>
-        <td>@cls.Name</td>
-        <td>@cls.Year</td>
-        <td>@cls.Term</td>
-        <td>
-            <a asp-action="Students" asp-controller="Class" asp-route-id="@cls.Id" asp-route-schoolId="@Model.Id">Students</a> |
-            <a asp-action="Curriculum" asp-controller="Class" asp-route-classId="@cls.Id">Curriculum</a> |
-            <a asp-action="Edit" asp-controller="Class" asp-route-id="@cls.Id">Edit</a> |
-            <a asp-action="Delete" asp-controller="Class" asp-route-id="@cls.Id">Delete</a>
-        </td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Име на клас</th>
+            <th>Година</th>
+            <th>Срок</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (ClassViewModel cls in Model.Classes)
+        {
+            <tr>
+                <td>@cls.Name</td>
+                <td>@cls.Year</td>
+                <td>@cls.Term</td>
+                <td>
+                    <a asp-action="Index" asp-controller="Student" asp-route-id="@cls.Id" asp-route-schoolId="@Model.Id">Ученици</a> |
+                    <a asp-action="Index" asp-controller="Curriculum" asp-route-classId="@cls.Id">Учебен план</a> |
+                    <a asp-action="Edit" asp-controller="Class" asp-route-id="@cls.Id">Редактирай</a> |
+                    <form asp-action="Delete" asp-controller="Class" asp-route-id="@cls.Id" asp-route-schoolId="@Model.Id" method="post" style="display:inline;"
+                          onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този клас?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" style="background:none;border:none;padding:0;text-decoration:underline;color:red;">Изтрий</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 else
 {
-<p>No classes found for this school.</p>
+    <p>Няма намерени класове за това училище.</p>
 }
-<a asp-action="Create" asp-controller="Class" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Create Class</a>
+<a asp-action="Create" asp-controller="Class" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Създай клас</a>
 
-<h3>Subjects</h3>
+<h3>Предмети</h3>
 @if (Model.Subjects.Any())
 {
-<table class="table">
-    <thead>
-    <tr>
-        <th>Subject Name</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (SubjectViewModel subject in Model.Subjects)
-    {
-    <tr>
-        <td>@subject.Name</td>
-        <td>
-            <a asp-action="Edit" asp-controller="Subject" asp-route-id="@subject.Id">Edit</a> |
-            <a asp-action="Delete" asp-controller="Subject" asp-route-id="@subject.Id">Delete</a>
-        </td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Име на предмет</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (SubjectViewModel subject in Model.Subjects)
+        {
+            <tr>
+                <td>@subject.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Subject" asp-route-id="@subject.Id">Редактирай</a> |
+                    <form asp-action="Delete" asp-controller="Subject" asp-route-id="@subject.Id" asp-route-schoolId="@Model.Id" method="post" style="display:inline;"
+                          onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този предмет?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" style="background:none;border:none;padding:0;text-decoration:underline;color:red;">Изтрий</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 else
 {
-<p>No subjects found for this school.</p>
+    <p>Няма намерени предмети за това училище.</p>
 }
-<a asp-action="Create" asp-controller="Subject" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Create Subject</a>
+<a asp-action="Create" asp-controller="Subject" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Създай предмет</a>
 
-<h3>Teachers</h3>
+<h3>Учители</h3>
 @if (Model.Teachers.Any())
 {
-<table class="table">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Specialization</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (TeacherViewModel teacher in Model.Teachers)
-    {
-    <tr>
-        <td>@teacher.FullName</td>
-        <td>@teacher.Specialization</td>
-        <td>
-            <a asp-action="Edit" asp-controller="Teacher" asp-route-id="@teacher.Id" asp-route-schoolId="@Model.Id">Edit</a> |
-            <a asp-action="Delete" asp-controller="Teacher" asp-route-id="@teacher.Id" asp-route-schoolId="@Model.Id">Delete</a>
-        </td>
-    </tr>
-    }
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Име</th>
+            <th>Специализация</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (TeacherViewModel teacher in Model.Teachers)
+        {
+            <tr>
+                <td>@teacher.FullName</td>
+                <td>@teacher.Specialization</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Teacher" asp-route-id="@teacher.Id" asp-route-schoolId="@Model.Id">Редактирай</a> |
+                    <form asp-action="Delete" asp-controller="Teacher" asp-route-id="@teacher.Id" asp-route-schoolId="@Model.Id" method="post" style="display:inline;"
+                          onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този клас?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" style="background:none;border:none;padding:0;text-decoration:underline;color:red;">Изтрий</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
 else
 {
-<p>No teachers found for this school.</p>
+    <p>Няма намерени учители за това училище.</p>
 }
-<a asp-action="Create" asp-controller="Teacher" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Add Teacher</a>
+<a asp-action="Create" asp-controller="Teacher" asp-route-schoolId="@Model.Id" class="btn btn-primary mb-3">Добави учител</a>
 <br />
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
+<a asp-action="Index" class="btn btn-secondary">Обратно към списъка</a>

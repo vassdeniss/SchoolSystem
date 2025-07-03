@@ -1,0 +1,51 @@
+﻿@model SchoolSystem.Web.Models.Class.ClassFormViewModel
+
+@{
+    bool isEdit = Model.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Клас - Редактиране" : "Клас - Създаване";
+    string formAction = isEdit ? "Edit" : "Create";
+}
+
+<main class="page">
+    <form asp-action="@formAction" class="card">
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <input type="hidden" asp-for="SchoolId" />
+
+        <h2>@(isEdit ? "Редактиране на клас" : "Създаване на клас")</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <div class="form-group">
+            <label asp-for="Name">Име</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Year">Година</label>
+            <input asp-for="Year" type="number" class="form-control" />
+            <span asp-validation-for="Year" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Срок</label><br />
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-primary">
+                    <input type="radio" name="Term" value="Есен"
+                           @(Model.Term == "Есен" ? "checked" : "") /> Есен
+                </label>
+                <label class="btn btn-outline-primary">
+                    <input type="radio" name="Term" value="Пролет"
+                           @(Model.Term == "Пролет" ? "checked" : "") /> Пролет
+                </label>
+            </div>
+            <span asp-validation-for="Term" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn full">Запазване</button>
+    </form>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" />
+}

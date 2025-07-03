@@ -15,11 +15,20 @@ namespace SchoolSystem.Web.Controllers;
 public class ParentController(IParentService parentService, IStudentService studentService, IUserService userService, IMapper mapper) : Controller
 {
     [HttpGet]
-    [Authorize(Roles = "Administrator,Parent")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Index()
     {
         IEnumerable<ParentDto> parentDtos = await parentService.GetAllParentsAsync();
         return this.View(mapper.Map<IEnumerable<ParentViewModel>>(parentDtos));
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Parent")]
+    public async Task<IActionResult> Children()
+    {
+        Guid userId = this.User.Id();
+        IEnumerable<StudentDto> studentDtos = await studentService.GetStudentsAssignedToUserAsync(userId);
+        return this.View(mapper.Map<IEnumerable<StudentViewModel>>(studentDtos));
     }
     
     [HttpGet]
@@ -102,7 +111,7 @@ public class ParentController(IParentService parentService, IStudentService stud
     }
     
     [HttpGet]
-    [Authorize(Roles = "Administrator,Parent")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> AddStudent(Guid parentId)
     {
         ParentDto? parent = await parentService.GetParentByIdAsync(parentId);
@@ -125,7 +134,7 @@ public class ParentController(IParentService parentService, IStudentService stud
     }
 
     [HttpPost]
-    [Authorize(Roles = "Administrator,Parent")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> AddStudent(AddStudentToParentViewModel model)
     {
         ParentDto? parent = await parentService.GetParentByIdAsync(model.ParentId);
@@ -163,7 +172,7 @@ public class ParentController(IParentService parentService, IStudentService stud
     
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Administrator,Parent")]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> RemoveStudent(Guid parentId, Guid studentId)
     {
         ParentDto? parent = await parentService.GetParentByIdAsync(parentId);
@@ -194,22 +203,3 @@ public class ParentController(IParentService parentService, IStudentService stud
         return this.RedirectToAction(nameof(Index));
     }
 }
-
-
-//
-         
-
-         //public async Task<IActionResult> Delete(Guid? id)
-//         {
-//             if (id == null)
-//                 return NotFound();
-//
-//             var parentDto = await _parentService.GetParentByIdAsync(id.Value);
-//             if (parentDto == null)
-//                 return NotFound();
-//
-//             return View(parentDto);
-//             // View Model: ParentDto
-//         }
-//
-

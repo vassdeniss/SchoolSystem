@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolSystem.Services.Contracts;
@@ -14,6 +15,31 @@ public class StudentController(IStudentService studentService,
     IMapper mapper) : Controller
 {
     [HttpGet]
+    [Authorize(Roles = "Administrator,Director,Teacher")]
+    public async Task<IActionResult> Index(Guid id, Guid schoolId)
+    {
+        ClassDto? classInfo = await classService.GetClassByIdAsync(id);
+        if (classInfo == null)
+        {
+            return this.NotFound();
+        }
+        
+        IEnumerable<StudentDto> students = await studentService.GetStudentsByClassAsync(id);
+        StudentListViewModel viewModel = new()
+        {
+            Id = id,
+            SchoolId = schoolId,
+            ClassName = classInfo.Name,
+            Year = classInfo.Year,
+            Term = classInfo.Term,
+            Students = mapper.Map<IEnumerable<StudentViewModel>>(students)
+        };
+        
+        return this.View(viewModel);
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Create(Guid schoolId, Guid classId)
     {
         IEnumerable<UserDto> students = await userService.GetUsersWithRoleAsync("Student");
@@ -31,6 +57,7 @@ public class StudentController(IStudentService studentService,
     
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrator")]
     public async Task<IActionResult> Create(StudentCreateViewModel model)
     {
         if (!this.ModelState.IsValid)
@@ -53,6 +80,7 @@ public class StudentController(IStudentService studentService,
     }
     
     [HttpGet]
+    [Authorize(Roles = "Administrator,Director,Teacher")]
     public async Task<IActionResult> Move(Guid id, Guid schoolId)
     {
         StudentDto? student = await studentService.GetStudentAsync(id);
@@ -82,6 +110,7 @@ public class StudentController(IStudentService studentService,
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Administrator,Director,Teacher")]
     public async Task<IActionResult> Move(StudentMoveViewModel model)
     {
         if (!this.ModelState.IsValid)
@@ -103,25 +132,14 @@ public class StudentController(IStudentService studentService,
             return this.View(model);
         }
     }
-    
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        StudentDto? student = await studentService.GetStudentAsync(id);
-        if (student == null)
-        {
-            return this.NotFound();
-        }
 
-        return this.View(mapper.Map<StudentViewModel>(student));
-    }
-
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id, Guid classId)
+    [Authorize(Roles = "Administrator,Director,Teacher")]
+    public async Task<IActionResult> Delete(Guid id, Guid studentId)
     {
         await studentService.DeleteStudentAsync(id);
-        return this.RedirectToAction("Students", "Class", new { id = classId });
+        return this.RedirectToAction("Details", "School", new { id = studentId });
     }
     
     private async Task<List<SelectListItem>> GetAvailableClasses(Guid schoolId, Guid currentClassId)

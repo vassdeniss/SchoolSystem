@@ -1,0 +1,32 @@
+﻿@model SchoolSystem.Web.Models.Subject.SubjectFormViewModel
+
+@{
+    bool isEdit = Model.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Предмет - Редактиране" : "Предмет - Създаване";
+    string formAction = isEdit ? "Edit" : "Create";
+}
+
+<main class="page">
+    <form asp-action="@formAction" class="card">
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+        }
+        <input type="hidden" asp-for="SchoolId" />
+
+        <h2>@(isEdit ? "Редактиране на предмет" : "Създаване на предмет")</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <div class="form-group">
+            <label asp-for="Name">Име</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn full">Запазване</button>
+    </form>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/create.css" />
+}

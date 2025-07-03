@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Web.Models.Student
+@model SchoolSystem.Web.Models.Student.StudentListViewModel
+
+@{
+    ViewData["Title"] = $"Ученици в {Model.ClassName}";
+}
+
+<main class="page">
+    <section class="card">
+        <h2>Ученици в @Model.ClassName</h2>
+        <div class="mb-4">
+            <h4>Година: @Model.Year</h4>
+            <h4>Срок: @Model.Term</h4>
+        </div>
+        <a asp-action="Create" asp-controller="Student"
+           asp-route-classId="@Model.Id"
+           asp-route-schoolId="@Model.SchoolId"
+           class="btn btn-primary m-3">
+            Добави ученик
+        </a>
+        @if (Model.Students.Any())
+        {
+            <table>
+                <thead>
+                <tr>
+                    <th>Име</th>
+                    <th>Дата на раждане</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (StudentViewModel student in Model.Students)
+                {
+                    <tr>
+                        <td>@student.FullName</td>
+                        <td>@student.Dob.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <a asp-action="Index" asp-controller="Grade" asp-route-studentId="@student.Id">Оценки</a> |
+                            <a asp-action="Index" asp-controller="Attendance" asp-route-studentId="@student.Id">Отсъствия</a> |
+                            <a asp-action="Move" asp-controller="Student" asp-route-id="@student.Id" asp-route-schoolId="@Model.SchoolId">Премести</a> |
+                            <form asp-action="Delete" asp-route-id="@student.Id" asp-route-studentId="@Model.SchoolId" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете този ученик?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" style="background:none;border:none;">🗑️</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Няма ученици в този клас.
+            </div>
+        }
+    </section>
+</main>
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/details.css" />
+}

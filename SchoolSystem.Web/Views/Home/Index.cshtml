@@ -1,8 +1,71 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+ViewData["Title"] = "Училищна Система";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Училищен Дневник</h1>
+        <p class="lead">Управлявайте директори, учители, ученици, оценки и присъствия – всичко на едно място.</p>
+    </div>
+
+    <div class="row text-center">
+        <!-- Directors Section -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Директори</h5>
+                    <p class="card-text">Управлявайте училищния персонал, преглеждайте отчети и контролирайте системата.</p>
+                    <a href="/Directors" class="btn btn-primary">Виж директори</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teachers Section -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Учители</h5>
+                    <p class="card-text">Достъп до графици, дневници, присъствия и оценки.</p>
+                    <a href="/Teachers" class="btn btn-secondary">Управление на учители</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Section -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Ученици</h5>
+                    <p class="card-text">Следете записвания, академичен напредък и лични досиета.</p>
+                    <a href="/Students" class="btn btn-success">Списък с ученици</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grades Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Оценки</h5>
+                    <p class="card-text">Преглеждайте и въвеждайте оценки по предмети.</p>
+                    <a href="/Grades" class="btn btn-warning">Преглед на оценки</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Section -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Присъствия</h5>
+                    <p class="card-text">Следене на присъствието на ученици и учители всеки ден.</p>
+                    <a href="/Attendance" class="btn btn-info">Тракер за присъствия</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p>Нужда от помощ? Посетете <a href="https://learn.microsoft.com/aspnet/core">официалната документация на ASP.NET Core</a>.</p>
+    </div>
 </div>

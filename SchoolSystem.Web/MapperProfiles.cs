@@ -39,18 +39,16 @@ public class MapperProfiles : Profile
             .ForMember(dest => dest.PrincipalName, 
                 opt => opt.MapFrom(src => 
                     $"{src.Principal.User.FirstName} {src.Principal.User.MiddleName} {src.Principal.User.LastName}"));
-        this.CreateMap<SchoolCreateViewModel, SchoolDto>();
-        this.CreateMap<SchoolDto, SchoolEditViewModel>();
-        this.CreateMap<SchoolEditViewModel, SchoolDto>();
+        this.CreateMap<SchoolDto, SchoolFormViewModel>();
+        this.CreateMap<SchoolFormViewModel, SchoolDto>();
         this.CreateMap<SchoolDto, SchoolDetailsViewModel>()
             .ForMember(dest => dest.PrincipalName,
                 opt => opt.MapFrom(src =>
                     $"{src.Principal.User.FirstName} {src.Principal.User.MiddleName} {src.Principal.User.LastName}"));
 
         this.CreateMap<ClassDto, ClassViewModel>();
-        this.CreateMap<ClassCreateViewModel, ClassDto>();
-        this.CreateMap<ClassDto, ClassEditViewModel>();
-        this.CreateMap<ClassEditViewModel, ClassDto>();
+        this.CreateMap<ClassDto, ClassFormViewModel>();
+        this.CreateMap<ClassFormViewModel, ClassDto>();
 
         this.CreateMap<StudentDto, StudentViewModel>()
             .ForMember(dest => dest.FullName,
@@ -70,9 +68,8 @@ public class MapperProfiles : Profile
         this.CreateMap<StudentMoveViewModel, StudentDto>();
         
         this.CreateMap<SubjectDto, SubjectViewModel>();
-        this.CreateMap<SubjectCreateViewModel, SubjectDto>();
-        this.CreateMap<SubjectDto, SubjectEditViewModel>();
-        this.CreateMap<SubjectEditViewModel, SubjectDto>();
+        this.CreateMap<SubjectDto, SubjectFormViewModel>();
+        this.CreateMap<SubjectFormViewModel, SubjectDto>();
         
         this.CreateMap<TeacherDto, TeacherViewModel>()
             .ForMember(dest => dest.FullName,

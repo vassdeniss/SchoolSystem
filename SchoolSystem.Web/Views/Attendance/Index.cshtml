@@ -9,13 +9,19 @@
 <main class="page">
     <section class="card">
         <h2>Отсъствия на @Model.StudentName</h2>
-        <a asp-action="Create" asp-route-studentId="@Model.StudentId" asp-route-schoolId="@Model.SchoolId" class="btn btn-primary m-3">Добави отсъствие</a>
+        @if (!this.User.IsInRole("Student") && !this.User.IsInRole("Parent"))
+        {
+            <a asp-action="Create" asp-route-studentId="@Model.StudentId" asp-route-schoolId="@Model.SchoolId" class="btn btn-primary m-3">Добави отсъствие</a>
+        }
         <table id="gradesTable">
             <thead>
             <tr>
                 <th>Причина</th>
                 <th>Предмет</th>
-                <th>Действия</th>
+                @if (!this.User.IsInRole("Student") && !this.User.IsInRole("Parent"))
+                {
+                    <th>Действия</th>
+                }            
             </tr>
             </thead>
             <tbody>
@@ -24,14 +30,17 @@
                 <tr>
                     <td>@attendance.AbsenceType</td>
                     <td>@attendance.SubjectName</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@attendance.Id" asp-route-schoolId="@Model.SchoolId" asp-route-studentId="@Model.StudentId">📝</a> |
-                        <form asp-action="Delete" asp-route-id="@attendance.Id" asp-route-studentId="@Model.StudentId" method="post" style="display:inline;" 
-                              onsubmit="return confirm('Сигурни ли сте, че искате да изтриете това отсъствие?');">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" style="background:none;border:none;">🗑️</button>
-                        </form>
-                    </td>
+                    @if (!this.User.IsInRole("Student") && !this.User.IsInRole("Parent"))
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@attendance.Id" asp-route-schoolId="@Model.SchoolId" asp-route-studentId="@Model.StudentId">📝</a> |
+                            <form asp-action="Delete" asp-route-id="@attendance.Id" asp-route-studentId="@Model.StudentId" method="post" style="display:inline;"
+                                  onsubmit="return confirm('Сигурни ли сте, че искате да изтриете това отсъствие?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" style="background:none;border:none;">🗑️</button>
+                            </form>
+                        </td>
+                    }
                 </tr>
             }
             </tbody>

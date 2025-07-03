@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SchoolSystem.Web.Models.School;
 
-public class SchoolEditViewModel
+public class SchoolFormViewModel
 {
     public Guid Id { get; init; }
     

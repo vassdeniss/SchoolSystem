@@ -1,0 +1,49 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SchoolSystem.Web.Models.Student
+@model IEnumerable<StudentViewModel>
+
+@{
+    ViewData["Title"] = "Избор на ученик";
+}
+
+<main class="select-school-page">
+    <div class="select-card">
+        <h1>Изберете ученик</h1>
+        <form id="studentForm">
+            <label for="studentSelect">Ученик</label>
+            <select id="studentSelect" name="studentId" required>
+                <option value="">-- Изберете ученик --</option>
+                @foreach (StudentViewModel student in Model)
+                {
+                    <option value="@student.Id">@student.FullName (@student.ClassName)</option>
+                }
+            </select>
+            <div class="button-group">
+                <button class="mb-3" type="button" onclick="submitForm('Grade')">Оценки</button>
+                <button type="button" onclick="submitForm('Attendance')">Отсъствия</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+@section Scripts {
+    <script>
+        function submitForm(actionType) {
+            const select = document.getElementById('studentSelect');
+            const studentId = select.value;
+
+            if (!studentId) {
+                alert('Моля, изберете ученик.');
+                return;
+            }
+
+            const url = `/${actionType}?studentId=${studentId}`;
+            window.location.href = url;
+        }
+    </script>
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/select-school.css" />
+}

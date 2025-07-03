@@ -95,23 +95,9 @@ public class TeacherController(
         return this.RedirectToAction("Details", "School", new { id = model.SchoolId });
     }
     
-    [HttpGet]
-    public async Task<IActionResult> Delete(Guid id, Guid schoolId)
-    {
-        TeacherDto? teacher = await teacherService.GetTeacherByIdAsync(id);
-        if (teacher == null)
-        {
-            return this.NotFound();
-        }
-
-        this.ViewBag.SchoolId = schoolId;
-        
-        return this.View(mapper.Map<TeacherViewModel>(teacher));
-    }
-    
-    [HttpPost, ActionName("Delete")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id, Guid schoolId)
+    public async Task<IActionResult> Delete(Guid id, Guid schoolId)
     {
         await teacherService.DeleteTeacherAsync(id, schoolId);
         return this.RedirectToAction("Details", "School", new { id = schoolId });
