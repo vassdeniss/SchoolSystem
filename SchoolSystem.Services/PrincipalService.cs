@@ -47,7 +47,7 @@ public class PrincipalService(IRepository repo, IMapper mapper) : IPrincipalServ
         }
 
         // TODO: Validate phone number uniqueness:
-        //       if another Principal exists with the same PhoneNumber and a different Id, 
+        //       if another Principal exists with the same PhoneNumber, 
         //       throw InvalidOperationException.
         //       If the PhoneNumber belongs to this same Principal (same Id), skip the check.
 

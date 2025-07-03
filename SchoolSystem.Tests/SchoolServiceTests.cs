@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using SchoolSystem.Infrastructure.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services;
 using SchoolSystem.Services.Dtos;
@@ -241,7 +242,6 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
     }
 
     [Test]
-    [Category("InvalidInput")]
     public void ShouldThrowException_WhenUpdatingSchoolWithNonExistentPrincipal()
     {
         // Arrange
@@ -258,6 +258,33 @@ public class UpdateSchoolAsyncTests : SchoolServiceTestBase
             await this._schoolService.UpdateSchoolAsync(dto));
 
         Assert.That(ex!.Message, Is.EqualTo("Principal not found."));
+    }
+
+    [Test]
+    public async Task ShouldAllowUpdate_WhenNameIsUnchanged_ForSameSchool()
+    {
+        // Arrange
+        var schoolId = testDb.School1.Id;
+        var originalName = testDb.School1.Name;
+        var dto = new SchoolDto
+        {
+            Id = schoolId,
+            Name = originalName,
+            Address = "Updated Address",
+            PrincipalId = testDb.Principal3.Id
+        };
+
+        // Act
+        await _schoolService.UpdateSchoolAsync(dto);
+
+        // Assert
+        var updated = await this.repo.GetByIdAsync<School>(schoolId);
+        Assert.Multiple(() =>
+        {
+            Assert.That(updated, Is.Not.Null, "School must exist");
+            Assert.That(updated!.Name, Is.EqualTo(originalName), "Name should remain unchanged");
+            Assert.That(updated.Address, Is.EqualTo(dto.Address), "Address should be updated");
+        });
     }
 
     [Test]

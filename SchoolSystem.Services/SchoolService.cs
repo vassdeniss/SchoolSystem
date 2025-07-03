@@ -41,7 +41,7 @@ public class SchoolService(IRepository repository, IMapper mapper) : ISchoolServ
         await repository.AddAsync(school);
         await repository.SaveChangesAsync();
     }
-    
+
     public async Task UpdateSchoolAsync(SchoolDto dto)
     {
         School? school = await repository.GetByIdAsync<School>(dto.Id);
@@ -49,6 +49,10 @@ public class SchoolService(IRepository repository, IMapper mapper) : ISchoolServ
         {
             throw new InvalidOperationException("School not found.");
         }
+
+        // TODO: Validate school name uniqueness:
+        //       If another School exists with the same Name and a different Id, throw InvalidOperationException.
+        //       If the Name belongs to this same School (same Id), skip the check.
 
         school.Name = dto.Name;
         school.Address = dto.Address;
