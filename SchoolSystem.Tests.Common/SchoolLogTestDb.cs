@@ -27,6 +27,9 @@ public class SchoolLogTestDb
     public User User10 { get; set; }
     public User User11 { get; set; }
     public User User12 { get; set; }
+    public User User13 { get; set; }
+    public User User14 { get; set; }
+
 
 
     public Principal Principal1 { get; set; }
@@ -53,6 +56,13 @@ public class SchoolLogTestDb
     public Subject Subject1 { get; set; }
     public Subject Subject2 { get; set; }
     public Subject Subject3 { get; set; }
+
+    public Teacher Teacher1 { get; set; }
+    public Teacher Teacher2 { get; set; }
+
+    public Curriculum Curriculum1 { get; set; }
+    public Curriculum Curriculum2 { get; set; }
+
 
     private UserManager<User> CreateUserManager()
     {
@@ -106,7 +116,8 @@ public class SchoolLogTestDb
         this.User10 = CreateUser(userManager, "user10");
         this.User11 = CreateUser(userManager, "user11");
         this.User12 = CreateUser(userManager, "user12");
-
+        this.User13 = CreateUser(userManager, "user13");
+        this.User14 = CreateUser(userManager, "user14");
     }
 
     private void SeedPrincipals()
@@ -270,6 +281,29 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.Subject1, this.Subject2, this.Subject3);
     }
 
+    private void SeedTeachers()
+    {
+        this.Teacher1 = new Teacher
+        {
+            Id = Guid.NewGuid(),
+            Specialization = "Mathematics",
+            UserId = this.User13.Id,
+            User = this.User13,
+            Schools = new HashSet<School> { this.School1 }
+        };
+
+        this.Teacher2 = new Teacher
+        {
+            Id = Guid.NewGuid(),
+            Specialization = "Chemistry",
+            UserId = this.User14.Id,
+            User = this.User14,
+            Schools = new HashSet<School> { this.School2 }
+        };
+
+        dbContext.AddRange(this.Teacher1, this.Teacher2);
+    }
+
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
@@ -281,6 +315,7 @@ public class SchoolLogTestDb
         SeedStudents();
         SeedParents();
         SeedSubjects();
+        SeedTeachers();
 
         dbContext.SaveChanges();
     }
@@ -293,6 +328,7 @@ public class SchoolLogTestDb
         dbContext.Classes.RemoveRange(dbContext.Classes);
         dbContext.Schools.RemoveRange(dbContext.Schools);
         dbContext.Principals.RemoveRange(dbContext.Principals);
+        dbContext.Users.RemoveRange(dbContext.Users);
         dbContext.Users.RemoveRange(dbContext.Users);
 
         dbContext.SaveChanges();
