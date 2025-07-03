@@ -12,6 +12,9 @@ public class AttendanceService(IRepository repository, IMapper mapper) : IAttend
 {
     public async Task<IEnumerable<AttendanceDto>> GetAttendancesByStudentIdAsync(Guid id)
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Student ID cannot be empty");
+
         return await repository.AllReadonly<Attendance>(g => g.StudentId == id)
             .ProjectTo<AttendanceDto>(mapper.ConfigurationProvider)
             .ToListAsync();
@@ -19,6 +22,9 @@ public class AttendanceService(IRepository repository, IMapper mapper) : IAttend
 
     public async Task<AttendanceDto?> GetAttendanceByIdAsync(Guid id)
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Attendance ID cannot be empty");
+
         return await repository.AllReadonly<Attendance>()
             .Where(c => c.Id == id)
             .ProjectTo<AttendanceDto>(mapper.ConfigurationProvider)
@@ -48,6 +54,13 @@ public class AttendanceService(IRepository repository, IMapper mapper) : IAttend
 
     public async Task DeleteAttendanceAsync(Guid id)
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Provided attendance ID is empty");
+
+        var attendance = await repository.GetByIdAsync<Attendance>(id);
+        if (attendance is null)
+            throw new InvalidOperationException($"Entity of type Attendance with id {id} could not be found");
+
         await repository.DeleteAsync<Attendance>(id);
         await repository.SaveChangesAsync();
     }

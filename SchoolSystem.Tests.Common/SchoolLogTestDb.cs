@@ -66,6 +66,8 @@ public class SchoolLogTestDb
     public Grade Grade1 { get; set; }
     public Grade Grade2 { get; set; }
 
+    public Attendance Attendance1 { get; set; }
+    public Attendance Attendance2 { get; set; }
 
     private UserManager<User> CreateUserManager()
     {
@@ -369,6 +371,32 @@ public class SchoolLogTestDb
         dbContext.SaveChanges();
     }
 
+    public void SeedAttendances()
+    {
+        this.Attendance1 = new Attendance
+        {
+            Id = Guid.NewGuid(),
+            StudentId = this.Student1.Id,
+            Student = this.Student1,
+            SubjectId = this.Subject1.Id,
+            Subject = this.Subject1,
+            AbsenceType = "Excused"
+        };
+
+        this.Attendance2 = new Attendance
+        {
+            Id = Guid.NewGuid(),
+            StudentId = this.Student1.Id,
+            Student = this.Student1,
+            SubjectId = this.Subject2.Id,
+            Subject = this.Subject2,
+            AbsenceType = "Unexcused"
+        };
+
+        dbContext.Attendances.AddRange(Attendance1, Attendance2);
+        dbContext.SaveChanges();
+    }
+
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
@@ -383,6 +411,7 @@ public class SchoolLogTestDb
         SeedTeachers();
         SeedCurriculums();
         SeedGrades();
+        SeedAttendances();
 
         dbContext.SaveChanges();
     }
