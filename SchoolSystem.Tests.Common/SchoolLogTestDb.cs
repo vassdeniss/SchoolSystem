@@ -50,6 +50,10 @@ public class SchoolLogTestDb
     public Parent Parent5 { get; set; }
     public Parent Parent6 { get; set; }
 
+    public Subject Subject1 { get; set; }
+    public Subject Subject2 { get; set; }
+    public Subject Subject3 { get; set; }
+
     private UserManager<User> CreateUserManager()
     {
         var userStore = new UserOnlyStore<User, SchoolLogContext, Guid>(dbContext);
@@ -240,6 +244,32 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.Parent1, this.Parent2, this.Parent3, this.Parent4, this.Parent5, this.Parent6);
     }
 
+    private void SeedSubjects()
+    {
+        this.Subject1 = new Subject
+        {
+            Id = Guid.NewGuid(),
+            Name = "Mathematics",
+            SchoolId = this.School1.Id
+        };
+
+        this.Subject2 = new Subject
+        {
+            Id = Guid.NewGuid(),
+            Name = "Chemistry",
+            SchoolId = this.School1.Id
+        };
+
+        this.Subject3 = new Subject
+        {
+            Id = Guid.NewGuid(),
+            Name = "History",
+            SchoolId = this.School2.Id
+        };
+
+        dbContext.AddRange(this.Subject1, this.Subject2, this.Subject3);
+    }
+
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
@@ -250,19 +280,21 @@ public class SchoolLogTestDb
         SeedClasses();
         SeedStudents();
         SeedParents();
+        SeedSubjects();
 
         dbContext.SaveChanges();
     }
 
     public void ClearDatabase()
     {
+        dbContext.Subjects.RemoveRange(dbContext.Subjects);
+        dbContext.Parents.RemoveRange(dbContext.Parents);
         dbContext.Students.RemoveRange(dbContext.Students);
         dbContext.Classes.RemoveRange(dbContext.Classes);
         dbContext.Schools.RemoveRange(dbContext.Schools);
         dbContext.Principals.RemoveRange(dbContext.Principals);
-        dbContext.Users.RemoveRange(dbContext.Users);                                   
+        dbContext.Users.RemoveRange(dbContext.Users);
 
         dbContext.SaveChanges();
     }
-
 }
