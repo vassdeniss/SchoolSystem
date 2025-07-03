@@ -63,6 +63,9 @@ public class SchoolLogTestDb
     public Curriculum Curriculum1 { get; set; }
     public Curriculum Curriculum2 { get; set; }
 
+    public Grade Grade1 { get; set; }
+    public Grade Grade2 { get; set; }
+
 
     private UserManager<User> CreateUserManager()
     {
@@ -338,6 +341,34 @@ public class SchoolLogTestDb
         dbContext.SaveChanges();
     }
 
+    public void SeedGrades()
+    {
+        this.Grade1 = new Grade
+        {
+            Id = Guid.NewGuid(),
+            GradeValue = 6,
+            GradeDate = DateTime.Today.AddDays(-2),
+            StudentId = this.Student1.Id,
+            Student = this.Student1,
+            SubjectId = this.Subject1.Id,
+            Subject = this.Subject1
+        };
+
+        this.Grade2 = new Grade
+        {
+            Id = Guid.NewGuid(),
+            GradeValue = 4,
+            GradeDate = DateTime.Today.AddDays(-1),
+            StudentId = this.Student1.Id,
+            Student = this.Student1,
+            SubjectId = this.Subject2.Id,
+            Subject = this.Subject2
+        };
+
+        dbContext.Grades.AddRange(Grade1, Grade2);
+        dbContext.SaveChanges();
+    }
+
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
@@ -351,6 +382,7 @@ public class SchoolLogTestDb
         SeedSubjects();
         SeedTeachers();
         SeedCurriculums();
+        SeedGrades();
 
         dbContext.SaveChanges();
     }

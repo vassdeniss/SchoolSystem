@@ -12,6 +12,9 @@ public class GradeService(IRepository repository, IMapper mapper) : IGradeServic
 {
     public async Task<IEnumerable<GradeDto>> GetGradesByStudentIdAsync(Guid id)
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Student ID cannot be empty");
+
         return await repository.AllReadonly<Grade>(g => g.StudentId == id)
             .OrderByDescending(g => g.GradeDate)
             .ProjectTo<GradeDto>(mapper.ConfigurationProvider)
@@ -20,6 +23,9 @@ public class GradeService(IRepository repository, IMapper mapper) : IGradeServic
 
     public async Task<GradeDto?> GetGradeByIdAsync(Guid id)
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Grade ID cannot be empty");
+
         return await repository.AllReadonly<Grade>()
             .Where(c => c.Id == id)
             .ProjectTo<GradeDto>(mapper.ConfigurationProvider)
@@ -50,6 +56,13 @@ public class GradeService(IRepository repository, IMapper mapper) : IGradeServic
 
     public async Task DeleteGradeAsync(Guid id)
     {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Provided grade ID is empty");
+
+        var grade = await repository.GetByIdAsync<Grade>(id);
+        if (grade == null)
+            throw new InvalidOperationException($"Entity of type Grade with id {id} could not be found");
+
         await repository.DeleteAsync<Grade>(id);
         await repository.SaveChangesAsync();
     }
