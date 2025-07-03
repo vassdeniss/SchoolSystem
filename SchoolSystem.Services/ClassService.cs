@@ -6,6 +6,7 @@ using SchoolSystem.Infrastructure.Common;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services.Contracts;
 using SchoolSystem.Services.Dtos;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace SchoolSystem.Services;
 
@@ -30,6 +31,9 @@ public class ClassService(IRepository repository, IMapper mapper) : IClassServic
 
     public async Task CreateClassAsync(ClassDto classDto)
     {
+        // TODO: Validate uniqueness of class by combination of Name and Year within the same School.
+        //If another class with the same values exists, throw InvalidOperationException to prevent duplicates.
+
         Class @class = mapper.Map<Class>(classDto);
         await repository.AddAsync(@class);
         await repository.SaveChangesAsync();
@@ -42,6 +46,9 @@ public class ClassService(IRepository repository, IMapper mapper) : IClassServic
         {
             throw new InvalidOperationException("Class not found.");
         }
+
+        //TODO: Implement uniqueness validation for class updates
+        //ensure that no other class exists within the same school that shares the same combination of Name and Year.
 
         @class.Name = dto.Name;
         @class.Year = dto.Year;
