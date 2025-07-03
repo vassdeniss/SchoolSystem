@@ -21,7 +21,6 @@ public class StudentServiceTestBase : UnitTestBase
 public class GetStudentsByClassAsyncTests : StudentServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldReturnStudentsForClass()
     {
         // Arrange
@@ -41,7 +40,6 @@ public class GetStudentsByClassAsyncTests : StudentServiceTestBase
 public class GetStudentAsyncTests : StudentServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldReturnStudent_WhenStudentExists()
     {
         // Arrange
@@ -74,7 +72,6 @@ public class GetStudentAsyncTests : StudentServiceTestBase
 public class CreateStudentAsyncTests : StudentServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldCreateStudent_WhenValid()
     {
         // Arrange
@@ -121,7 +118,6 @@ public class CreateStudentAsyncTests : StudentServiceTestBase
 public class UpdateStudentAsyncTests : StudentServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldUpdateClassId_WhenStudentExists()
     {
         // Arrange
@@ -164,7 +160,6 @@ public class UpdateStudentAsyncTests : StudentServiceTestBase
 public class DeleteStudentAsyncTests : StudentServiceTestBase
 {
     [Test]
-    [Category("HappyPath")]
     public async Task ShouldDeleteStudent_WhenStudentExists()
     {
         // Arrange

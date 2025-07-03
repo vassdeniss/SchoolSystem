@@ -21,6 +21,13 @@ public class SchoolLogTestDb
     public User User4 { get; set; }
     public User User5 { get; set; }
     public User User6 { get; set; }
+    public User User7 { get; set; }
+    public User User8 { get; set; }
+    public User User9 { get; set; }
+    public User User10 { get; set; }
+    public User User11 { get; set; }
+    public User User12 { get; set; }
+
 
     public Principal Principal1 { get; set; }
     public Principal Principal2 { get; set; }
@@ -35,6 +42,13 @@ public class SchoolLogTestDb
     public Student Student1 { get; set; }
     public Student Student2 { get; set; }
     public Student Student3 { get; set; }
+
+    public Parent Parent1 { get; set; }
+    public Parent Parent2 { get; set; }
+    public Parent Parent3 { get; set; }
+    public Parent Parent4 { get; set; }
+    public Parent Parent5 { get; set; }
+    public Parent Parent6 { get; set; }
 
     private UserManager<User> CreateUserManager()
     {
@@ -82,6 +96,13 @@ public class SchoolLogTestDb
         this.User4 = CreateUser(userManager, "user4");
         this.User5 = CreateUser(userManager, "user5");
         this.User6 = CreateUser(userManager, "user6");
+        this.User7 = CreateUser(userManager, "user7");
+        this.User8 = CreateUser(userManager, "user8");
+        this.User9 = CreateUser(userManager, "user9");
+        this.User10 = CreateUser(userManager, "user10");
+        this.User11 = CreateUser(userManager, "user11");
+        this.User12 = CreateUser(userManager, "user12");
+
     }
 
     private void SeedPrincipals()
@@ -177,6 +198,49 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.Student1, this.Student2);
     }
 
+    private void SeedParents()
+    {
+        this.Parent1 = new Parent
+        {
+            PhoneNumber = "0897111111",
+            UserId = this.User7.Id,
+            Students = new HashSet<Student> { this.Student1 }
+        };
+        this.Parent2 = new Parent
+        {
+            PhoneNumber = "0897222222",
+            UserId = this.User8.Id,
+            Students = new HashSet<Student> { this.Student1 }
+        };
+        this.Parent3 = new Parent
+        {
+            PhoneNumber = "0897333333",
+            UserId = this.User9.Id,
+            Students = new HashSet<Student> { this.Student2 }
+        };
+        this.Parent4 = new Parent
+        {
+            PhoneNumber = "0897444444",
+            UserId = this.User10.Id,
+            Students = new HashSet<Student> { this.Student2 }
+        };
+        this.Parent5 = new Parent
+        {
+            PhoneNumber = "0897555555",
+            UserId = this.User11.Id,
+            Students = new HashSet<Student> { this.Student3 }
+        };
+        this.Parent6 = new Parent
+        {
+            PhoneNumber = "0897666666",
+            UserId = this.User12.Id,
+            Students = new HashSet<Student> { this.Student3 }
+        };
+
+        dbContext.AddRange(this.Parent1, this.Parent2, this.Parent3, this.Parent4, this.Parent5, this.Parent6);
+    }
+
+
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
@@ -186,6 +250,7 @@ public class SchoolLogTestDb
         SeedSchools();
         SeedClasses();
         SeedStudents();
+        SeedParents();
 
         dbContext.SaveChanges();
     }
