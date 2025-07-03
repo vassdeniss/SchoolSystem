@@ -304,6 +304,40 @@ public class SchoolLogTestDb
         dbContext.AddRange(this.Teacher1, this.Teacher2);
     }
 
+    public void SeedCurriculums()
+    {
+        this.Curriculum1 = new Curriculum
+        {
+            Id = Guid.NewGuid(),
+            DayOfWeek = "Monday",
+            StartTime = new TimeSpan(8, 30, 0),
+            EndTime = new TimeSpan(9, 15, 0),
+            TeacherId = this.Teacher1.Id,
+            Teacher = this.Teacher1,
+            ClassId = this.Class1.Id,
+            Class = this.Class1,
+            SubjectId = this.Subject1.Id,
+            Subject = this.Subject1
+        };
+
+        this.Curriculum2 = new Curriculum
+        {
+            Id = Guid.NewGuid(),
+            DayOfWeek = "Wednesday",
+            StartTime = new TimeSpan(11, 0, 0),
+            EndTime = new TimeSpan(11, 45, 0),
+            TeacherId = this.Teacher2.Id,
+            Teacher = this.Teacher2,
+            ClassId = this.Class2.Id,
+            Class = this.Class2,
+            SubjectId = this.Subject2.Id,
+            Subject = this.Subject2
+        };
+
+        dbContext.Curriculums.AddRange(Curriculum1, Curriculum2);
+        dbContext.SaveChanges();
+    }
+
     private void SeedDatabase()
     {
         var userManager = CreateUserManager();
@@ -316,6 +350,7 @@ public class SchoolLogTestDb
         SeedParents();
         SeedSubjects();
         SeedTeachers();
+        SeedCurriculums();
 
         dbContext.SaveChanges();
     }
