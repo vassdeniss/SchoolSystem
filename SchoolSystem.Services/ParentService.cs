@@ -76,4 +76,5 @@ public class ParentService(IRepository repo, IMapper mapper) : IParentService
         await repo.DeleteAsync<Parent>(id);
         await repo.SaveChangesAsync();
     }
+
 }
