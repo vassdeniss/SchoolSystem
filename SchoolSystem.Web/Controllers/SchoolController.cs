@@ -9,7 +9,7 @@ using SchoolSystem.Web.Models.School;
 
 namespace SchoolSystem.Web.Controllers;
 
-[Authorize(Roles = "Administrator")]
+[Authorize(Roles = "Administrator,Teacher,Director")]
 public class SchoolController(ISchoolService schoolService, 
     IPrincipalService principalService, IMapper mapper) : Controller
 {
