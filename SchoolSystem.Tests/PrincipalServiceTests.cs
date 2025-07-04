@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using SchoolSystem.Infrastructure.Models;
 using SchoolSystem.Services;
